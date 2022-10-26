@@ -7,6 +7,7 @@ import {createClient} from "graphql-ws";
 import {Navigation} from "./navigation/Navigation";
 import {ClientAuthenticationContext} from "./context/ClientAuthenticationContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Provider as PaperProvider} from 'react-native-paper';
 
 const App: () => JSX.Element = () => {
 
@@ -44,13 +45,17 @@ const App: () => JSX.Element = () => {
     }
   );
   return (
+
     <ClientAuthenticationContext.Provider value={{clientId, setClientId}}>
       <ApolloProvider client={client}>
-        <NavigationContainer>
-          <Navigation/>
-        </NavigationContainer>
+        <PaperProvider>
+          <NavigationContainer>
+            <Navigation/>
+          </NavigationContainer>
+        </PaperProvider>
       </ApolloProvider>
     </ClientAuthenticationContext.Provider>
+
   );
 };
 

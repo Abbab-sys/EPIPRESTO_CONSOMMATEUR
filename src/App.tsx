@@ -6,6 +6,7 @@ import {getMainDefinition} from "@apollo/client/utilities";
 import {createClient} from "graphql-ws";
 import {Navigation} from "./navigation/Navigation";
 import {ClientAuthenticationContext} from "./context/ClientAuthenticationContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const App: () => JSX.Element = () => {
 
@@ -38,7 +39,10 @@ const App: () => JSX.Element = () => {
   });
 
   const [clientId, setClientId] = React.useState<string>('');
-
+  AsyncStorage.getItem('@clientId').then((value) => {
+      if (value) setClientId(value);
+    }
+  );
   return (
     <ClientAuthenticationContext.Provider value={{clientId, setClientId}}>
       <ApolloProvider client={client}>

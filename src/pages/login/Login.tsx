@@ -5,6 +5,7 @@ import {LOGIN_CLIENT_BY_USERNAME, LoginClientByUsernameData} from "../../graphql
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../navigation/Navigation";
 import {ClientAuthenticationContext} from "../../context/ClientAuthenticationContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -37,6 +38,9 @@ const Login: (props: LoginProps) => JSX.Element = () => {
       if (!unwrappedData) return;
       console.log("loginResult", unwrappedData);
       setClientId(unwrappedData.loginClientByUsername.clientAccount._id);
+      AsyncStorage.setItem('@clientId', unwrappedData.loginClientByUsername.clientAccount._id).then(r =>
+        console.log("client id saved",r)
+      );
     }
     , [unwrappedData?.loginClientByUsername.code]);
 

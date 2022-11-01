@@ -8,17 +8,18 @@ import {Navigation} from "./navigation/Navigation";
 import {ClientAuthenticationContext} from "./context/ClientAuthenticationContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Provider as PaperProvider} from 'react-native-paper';
+import {theme} from "./theme/Theme";
 
 const App: () => JSX.Element = () => {
 
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: 'wss://epipresto.pagekite.me/graphql',
+      url: 'wss://localhost:4000/graphql',
     }),
   );
 
   const httpLink = new HttpLink({
-    uri: 'https://epipresto.pagekite.me/',
+    uri: 'http://localhost:4000/graphql',
   });
 
   const splitLink = split(
@@ -48,7 +49,7 @@ const App: () => JSX.Element = () => {
 
     <ClientAuthenticationContext.Provider value={{clientId, setClientId}}>
       <ApolloProvider client={client}>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <NavigationContainer>
             <Navigation/>
           </NavigationContainer>

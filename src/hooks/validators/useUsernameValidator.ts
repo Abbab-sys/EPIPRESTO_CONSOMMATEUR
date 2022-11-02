@@ -34,12 +34,14 @@ export const useUsernameValidator = (username: string) => {
           username: username
         }
       });
-    }, 500);
+    }, 250);
 
     return () => clearTimeout(timeout);
   }, [username]);
 
   useEffect(() => {
+    if (!isClientUsernameUsedData) return;
+
     if (isClientUsernameUsedData?.isClientUsernameUsed && errors.indexOf(USERNAME_USED) === -1) {
       setErrors((prevErrors) => {
         return [...prevErrors, USERNAME_USED]

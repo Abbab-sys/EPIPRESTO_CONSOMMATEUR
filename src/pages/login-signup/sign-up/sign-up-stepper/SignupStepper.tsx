@@ -18,7 +18,7 @@ export const SignupStepper = () => {
 
   const informationsStepRef = useRef<InformationsStepRef>(null)
   const contactStepRef = useRef<ContactStepRef>(null)
-  const adressStepRef = useRef<AdressStepRef>(null)
+  const addressStepRef = useRef<AdressStepRef>(null)
   const accountStepRef = useRef<AccountStepRef>(null)
 
 
@@ -28,7 +28,7 @@ export const SignupStepper = () => {
   const signUp = async () => {
     const {firstName, lastName} = informationsStepRef.current as InformationsStepRef
     const {phone, email} = contactStepRef.current as ContactStepRef
-    const {adress} = adressStepRef.current as AdressStepRef
+    const {address} = addressStepRef.current as AdressStepRef
     const {username, password} = accountStepRef.current as AccountStepRef
 
     await clientSignUp({
@@ -38,7 +38,7 @@ export const SignupStepper = () => {
           lastName,
           phone,
           email,
-          adress,
+          address,
           username,
           password
         }
@@ -79,7 +79,7 @@ export const SignupStepper = () => {
                      stepCompleted={contactStepCompleted}/>
       </TabScreen>
       <TabScreen label="Address" icon={"home-account"} disabled={disabledAdressStepStep}>
-        <AdressStep ref={adressStepRef} setStepCompleted={setAdressStepCompleted}
+        <AdressStep ref={addressStepRef} setStepCompleted={setAdressStepCompleted}
                     stepCompleted={adressStepCompleted}></AdressStep>
       </TabScreen>
       <TabScreen label="Account" icon="account-outline" disabled={disabledAccountStep}>

@@ -36,6 +36,9 @@ export const useEmailValidator = (email: string) => {
       setErrors((prevErrors) => {
         return prevErrors.filter((error) => error !== EMAIL_NOT_VALID)
       });
+      setErrors((prevErrors) => {
+        return [...prevErrors, EMAIL_USED]
+      });
     }
 
     const timeout = setTimeout(async () => {
@@ -44,12 +47,14 @@ export const useEmailValidator = (email: string) => {
           email: email
         }
       });
-    }, 500);
+    }, 250);
 
     return () => clearTimeout(timeout);
   }, [email]);
 
   useEffect(() => {
+    if(!isClientEmailUsedData) return; // To prevent the waiting time for the server to respond, we can use a local validation
+
     if (isClientEmailUsedData?.isClientEmailUsed && errors.indexOf(EMAIL_USED) === -1) {
       setErrors((prevErrors) => {
         return [...prevErrors, EMAIL_USED]

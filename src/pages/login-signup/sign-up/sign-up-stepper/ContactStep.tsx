@@ -31,16 +31,17 @@ const ContactStep = (props: ContactStepProps, ref: Ref<ContactStepRef>) => {
   }), [phone, email]);
 
 
+
   useEffect(() => {
     const stepCompleted = !!phone && !!email && emailErrors.length === 0 && phoneErrors.length === 0
     props.setStepCompleted(stepCompleted)
-  }, [phone, email, emailErrors.length,phoneErrors.length])
+  }, [phone, email, emailErrors.length, phoneErrors.length])
 
   return (
     <View style={styles.root}>
       <View style={styles.inputsWrapper}>
-        <LoginInput placeholder={"Phone"} setValue={setPhone} value={phone}></LoginInput>
-        <LoginInput placeholder={"Email"} setValue={setEmail} value={email}></LoginInput>
+        <LoginInput errors={phoneErrors} placeholder={"Phone"} setValue={setPhone} value={phone}></LoginInput>
+        <LoginInput errors={emailErrors} placeholder={"Email"} setValue={setEmail} value={email}></LoginInput>
       </View>
       <View style={styles.nextButtonContainer}>
         <TouchableOpacity style={styles.backButton} onPress={() => {

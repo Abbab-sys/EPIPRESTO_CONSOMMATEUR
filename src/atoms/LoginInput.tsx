@@ -1,16 +1,18 @@
 import React from "react";
-import {Text, TextInput} from "react-native-paper";
+import {HelperText, Text, TextInput} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
+import {Error} from "../types/errors/Error";
 
 export type LoginInputProps = {
-  value:string,
+  value: string,
   setValue: (value: string) => void,
+  errors?: Error[],
   label?: string;
-  initialValue?: string;
   placeholder?: string;
 }
 const LoginInput = (props: LoginInputProps) => {
 
+  const errors = props.errors || [];
 
   return (
     <View style={styles.root}>
@@ -24,6 +26,9 @@ const LoginInput = (props: LoginInputProps) => {
             <TextInput style={styles.textInput} theme={{roundness: 12}}
                        mode={"outlined"} value={props.value} onChangeText={props.setValue}>
             </TextInput>
+            {errors.length>0? <HelperText type="error" visible={errors.length > 0}>
+              {errors.length > 0 && errors[0].messageKey}
+            </HelperText> : null}
           </View>
         </View>
       </View>

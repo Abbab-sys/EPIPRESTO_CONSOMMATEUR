@@ -4,6 +4,7 @@ import React, {forwardRef, Ref, useEffect, useImperativeHandle, useState} from "
 import LoginInput from "../../../../atoms/LoginInput";
 import {useStreetNumberValidator} from "../../../../hooks/validators/useStreetNumberValidator";
 import {useZipCodeValidator} from "../../../../hooks/validators/useZipCodeValidator";
+import {useMandatoryFieldValidator} from "../../../../hooks/validators/useMandatoryFieldValidator";
 
 type AdressStepProps = {
   setStepCompleted: (disabled: boolean) => void
@@ -11,7 +12,7 @@ type AdressStepProps = {
 }
 
 export type AdressStepRef = {
-  adress: string,
+  address: string,
 }
 
 const AdressStep = (props: AdressStepProps, ref: Ref<AdressStepRef>) => {
@@ -22,14 +23,20 @@ const AdressStep = (props: AdressStepProps, ref: Ref<AdressStepRef>) => {
   const streetNumberErrors = useStreetNumberValidator(streetNumber)
 
   const [streetName, setStreetName] = useState('')
+  const streetNameErrors=useMandatoryFieldValidator(streetName)
+
   const [city, setCity] = useState('')
+  const cityErrors=useMandatoryFieldValidator(city)
+
   const [zipCode, setZipCode] = useState('')
   const zipCodeErrors = useZipCodeValidator(zipCode)
 
   const [province, setProvince] = useState('')
+  const provinceErrors=useMandatoryFieldValidator(province)
+
 
   useImperativeHandle(ref, () => ({
-    adress: `${streetNumber} ${streetName}, ${city}, ${zipCode}, ${province}`
+    address: `${streetNumber} ${streetName}, ${city}, ${zipCode}, ${province}`
   }), [streetNumber, streetName, city, zipCode, province]);
 
   useEffect(() => {
@@ -42,19 +49,19 @@ const AdressStep = (props: AdressStepProps, ref: Ref<AdressStepRef>) => {
       <View style={styles.inputsWrapper}>
         <ScrollView style={styles.inputScrollView}>
           <View style={styles.streetNumberWrapper}>
-            <LoginInput placeholder={"Number"} setValue={setStreetNumber} value={streetNumber}></LoginInput>
+            <LoginInput errors={streetNumberErrors} placeholder={"Number"} setValue={setStreetNumber} value={streetNumber}></LoginInput>
           </View>
           <View style={styles.streetNameWrapper}>
-            <LoginInput placeholder={"Street"} setValue={setStreetName} value={streetName}></LoginInput>
+            <LoginInput errors={streetNameErrors} placeholder={"Street"} setValue={setStreetName} value={streetName}></LoginInput>
           </View>
           <View style={styles.postalNumberWrapper}>
-            <LoginInput placeholder={"Postal Code"} setValue={setZipCode} value={zipCode}></LoginInput>
+            <LoginInput errors={zipCodeErrors} placeholder={"Postal Code"} setValue={setZipCode} value={zipCode}></LoginInput>
           </View>
           <View style={styles.provinceWrapper}>
-            <LoginInput placeholder={"City"} setValue={setCity} value={city}></LoginInput>
+            <LoginInput errors={cityErrors} placeholder={"City"} setValue={setCity} value={city}></LoginInput>
           </View>
           <View style={styles.countryWrapper}>
-            <LoginInput placeholder={"Province"} setValue={setProvince} value={province}></LoginInput>
+            <LoginInput errors={provinceErrors} placeholder={"Province"} setValue={setProvince} value={province}></LoginInput>
           </View>
         </ScrollView>
       </View>

@@ -75,10 +75,10 @@ const Login: (props: LoginProps) => JSX.Element = () => {
 
             <View style={styles.inputs}>
               <LoginInput placeholder={"Email"}
-                          label={"Username or e-Mail"} initialValue={''} setValue={setIdentifier}
+                          label={"Username or e-Mail"}  setValue={setIdentifier}
                           value={identifier}></LoginInput>
               <LoginInput placeholder={"Password"}
-                          label={"Password"} initialValue={''} setValue={setPassword} value={password}></LoginInput>
+                          label={"Password"} setValue={setPassword} value={password}></LoginInput>
             </View>
 
             <View style={styles.loginButtonContainer}>

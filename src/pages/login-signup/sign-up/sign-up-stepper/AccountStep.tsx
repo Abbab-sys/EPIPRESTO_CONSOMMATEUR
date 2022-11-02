@@ -3,6 +3,8 @@ import {useTabIndex, useTabNavigation} from "react-native-paper-tabs";
 import React, {forwardRef, Ref, useImperativeHandle, useMemo, useState} from "react";
 import LoginInput from "../../../../atoms/LoginInput";
 import {useUsernameValidator} from "../../../../hooks/validators/useUsernameValidator";
+import {useMandatoryFieldValidator} from "../../../../hooks/validators/useMandatoryFieldValidator";
+import {useConfirmPasswordValidator} from "../../../../hooks/validators/useConfirmPasswordValidator";
 
 type AccountStepProps = {
   signUp: () => void
@@ -24,10 +26,13 @@ const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const usernameErrors = useUsernameValidator(username)
+  const passwordErrors = useMandatoryFieldValidator(password)
+  const confirmPasswordErrors = useConfirmPasswordValidator(password, confirmPassword)
+
 
   const stepCompleted = useMemo(() => {
-    return !!username && !!password && !!confirmPassword && usernameErrors.length === 0 && password === confirmPassword
-  }, [username, password, confirmPassword, usernameErrors.length])
+    return !!username && !!password && !!confirmPassword && usernameErrors.length === 0 && passwordErrors.length === 0 && confirmPasswordErrors.length === 0
+  }, [username, password, confirmPassword, usernameErrors.length, passwordErrors.length, confirmPasswordErrors.length])
 
   useImperativeHandle(ref, () => ({
     username,
@@ -37,9 +42,11 @@ const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
   return (
     <View style={styles.root}>
       <View style={styles.inputsWrapper}>
-        <LoginInput placeholder={"Username"} setValue={setUsername} value={username}></LoginInput>
-        <LoginInput placeholder={"Password"} setValue={setPassword} value={password}></LoginInput>
-        <LoginInput placeholder={"Confirm Password"} setValue={setConfirmPassword}
+        <LoginInput errors={usernameErrors} placeholder={"Username"} setValue={setUsername}
+                    value={username}></LoginInput>
+        <LoginInput errors={passwordErrors} placeholder={"Password"} setValue={setPassword}
+                    value={password}></LoginInput>
+        <LoginInput errors={confirmPasswordErrors} placeholder={"Confirm Password"} setValue={setConfirmPassword}
                     value={confirmPassword}></LoginInput>
       </View>
       <View style={styles.nextButtonContainer}>
@@ -48,7 +55,8 @@ const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
         }}>
           <Text style={styles.nextButtonText}>Back</Text>
         </ TouchableOpacity>
-        <TouchableOpacity style={!stepCompleted ? styles.nextButtonDisabled : styles.nextButton} onPress={props.signUp} disabled={!stepCompleted}>
+        <TouchableOpacity style={!stepCompleted ? styles.nextButtonDisabled : styles.nextButton} onPress={props.signUp}
+                          disabled={!stepCompleted}>
           <Text style={styles.nextButtonText}>Submit</Text>
         </ TouchableOpacity>
 

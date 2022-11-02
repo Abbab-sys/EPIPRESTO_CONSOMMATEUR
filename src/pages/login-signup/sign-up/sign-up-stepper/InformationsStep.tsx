@@ -2,6 +2,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useTabIndex, useTabNavigation} from "react-native-paper-tabs";
 import React, {useEffect, useState, forwardRef, useImperativeHandle, Ref} from "react";
 import LoginInput from "../../../../atoms/LoginInput";
+import {useMandatoryFieldValidator} from "../../../../hooks/validators/useMandatoryFieldValidator";
 
 type InformationsStepProps = {
   setStepCompleted: (disabled: boolean) => void
@@ -37,11 +38,14 @@ const InformationsStep = (props: InformationsStepProps, ref: Ref<InformationsSte
     props.setStepCompleted(checkInputs())
   }, [firstName, lastName])
 
+  const firstNameErrors=useMandatoryFieldValidator(firstName)
+  const lastNameErrors=useMandatoryFieldValidator(lastName)
+
   return (
     <View style={styles.root}>
       <View style={styles.inputsWrapper}>
-        <LoginInput placeholder={"First Name"} setValue={setFirstName} value={firstName}></LoginInput>
-        <LoginInput placeholder={"Last Name"} setValue={setLastName} value={lastName}></LoginInput>
+        <LoginInput errors={firstNameErrors} placeholder={"First Name"} setValue={setFirstName} value={firstName}></LoginInput>
+        <LoginInput errors={lastNameErrors} placeholder={"Last Name"} setValue={setLastName} value={lastName}></LoginInput>
       </View>
       <View style={styles.nextButtonContainer}>
         <TouchableOpacity style={!props.stepCompleted ? styles.nextButtonDisabled : styles.nextButton}

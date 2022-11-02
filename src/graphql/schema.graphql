@@ -268,7 +268,7 @@ input ActivesHoursInput {
 }
 
 input ClientAccountInput {
-    adress: String!
+    address: String!
     email: String!
     firstName: String!
     lastName: String!

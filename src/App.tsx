@@ -13,12 +13,12 @@ const App: () => JSX.Element = () => {
 
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: 'wss://epipresto.pagekite.me/graphql',
+      url: 'http://10.200.31.165:4000/',
     }),
   );
 
   const httpLink = new HttpLink({
-    uri: 'https://epipresto.pagekite.me/',
+    uri: 'http://10.200.31.165:4000/',
   });
 
   const splitLink = split(

@@ -8,6 +8,7 @@ import {Navigation} from "./navigation/Navigation";
 import {ClientAuthenticationContext} from "./context/ClientAuthenticationContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Provider as PaperProvider} from 'react-native-paper';
+import {theme} from "./theme/Theme";
 
 const App: () => JSX.Element = () => {
 
@@ -48,7 +49,7 @@ const App: () => JSX.Element = () => {
 
     <ClientAuthenticationContext.Provider value={{clientId, setClientId}}>
       <ApolloProvider client={client}>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <NavigationContainer>
             <Navigation/>
           </NavigationContainer>

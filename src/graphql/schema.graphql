@@ -34,7 +34,7 @@ type Chat {
 
 type ClientAccount {
     _id: ID!
-    adress: String!
+    address: String!
     chats: [Chat!]!
     email: String!
     firstName: String!

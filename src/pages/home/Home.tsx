@@ -4,12 +4,15 @@ import {ClientAuthenticationContext} from "../../context/ClientAuthenticationCon
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {BottomNavigation} from "react-native-paper";
 import {useIconButton} from "../../atoms/IconButton";
+import Dashboard from "../dashboard/Dashboard";
 
 const MusicRoute = () => <Text>Music</Text>;
 
 const AlbumsRoute = () => <Text>Albums</Text>;
 
 const RecentsRoute = () => <Text>Recents</Text>;
+
+const HomeRoute = () => <Dashboard />
 
 const NotificationsRoute = () => {
   const {setClientId} = useContext(ClientAuthenticationContext);
@@ -19,7 +22,7 @@ const NotificationsRoute = () => {
       console.log("client id cleared", r)
     );
   }
-  const bellButton=useIconButton('logout', () => {
+  const bellButton = useIconButton('logout', () => {
     handleLogout();
   });
   return (
@@ -43,7 +46,7 @@ export const Home = () => {
   const renderScene = BottomNavigation.SceneMap({
     music: MusicRoute,
     albums: AlbumsRoute,
-    recents: RecentsRoute,
+    recents: HomeRoute,
     notifications: NotificationsRoute,
     menu: RecentsRoute,
   });

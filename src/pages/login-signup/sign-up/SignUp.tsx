@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   bottomTextWrapper: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center'
   },
   bottomText: {
     borderRadius: 12,

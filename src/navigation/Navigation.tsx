@@ -22,7 +22,7 @@ export const Navigation = () => {
       {!clientId ? (
         <>
           <Stack.Screen name="Login" component={Login}/>
-           <Stack.Screen name="SignUp" component={SignUp}/>
+          <Stack.Screen name="SignUp" component={SignUp}/>
         </>
       ) : (
         <>

@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
 import { Searchbar, Snackbar, Text } from 'react-native-paper';
 import { useQuery } from "@apollo/client";
-import { shopStyles } from "./ShopStyles";
-import { VariantProps } from "./subsections/Product";
+import { storeStyles } from "./StoreStyles";
 import { GET_STORE_VARIANTS_BY_ID } from "../../graphql/queries/GetStoreVariantsById";
-import Product from "./subsections/Product";
+import Product, { VariantProps } from "./subsections/Product";
 
-const Shop = ({ navigation }: any) => {
+const Store = ({ navigation }: any) => {
 
   const [visible, setVisible] = React.useState(false);
 
@@ -84,9 +83,9 @@ const Shop = ({ navigation }: any) => {
 
 
   return(
-    <SafeAreaView style={shopStyles.root}>
-      <View style={shopStyles.view}>
-        <Text variant="headlineMedium" style={shopStyles.headline}>
+    <SafeAreaView style={storeStyles.root}>
+      <View style={storeStyles.view}>
+        <Text variant="headlineMedium" style={storeStyles.headline}>
           {data ? data.getStoreById.store.name : "Loading Store ..."}
         </Text>
       </View>
@@ -96,12 +95,12 @@ const Shop = ({ navigation }: any) => {
 
       <SafeAreaView style={{flex: 1}}>
         {loading ? (
-            <View style={shopStyles.innerContainer}>
+            <View style={storeStyles.innerContainer}>
               <ActivityIndicator size="large" color="#FFA500"></ActivityIndicator>
             </View>
           ) : error ? (
-            <View style={shopStyles.innerContainer}>
-              <Text style={shopStyles.errorText}>OOPS UNE ERREUR EST SURVENUE</Text>
+            <View style={storeStyles.innerContainer}>
+              <Text style={storeStyles.errorText}>OOPS UNE ERREUR EST SURVENUE</Text>
             </View>)
           : (
             variants.length === 0 ? 
@@ -171,4 +170,4 @@ const Shop = ({ navigation }: any) => {
   )
 }
 
-export default Shop
+export default Store

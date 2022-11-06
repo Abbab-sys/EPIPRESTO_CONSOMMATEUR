@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native"
 const text_font_family = 'Lato';
 const text_font_style = 'normal';
 
-export const shopStyles = StyleSheet.create({
+export const storeStyles = StyleSheet.create({
     root: {
       flex: 1,
     //   margin: 20,

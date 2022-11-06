@@ -5,22 +5,22 @@ import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, split} from "@apo
 import {getMainDefinition} from "@apollo/client/utilities";
 import {createClient} from "graphql-ws";
 import {Navigation} from "./navigation/Navigation";
-import {ClientAuthenticationContext} from "./context/ClientAuthenticationContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {ClientAuthenticationProvider} from "./context/ClientAuthenticationContext";
 import {Provider as PaperProvider} from 'react-native-paper';
 import {theme} from "./theme/Theme";
 import '../i18n'
+import {CartProvider} from './context/CartContext';
 
 const App: () => JSX.Element = () => {
 
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: 'wss://10.0.2.2:4000/graphql',
+      url: 'wss://localhost:4000/graphql',
     }),
   );
 
   const httpLink = new HttpLink({
-    uri: 'http://10.0.2.2:4000/graphql',
+    uri: 'http://localhost:4000/graphql',
   });
 
   const splitLink = split(
@@ -35,28 +35,23 @@ const App: () => JSX.Element = () => {
     httpLink,
   );
 
-
   const client = new ApolloClient({
     link: splitLink,
     cache: new InMemoryCache(),
   });
 
-  const [clientId, setClientId] = React.useState<string>('');
-  AsyncStorage.getItem('@clientId').then((value) => {
-      if (value) setClientId(value);
-    }
-  );
   return (
-
-    <ClientAuthenticationContext.Provider value={{clientId, setClientId}}>
-      <ApolloProvider client={client}>
-        <PaperProvider theme={theme}>
-          <NavigationContainer>
-            <Navigation/>
-          </NavigationContainer>
-        </PaperProvider>
-      </ApolloProvider>
-    </ClientAuthenticationContext.Provider>
+    <CartProvider>
+      <ClientAuthenticationProvider>
+        <ApolloProvider client={client}>
+          <PaperProvider theme={theme}>
+            <NavigationContainer>
+              <Navigation/>
+            </NavigationContainer>
+          </PaperProvider>
+        </ApolloProvider>
+      </ClientAuthenticationProvider>
+    </CartProvider>
 
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Button, FlatList, Image, Keyboard, SafeAreaView, TouchableOpacity, View } from "react-native";
-import { IconButton, Searchbar, Snackbar, Text } from 'react-native-paper';
+import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
+import { Searchbar, Snackbar, Text } from 'react-native-paper';
 import { useQuery } from "@apollo/client";
 import { shopStyles } from "./ShopStyles";
 import { VariantProps } from "./subsections/Product";
@@ -19,13 +19,8 @@ const Shop = ({ navigation }: any) => {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  //const { loading, error, data } = useQuery(GET_STORE_VARIANTS_BY_ID, {variables: {idStore: storeId, "offset": 0, "first": 20}})
 
   const [variants, setVariants] = useState<VariantProps[]>([])
-
-  const [updateCount, setUpdateCount] = useState(0)
-
-  const [updatedVariants, setUpdatedVariants] = useState<VariantProps[]>([])
 
   const handleSearch = (text: React.SetStateAction<string>) => {
     setSearchQuery(text)

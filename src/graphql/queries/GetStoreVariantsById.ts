@@ -6,14 +6,21 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
       code
       message
       store {
+        name
+        address
+        isOpen
         products(offset: $offset, first: $first) {
           title
           imgSrc
+          published
           variants {
             _id
             variantTitle
             imgSrc
             stock
+            price
+            byWeight
+            availableForSale
           }
         }
       }

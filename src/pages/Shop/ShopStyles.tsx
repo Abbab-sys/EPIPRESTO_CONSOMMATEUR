@@ -32,7 +32,6 @@ export const shopStyles = StyleSheet.create({
         flexWrap: "wrap",
         alignItems: "stretch",
         justifyContent: "center",
-        backgroundColor: "#FFA500",
         flexDirection: "column",
     },
     innerView: {
@@ -55,18 +54,14 @@ export const shopStyles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         margin: 10,
-        color: '#FFA500',
         fontFamily: text_font_family,
         fontStyle: text_font_style,
     },
     cardTitle: {
-        color: "white"
     },
     innerCardTitle: {
-        color: "black"
     }, 
     data: {
-        color: "#FFA500"
     },
     errorText: {
         textAlign: 'center',
@@ -95,6 +90,5 @@ export const shopStyles = StyleSheet.create({
     back_button_icon: {
         width: 35,
         height: 35,
-        tintColor: '#FFA500',
     }
 })

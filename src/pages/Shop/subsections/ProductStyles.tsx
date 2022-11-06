@@ -7,9 +7,10 @@ export const productStyles = StyleSheet.create({
     width: width / 2,
     flex: 1
   },
-  productName: {
+  productInfo: {
     textAlign: 'center',
-    marginVertical: '4%'
+    marginVertical: '4%',
+    color: "white"
   },
   cardStyle: {
     flex: 1,

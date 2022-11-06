@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, Button, FlatList, Image, Keyboard, SafeAreaView, TouchableOpacity, View } from "react-native";
-import { IconButton, Searchbar, Text } from 'react-native-paper';
+import { IconButton, Searchbar, Snackbar, Text } from 'react-native-paper';
 import { useQuery } from "@apollo/client";
-import { useTranslation } from "react-i18next";
 import { shopStyles } from "./ShopStyles";
-import Variant, { VariantProps } from "./subsections/Product";
+import { VariantProps } from "./subsections/Product";
 import { GET_STORE_VARIANTS_BY_ID } from "../../graphql/queries/GetStoreVariantsById";
+import Product from "./subsections/Product";
 
 const Shop = ({ navigation }: any) => {
 
-  const storeId = "STORE_ID"
+  const [visible, setVisible] = React.useState(false);
+
+  const onToggleSnackBar = () => setVisible(true);
+
+  const onDismissSnackBar = () => setVisible(false);
+
+  const storeId = "6362d3db4506a1e7168c4cac"
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -20,8 +26,6 @@ const Shop = ({ navigation }: any) => {
   const [updateCount, setUpdateCount] = useState(0)
 
   const [updatedVariants, setUpdatedVariants] = useState<VariantProps[]>([])
-
-  const {t} = useTranslation('translation')
 
   const handleSearch = (text: React.SetStateAction<string>) => {
     setSearchQuery(text)
@@ -52,90 +56,46 @@ const Shop = ({ navigation }: any) => {
     },
     fetchPolicy: 'network-only',
     onCompleted(data) {
-        console.log("DATA",data)
         const products = data.getStoreById.store.products
+        // consider only products that are published
+        const publishedProducts = products.filter((product: any) => {
+          return product.published
+        })
         // get all variants of all products
-        const variants = products.map((product: any) => {
+        const variants = publishedProducts.map((product: any) => {
             return product.variants
             })
         // flatten array of arrays
         const flattened = [].concat.apply([], variants)
-        setVariants(flattened)
+        // consider only variants that are available for sale
+        const availableVariants = flattened.filter((variant: any) => {
+          return variant.availableForSale
+        })
+        setVariants(availableVariants)
     },
   });
 
-  const succesAddMessage = "Stock modifié avec succès!"
-    const failAddMessage = "Une erreur est survenue lors de la modification du stock. Veuillez réessayer."
-    
-    const alertOnSave = (succes: boolean) =>
-        Alert.alert(
-        succes? "Succes" : "Erreur",
-        succes? succesAddMessage: failAddMessage,
-        succes? [
-            { text: "OK", onPress: () =>{navigation.goBack()}}
-        ] : [
-            { text: "OK", onPress: () =>  {} }
-        ]
-    );
+    const searchPlaceholder = "Rechercher un produit"
 
-  const messageBack = "Voulez-vous vraiment quitter la page? Toutes les modifications non sauvegardées seront perdues."
-    const backToInventory = () => {
-      setUpdateCount(0)
-      Keyboard.dismiss()
-      if(submitButtonShouldBeDisabled()){
-        navigation.goBack()
+    // close snackbar after 3 seconds
+    useEffect(() => {
+      if (visible) {
+        const timeout = setTimeout(() => onDismissSnackBar(), 3000);
+        return () => {
+          clearTimeout(timeout);
+        };
       }
-      else{
-        Alert.alert(
-          "Alert",
-          messageBack,
-          [
-            { text: "Quitter", onPress: () => navigation.goBack() },
-            { text: "Annuler", onPress: () => {} }
-          ]
-        );
-      }
-    }
-
-
-    const submitButtonShouldBeDisabled = () => {
-        console.log("updateCount: " + updateCount)
-        if (updateCount === 1) {
-          return true
-        }
-        else if (updatedVariants.length > 0) {
-          return false
-        }
-    }
-
-    const searchPlaceholder = t('searchBarPlaceholder')
+    }, [visible]);
 
 
   return(
     <SafeAreaView style={shopStyles.root}>
       <View style={shopStyles.view}>
         <Text variant="headlineMedium" style={shopStyles.headline}>
-          STOCK
+          {data ? data.getStoreById.store.name : "Loading Store ..."}
         </Text>
       </View>
       <View>
-      <TouchableOpacity
-                    style={shopStyles.back_button}
-                    onPress={() => backToInventory()}>
-                    <Image
-                        style={shopStyles.back_button_icon}
-                        source={require('../../assets/icons/back.png')}
-                    />
-      </TouchableOpacity>
-                
-        <IconButton  style={{alignSelf:'flex-end'}}
-          onPress={() => {}}
-          disabled={submitButtonShouldBeDisabled()}
-          mode="contained"
-          containerColor="black"
-          iconColor="#FFA500"
-          icon="content-save-edit"
-          size={30}/>
         <Searchbar style={{marginVertical: 10}} placeholder={searchPlaceholder} onChangeText={handleSearch} value={searchQuery}/>
       </View>
 
@@ -154,44 +114,35 @@ const Shop = ({ navigation }: any) => {
               (<Text>YOUR RESEARCH DOES NOT MATCH ANY ITEM</Text>)
               : 
               (
-                console.log("variants", variants),
                 <FlatList
                 numColumns={2}
                 data={variants}
 
                 renderItem={({item}) => 
-                  <Variant
+                  <Product
                     _id={item._id}
                     variantTitle={item.variantTitle}
                     // if no image, use default image
                     imgSrc={item.imgSrc ? item.imgSrc : "https://img.icons8.com/ios/452/no-image.png"}
                     stock={item.stock}
-                    updateSelf={(newStock: number) => {
-                        const newVariants = variants.map((variant) => {
-                            if(variant._id === item._id) {
-                                variant.stock = newStock
-                            }
-                            return variant
-                        })
-                        setVariants(newVariants)
-                        setUpdateCount(updateCount + 1)
-                        if(!updatedVariants.includes(item) && updateCount > 0) {
-                            setUpdatedVariants([...updatedVariants, item]);
-                        }
-                    }}
+                    price={item.price}
+                    byWeight={item.byWeight}
+                    availableForSale={item.availableForSale}
+                    addToCart={(quantity: number) => {
+                      console.log("nb items", quantity)
+                      onToggleSnackBar()
+                  }}
                     /> 
                 }
                 keyExtractor={item => item._id}
                 onEndReachedThreshold={1}
                   onEndReached={() => 
                     {
-                      console.log("END REACHED")
                       fetchMore({
                         variables: {
                           offset: variants.length
                         },
                         updateQuery(previousQueryResult, { fetchMoreResult }) {
-                          console.log("FETCH MORE RESULT", fetchMoreResult.getStoreById.store.products)
                           const products = fetchMoreResult.getStoreById.store.products
                           // get all variants of all products
                           const newEntries = products.map((product: any) => {
@@ -210,6 +161,17 @@ const Shop = ({ navigation }: any) => {
           ) }
 
       </SafeAreaView>
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Ok',
+          onPress: () => {
+            console.log('Pressed');
+          },
+        }}>
+        Item added to cart!
+      </Snackbar>
     </SafeAreaView>
   )
 }

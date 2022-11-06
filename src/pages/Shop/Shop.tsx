@@ -96,7 +96,7 @@ const Shop = ({ navigation }: any) => {
         </Text>
       </View>
       <View>
-        <Searchbar style={{marginVertical: 10}} placeholder={searchPlaceholder} onChangeText={handleSearch} value={searchQuery}/>
+        <Searchbar style={{marginVertical: 10, marginHorizontal:20}} placeholder={searchPlaceholder} onChangeText={handleSearch} value={searchQuery}/>
       </View>
 
       <SafeAreaView style={{flex: 1}}>

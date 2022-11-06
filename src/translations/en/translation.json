@@ -1,0 +1,79 @@
+{
+  "language": {
+    "en": "English",
+    "fr": "French"
+  },
+  "login": {
+    "epip": "EPIP",
+    "resto": "RESTO",
+    "subtitle": "An online grocery marketplace like no other",
+    "usernameOrEmail": {
+      "placeholder": "Email or Username",
+      "label": "Email or Username"
+    },
+    "password": {
+      "placeholder": "Password",
+      "label": "Password"
+    },
+    "newUser": "New to Epipresto?",
+    "createAccount": "CREATE AN ACCOUNT",
+    "buttonTitle": "Login"
+  },
+  "signUp": {
+    "sign": "SIGN",
+    "up": "UP",
+    "alreadyMember": "Already a member?",
+    "login": "LOGIN",
+    "next": "Next",
+    "previous": "Previous",
+    "emptyFieldError": "This field can not be empty",
+    "stepper": {
+      "informations": {
+        "sectionTitle": "Informations",
+        "firstName": {
+          "title": "First Name"
+        },
+        "lastName": {
+          "title": "Last Name"
+        }
+      },
+      "contact": {
+        "sectionTitle": "Contact",
+        "phone": {
+          "title": "Phone number",
+          "errors": {
+            "format": "Incorrect phone format"
+          }
+        },
+        "email": {
+          "title": "Email",
+          "errors": {
+            "format": "Incorrect email format",
+            "used": "This email is already used"
+          }
+        }
+      },
+      "address": {
+        "sectionTitle": "Address",
+        "number": "Number",
+        "street": "Street",
+        "postalCode": "Postal Code",
+        "city": "City",
+        "province": "Province"
+      },
+      "account": {
+        "sectionTitle": "Account",
+        "username": {
+          "title": "Username",
+          "error": "This username is already used"
+        },
+        "password": "Password",
+        "confirmPassword": {
+          "title": "Confirm password",
+          "error": "Password and confirm password are not matching"
+        },
+        "submit": "Submit"
+      }
+    }
+  }
+}

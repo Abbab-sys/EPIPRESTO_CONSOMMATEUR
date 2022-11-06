@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
 import {Error} from "../../types/errors/Error";
-import {EMAIL_EMPTY, EMAIL_NOT_VALID, EMAIL_USED} from "../../types/errors/EmailErrors";
+import {EMAIL_NOT_VALID, EMAIL_USED} from "../../types/errors/EmailErrors";
 import {useLazyQuery} from "@apollo/client";
 import {IS_CLIENT_EMAIL_USED, IsClientEmailUsedData} from "../../graphql/queries/IsClientEmailUsed";
-
+import { MANDATORY_FIELD_EMPTY } from "../../types/errors/MandatoryFieldsErrors";
 
 export const useEmailValidator = (email: string) => {
   const [errors, setErrors] = useState<Error[]>([]);
@@ -18,13 +18,13 @@ export const useEmailValidator = (email: string) => {
   };
 
   useEffect(() => {
-    if (email === '' && errors.indexOf(EMAIL_EMPTY) === -1) {
+    if (email === '' && errors.indexOf(MANDATORY_FIELD_EMPTY) === -1) {
       setErrors((prevErrors) => {
-        return [...prevErrors, EMAIL_EMPTY]
+        return [...prevErrors, MANDATORY_FIELD_EMPTY]
       });
-    } else if (email && errors.indexOf(EMAIL_EMPTY) !== -1) {
+    } else if (email && errors.indexOf(MANDATORY_FIELD_EMPTY) !== -1) {
       setErrors((prevErrors) => {
-        return prevErrors.filter((error) => error !== EMAIL_EMPTY)
+        return prevErrors.filter((error) => error !== MANDATORY_FIELD_EMPTY)
       });
     }
 

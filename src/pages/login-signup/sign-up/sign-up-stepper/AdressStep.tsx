@@ -5,6 +5,8 @@ import LoginInput from "../../../../atoms/LoginInput";
 import {useStreetNumberValidator} from "../../../../hooks/validators/useStreetNumberValidator";
 import {useZipCodeValidator} from "../../../../hooks/validators/useZipCodeValidator";
 import {useMandatoryFieldValidator} from "../../../../hooks/validators/useMandatoryFieldValidator";
+import { Error } from "../../../../types/errors/Error";
+import { useTranslation } from "react-i18next";
 
 type AdressStepProps = {
   setStepCompleted: (disabled: boolean) => void
@@ -16,23 +18,24 @@ export type AdressStepRef = {
 }
 
 const AdressStep = (props: AdressStepProps, ref: Ref<AdressStepRef>) => {
+  const {t} = useTranslation('translation')
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
   const [streetNumber, setStreetNumber] = useState('')
-  const streetNumberErrors = useStreetNumberValidator(streetNumber)
+  const streetNumberErrors = useMandatoryFieldValidator(streetNumber)
 
   const [streetName, setStreetName] = useState('')
-  const streetNameErrors=useMandatoryFieldValidator(streetName)
+  const streetNameErrors = useMandatoryFieldValidator(streetName)
 
   const [city, setCity] = useState('')
-  const cityErrors=useMandatoryFieldValidator(city)
+  const cityErrors = useMandatoryFieldValidator(city)
 
   const [zipCode, setZipCode] = useState('')
   const zipCodeErrors = useZipCodeValidator(zipCode)
 
   const [province, setProvince] = useState('')
-  const provinceErrors=useMandatoryFieldValidator(province)
+  const provinceErrors = useMandatoryFieldValidator(province)
 
 
   useImperativeHandle(ref, () => ({
@@ -49,19 +52,44 @@ const AdressStep = (props: AdressStepProps, ref: Ref<AdressStepRef>) => {
       <View style={styles.inputsWrapper}>
         <ScrollView style={styles.inputScrollView}>
           <View style={styles.streetNumberWrapper}>
-            <LoginInput errors={streetNumberErrors} placeholder={"Number"} setValue={setStreetNumber} value={streetNumber}></LoginInput>
+            <LoginInput
+              errors={streetNumberErrors}
+              placeholder={t('signUp.stepper.address.number')}
+              setValue={setStreetNumber}
+              value={streetNumber} 
+            />
           </View>
           <View style={styles.streetNameWrapper}>
-            <LoginInput errors={streetNameErrors} placeholder={"Street"} setValue={setStreetName} value={streetName}></LoginInput>
+            <LoginInput
+              errors={streetNameErrors}
+              placeholder={t('signUp.stepper.address.street')}
+              setValue={setStreetName}
+              value={streetName} 
+            />
           </View>
           <View style={styles.postalNumberWrapper}>
-            <LoginInput errors={zipCodeErrors} placeholder={"Postal Code"} setValue={setZipCode} value={zipCode}></LoginInput>
+            <LoginInput
+              errors={zipCodeErrors}
+              placeholder={t('signUp.stepper.address.postalCode')}
+              setValue={setZipCode}
+              value={zipCode}
+            />
           </View>
           <View style={styles.provinceWrapper}>
-            <LoginInput errors={cityErrors} placeholder={"City"} setValue={setCity} value={city}></LoginInput>
+            <LoginInput
+              errors={cityErrors}
+              placeholder={t('signUp.stepper.address.city')}
+              setValue={setCity}
+              value={city}
+            />
           </View>
           <View style={styles.countryWrapper}>
-            <LoginInput errors={provinceErrors} placeholder={"Province"} setValue={setProvince} value={province}></LoginInput>
+            <LoginInput
+              errors={provinceErrors}
+              placeholder={t('signUp.stepper.address.province')}
+              setValue={setProvince}
+              value={province} 
+            />
           </View>
         </ScrollView>
       </View>
@@ -69,12 +97,12 @@ const AdressStep = (props: AdressStepProps, ref: Ref<AdressStepRef>) => {
         <TouchableOpacity style={styles.backButton} onPress={() => {
           goTo(index - 1)
         }}>
-          <Text style={styles.nextButtonText}>Back</Text>
+          <Text style={styles.nextButtonText}>{t('signUp.previous')}</Text>
         </ TouchableOpacity>
         <TouchableOpacity style={!props.stepCompleted ? styles.nextButtonDisabled : styles.nextButton} onPress={() => {
           goTo(index + 1)
         }} disabled={!props.stepCompleted}>
-          <Text style={styles.nextButtonText}>Next</Text>
+          <Text style={styles.nextButtonText}>{t('signUp.next')}</Text>
         </TouchableOpacity>
       </View>
     </View>

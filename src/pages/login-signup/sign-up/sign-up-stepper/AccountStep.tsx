@@ -5,6 +5,8 @@ import LoginInput from "../../../../atoms/LoginInput";
 import {useUsernameValidator} from "../../../../hooks/validators/useUsernameValidator";
 import {useMandatoryFieldValidator} from "../../../../hooks/validators/useMandatoryFieldValidator";
 import {useConfirmPasswordValidator} from "../../../../hooks/validators/useConfirmPasswordValidator";
+import {Error} from "../../../../types/errors/Error";
+import { useTranslation } from "react-i18next";
 
 type AccountStepProps = {
   signUp: () => void
@@ -18,6 +20,7 @@ export type AccountStepRef = {
 }
 
 const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
+  const {t} = useTranslation('translation')
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -26,7 +29,7 @@ const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const usernameErrors = useUsernameValidator(username)
-  const passwordErrors = useMandatoryFieldValidator(password)
+  const passwordErrors: Error[] = []
   const confirmPasswordErrors = useConfirmPasswordValidator(password, confirmPassword)
 
 
@@ -42,22 +45,34 @@ const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
   return (
     <View style={styles.root}>
       <View style={styles.inputsWrapper}>
-        <LoginInput errors={usernameErrors} placeholder={"Username"} setValue={setUsername}
-                    value={username}></LoginInput>
-        <LoginInput errors={passwordErrors} placeholder={"Password"} setValue={setPassword}
-                    value={password}></LoginInput>
-        <LoginInput errors={confirmPasswordErrors} placeholder={"Confirm Password"} setValue={setConfirmPassword}
-                    value={confirmPassword}></LoginInput>
+        <LoginInput
+          errors={usernameErrors}
+          placeholder={t('signUp.stepper.account.username.title')}
+          setValue={setUsername}
+          value={username}
+        />
+        <LoginInput
+          errors={passwordErrors}
+          placeholder={t('signUp.stepper.account.password')}
+          setValue={setPassword}
+          value={password}
+        />
+        <LoginInput
+          errors={confirmPasswordErrors}
+          placeholder={t('signUp.stepper.account.confirmPassword.title')}
+          setValue={setConfirmPassword}
+          value={confirmPassword}
+        />
       </View>
       <View style={styles.nextButtonContainer}>
         <TouchableOpacity style={styles.backButton} onPress={() => {
           goTo(index - 1)
         }}>
-          <Text style={styles.nextButtonText}>Back</Text>
+          <Text style={styles.nextButtonText}>{t('signUp.previous')}</Text>
         </ TouchableOpacity>
         <TouchableOpacity style={!stepCompleted ? styles.nextButtonDisabled : styles.nextButton} onPress={props.signUp}
                           disabled={!stepCompleted}>
-          <Text style={styles.nextButtonText}>Submit</Text>
+          <Text style={styles.nextButtonText}>{t('signUp.stepper.account.submit')}</Text>
         </ TouchableOpacity>
 
       </View>

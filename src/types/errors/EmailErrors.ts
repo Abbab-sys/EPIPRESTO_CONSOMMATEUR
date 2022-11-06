@@ -1,13 +1,9 @@
 import {Error} from "./Error";
 
-export const EMAIL_EMPTY: Error = {
-  messageKey: 'email is empty'
-}
-
 export const EMAIL_NOT_VALID: Error = {
-  messageKey: 'email not valid'
+  messageKey: 'signUp.stepper.contact.email.errors.format'
 }
 
 export const EMAIL_USED: Error = {
-  messageKey: 'email already used'
+  messageKey: 'signUp.stepper.contact.email.errors.used'
 }

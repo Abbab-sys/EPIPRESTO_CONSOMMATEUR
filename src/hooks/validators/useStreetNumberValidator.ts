@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Error} from "../../types/errors/Error";
-import {STREET_NUMBER_EMPTY, STREET_NUMBER_NOT_VALID} from "../../types/errors/StreetNumberErrors";
-
+import { MANDATORY_FIELD_EMPTY } from "../../types/errors/MandatoryFieldsErrors";
+import {STREET_NUMBER_NOT_VALID} from "../../types/errors/StreetNumberErrors";
 
 export const useStreetNumberValidator = (streetNumber: string) => {
   const [errors, setErrors] = useState<Error[]>([]);
@@ -11,13 +11,13 @@ export const useStreetNumberValidator = (streetNumber: string) => {
   };
 
   useEffect(() => {
-    if (streetNumber === '' && errors.indexOf(STREET_NUMBER_EMPTY) === -1) {
+    if (streetNumber === '' && errors.indexOf(MANDATORY_FIELD_EMPTY) === -1) {
       setErrors((prevErrors) => {
-        return [...prevErrors, STREET_NUMBER_EMPTY]
+        return [...prevErrors, MANDATORY_FIELD_EMPTY]
       });
-    } else if (streetNumber && errors.indexOf(STREET_NUMBER_EMPTY) !== -1) {
+    } else if (streetNumber && errors.indexOf(MANDATORY_FIELD_EMPTY) !== -1) {
       setErrors((prevErrors) => {
-        return prevErrors.filter((error) => error !== STREET_NUMBER_EMPTY)
+        return prevErrors.filter((error) => error !== MANDATORY_FIELD_EMPTY)
       });
     }
 

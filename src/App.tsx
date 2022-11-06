@@ -9,6 +9,7 @@ import {ClientAuthenticationContext} from "./context/ClientAuthenticationContext
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Provider as PaperProvider} from 'react-native-paper';
 import {theme} from "./theme/Theme";
+import '../i18n'
 
 const App: () => JSX.Element = () => {
 

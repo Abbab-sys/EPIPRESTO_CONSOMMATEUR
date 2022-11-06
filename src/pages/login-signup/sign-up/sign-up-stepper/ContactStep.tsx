@@ -4,6 +4,7 @@ import React, {forwardRef, Ref, useEffect, useImperativeHandle, useState} from "
 import LoginInput from "../../../../atoms/LoginInput";
 import {useEmailValidator} from "../../../../hooks/validators/useEmailValidator";
 import {usePhoneValidator} from "../../../../hooks/validators/usePhoneValidator";
+import { useTranslation } from "react-i18next";
 
 type ContactStepProps = {
   setStepCompleted: (disabled: boolean) => void
@@ -16,6 +17,7 @@ export type ContactStepRef = {
 }
 
 const ContactStep = (props: ContactStepProps, ref: Ref<ContactStepRef>) => {
+  const {t} = useTranslation('translation')
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -35,24 +37,35 @@ const ContactStep = (props: ContactStepProps, ref: Ref<ContactStepRef>) => {
   useEffect(() => {
     const stepCompleted = !!phone && !!email && emailErrors.length === 0 && phoneErrors.length === 0
     props.setStepCompleted(stepCompleted)
+    console.log("STEP COMPLETED:", stepCompleted)
   }, [phone, email, emailErrors.length, phoneErrors.length])
 
   return (
     <View style={styles.root}>
       <View style={styles.inputsWrapper}>
-        <LoginInput errors={phoneErrors} placeholder={"Phone"} setValue={setPhone} value={phone}></LoginInput>
-        <LoginInput errors={emailErrors} placeholder={"Email"} setValue={setEmail} value={email}></LoginInput>
+        <LoginInput
+          errors={phoneErrors}
+          placeholder={t('signUp.stepper.contact.phone.title')}
+          setValue={setPhone}
+          value={phone} 
+        />
+        <LoginInput
+          errors={emailErrors}
+          placeholder={t('signUp.stepper.contact.email.title')}
+          setValue={setEmail}
+          value={email} 
+        />
       </View>
       <View style={styles.nextButtonContainer}>
         <TouchableOpacity style={styles.backButton} onPress={() => {
           goTo(index - 1)
         }}>
-          <Text style={styles.nextButtonText}>Back</Text>
+          <Text style={styles.nextButtonText}>{t('signUp.previous')}</Text>
         </ TouchableOpacity>
         <TouchableOpacity style={!props.stepCompleted ? styles.nextButtonDisabled : styles.nextButton} onPress={() => {
           goTo(index + 1)
         }} disabled={!props.stepCompleted}>
-          <Text style={styles.nextButtonText}>Next</Text>
+          <Text style={styles.nextButtonText}>{t('signUp.next')}</Text>
         </TouchableOpacity>
       </View>
     </View>

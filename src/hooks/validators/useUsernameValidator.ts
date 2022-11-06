@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import {Error} from "../../types/errors/Error";
 import {useLazyQuery} from "@apollo/client";
 import {IS_CLIENT_USERNAME_USED, IsClientUsernameUsedData} from "../../graphql/queries/IsClientUsernameUsed";
-import {USERNAME_EMPTY, USERNAME_USED} from "../../types/errors/UsernameErrors";
+import {USERNAME_USED} from "../../types/errors/UsernameErrors";
+import { MANDATORY_FIELD_EMPTY } from "../../types/errors/MandatoryFieldsErrors";
 
 
 export const useUsernameValidator = (username: string) => {
@@ -15,13 +16,13 @@ export const useUsernameValidator = (username: string) => {
 
 
   useEffect(() => {
-    if (username === '' && errors.indexOf(USERNAME_EMPTY) === -1) {
+    if (username === '' && errors.indexOf(MANDATORY_FIELD_EMPTY) === -1) {
       setErrors((prevErrors) => {
-        return [...prevErrors, USERNAME_EMPTY]
+        return [...prevErrors, MANDATORY_FIELD_EMPTY]
       });
-    } else if (username && errors.indexOf(USERNAME_EMPTY) !== -1) {
+    } else if (username && errors.indexOf(MANDATORY_FIELD_EMPTY) !== -1) {
       setErrors((prevErrors) => {
-        return prevErrors.filter((error) => error !== USERNAME_EMPTY)
+        return prevErrors.filter((error) => error !== MANDATORY_FIELD_EMPTY)
       });
     }
     // To prevent the waiting time for the server to respond, we can use a local validation

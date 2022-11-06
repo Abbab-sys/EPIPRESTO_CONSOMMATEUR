@@ -9,18 +9,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient'
 import LoginInput from "../../../atoms/LoginInput";
 import {useNavigation} from "@react-navigation/native";
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../../../common/language-selection/LanguageSelector';
 
 
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const Login: (props: LoginProps) => JSX.Element = () => {
+  const {t} = useTranslation('translation')
   const navigation = useNavigation();
   const {setClientId} = useContext(ClientAuthenticationContext);
 
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
 
-  const [loginByUsername, {data}] = useLazyQuery(LOGIN_CLIENT_BY_USERNAME, {
+  const [loginByUsername, {data, error}] = useLazyQuery(LOGIN_CLIENT_BY_USERNAME, {
     fetchPolicy: "network-only",
   });
 
@@ -28,7 +31,8 @@ const Login: (props: LoginProps) => JSX.Element = () => {
 
   const handleLogin = async () => {
     if (!identifier || !password) return;
-
+    console.log("USERNAME: ", identifier)
+    console.log("PASSWORD: ", password)
     await loginByUsername({
       variables: {
         username: identifier,
@@ -50,6 +54,8 @@ const Login: (props: LoginProps) => JSX.Element = () => {
     navigation.navigate('SignUp' as never)
   }
 
+  console.log(error)
+
   return (
     <Fragment>
       <SafeAreaView style={styles.upperUnsafeAreaView}/>
@@ -64,33 +70,40 @@ const Login: (props: LoginProps) => JSX.Element = () => {
               <View style={styles.topMargin}></View>
               <View style={styles.title}>
                 <Text style={styles.epiprestoTitle}>
-                  EPIP
-                  <Text style={{color: "#FFAA55"}}>RESTO</Text>
+                  {t('login.epip')}
+                  <Text style={{color: "#FFAA55"}}>
+                    {t('login.resto')}
+                  </Text>
                 </Text>
               </View>
               <View style={styles.descriptionContainer}>
-                <Text numberOfLines={2} style={styles.description}>An online grocery marketplace like no other</Text>
+                <Text numberOfLines={2} style={styles.description}>
+                  {t('login.subtitle')}
+                </Text>
+              </View>
+              <View style={styles.languageSelector}>
+                <LanguageSelector />
               </View>
             </View>
 
             <View style={styles.inputs}>
-              <LoginInput placeholder={"Email"}
-                          label={"Username or e-Mail"}  setValue={setIdentifier}
+              <LoginInput placeholder={t('login.usernameOrEmail.placeholder')}
+                          label={t('login.usernameOrEmail.placeholder')}  setValue={setIdentifier}
                           value={identifier}></LoginInput>
-              <LoginInput placeholder={"Password"}
-                          label={"Password"} setValue={setPassword} value={password}></LoginInput>
+              <LoginInput placeholder={t('login.password.placeholder')}
+                          label={t('login.password.placeholder')} setValue={setPassword} value={password}></LoginInput>
             </View>
 
             <View style={styles.loginButtonContainer}>
               <TouchableOpacity style={styles.nextButton} onPress={handleLogin}>
-                <Text style={styles.nextButtonText}>Login</Text>
-              </ TouchableOpacity>
+                <Text style={styles.nextButtonText}>{t('login.buttonTitle')}</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.bottomTextContainer}>
               <View style={styles.bottomTextWrapper}>
                 <Text style={styles.bottomText}>
-                  <Text style={styles.new}>New to Epipresto? </Text>
-                  <Text onPress={handleCreateAccount} style={styles.create}>CREATE AN ACCOUNT</Text>
+                  <Text style={styles.new}>{t('login.newUser')}</Text>
+                  <Text onPress={handleCreateAccount} style={styles.create}>{t('login.createAccount')}</Text>
                 </Text>
               </View>
             </View>
@@ -153,7 +166,11 @@ const styles = StyleSheet.create({
     color: "#000000",
     margin: '5%',
   },
-
+  languageSelector: {
+    flex: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   inputs: {
     flex: 258,
     justifyContent: 'flex-start',

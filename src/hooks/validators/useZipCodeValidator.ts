@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Error} from "../../types/errors/Error";
-import {ZIP_CODE_EMPTY, ZIP_CODE_EMPTY_NOT_VALID} from "../../types/errors/ZipCodeErrors";
+import { MANDATORY_FIELD_EMPTY } from "../../types/errors/MandatoryFieldsErrors";
+import {ZIP_CODE_EMPTY_NOT_VALID} from "../../types/errors/ZipCodeErrors";
 
 
 export const useZipCodeValidator = (zipCode: string) => {
@@ -11,13 +12,13 @@ export const useZipCodeValidator = (zipCode: string) => {
   };
 
   useEffect(() => {
-    if (zipCode === '' && errors.indexOf(ZIP_CODE_EMPTY) === -1) {
+    if (zipCode === '' && errors.indexOf(MANDATORY_FIELD_EMPTY) === -1) {
       setErrors((prevErrors) => {
-        return [...prevErrors, ZIP_CODE_EMPTY]
+        return [...prevErrors, MANDATORY_FIELD_EMPTY]
       });
-    } else if (zipCode && errors.indexOf(ZIP_CODE_EMPTY) !== -1) {
+    } else if (zipCode && errors.indexOf(MANDATORY_FIELD_EMPTY) !== -1) {
       setErrors((prevErrors) => {
-        return prevErrors.filter((error) => error !== ZIP_CODE_EMPTY)
+        return prevErrors.filter((error) => error !== MANDATORY_FIELD_EMPTY)
       });
     }
 

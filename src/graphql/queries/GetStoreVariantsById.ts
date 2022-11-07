@@ -10,8 +10,6 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
         address
         isOpen
         products(offset: $offset, first: $first) {
-          title
-          imgSrc
           published
           variants {
             _id
@@ -20,7 +18,13 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
             stock
             price
             byWeight
+            taxable
             availableForSale
+            relatedProduct {
+              brand
+              title
+              tags
+            }
           }
         }
       }

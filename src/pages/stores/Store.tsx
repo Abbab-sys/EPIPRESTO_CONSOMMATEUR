@@ -17,6 +17,7 @@ const Store = ({ route,navigation }: any) => {
   const onDismissSnackBar = () => setVisible(false);
 
   const storeId = route.params.idStore
+  //const storeId = "6362d3db4506a1e7168c4cac"
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -68,6 +69,7 @@ const Store = ({ route,navigation }: any) => {
           return variant.availableForSale
         })
         setVariants(availableVariants)
+        console.log("variants",variants.length)
     },
   });
 
@@ -89,6 +91,12 @@ const Store = ({ route,navigation }: any) => {
       <View style={storeStyles.view}>
         <Text variant="headlineMedium" style={storeStyles.headline}>
           {data ? data.getStoreById.store.name : "Loading Store ..."}
+        </Text>
+        <Text variant="labelLarge" style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
+          {data ? data.getStoreById.store.isOpen ? "Ouvert" : "Fermé" : ""}
+        </Text>
+        <Text variant="labelSmall">
+          {data ? data.getStoreById.store.address : ""}
         </Text>
       </View>
       <View>
@@ -123,6 +131,8 @@ const Store = ({ route,navigation }: any) => {
                     stock={item.stock}
                     price={item.price}
                     byWeight={item.byWeight}
+                    taxable={item.taxable}
+                    relatedProduct={item.relatedProduct}
                     availableForSale={item.availableForSale}
                     addToCart={(quantity: number) => {
                       console.log("nb items", quantity)

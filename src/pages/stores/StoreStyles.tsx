@@ -53,7 +53,7 @@ export const storeStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        margin: 10,
+        marginTop: 10,
         fontFamily: text_font_family,
         fontStyle: text_font_style,
     },

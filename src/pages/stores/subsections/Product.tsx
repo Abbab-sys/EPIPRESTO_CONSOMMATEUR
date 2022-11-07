@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Image, View } from "react-native";
-import { Button, Card, Divider, IconButton, Text, TextInput } from 'react-native-paper';
+import { Button, Card, Divider, IconButton, Modal, Portal, Text, TextInput } from 'react-native-paper';
 import { productStyles } from "./ProductStyles";
 
 export interface VariantProps {
@@ -11,10 +11,20 @@ export interface VariantProps {
   price: number;
   byWeight: boolean;
   availableForSale: boolean;
+  taxable: boolean;
+  relatedProduct: any;
   addToCart : (quantity: number) => void;
 }
 
 const Product = (props: VariantProps) => {
+
+  console.log("product ", props.relatedProduct)
+
+  const [visible, setVisible] = React.useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = {backgroundColor: 'white', padding: 20};
 
   const [quantity, setQuantity] = React.useState("1");
 
@@ -40,10 +50,10 @@ const Product = (props: VariantProps) => {
         style={{flexDirection: 'row',  marginTop: '4%', justifyContent: 'center'}}
         >
         <Text ellipsizeMode='tail' numberOfLines={2} variant="titleSmall" style={productStyles.productInfo}>
-          {props.variantTitle}
+          {props.relatedProduct.title} - {props.variantTitle}
         </Text>
         <IconButton 
-            onPress={() => {console.log("pressed")}}
+            onPress={() => {showModal()}}
             mode="contained"
             iconColor="#FFA500"
             icon="information"
@@ -92,6 +102,25 @@ const Product = (props: VariantProps) => {
         </View>
       <Text style={{color:"red", alignSelf:'center', marginTop: '4%'}}>{props.stock <= 0 ? "Out of stock" : ""}</Text>
       </Card>
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+      <Text>Afficher toute l'info du variant ici. Img a gauche et titre, tags, prix en lb et kg quand appplicable, taxable</Text>
+      <Text>Description en bas de l'image et apres description affihcer les autres variants visibles?</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop: '4%'}}>
+        <Image style={{resizeMode:'contain',width:400 , height:400}} source={{uri: props.imgSrc}}/>
+        <View>
+          <Text>Title : {props.relatedProduct.title} - {props.variantTitle}</Text>
+          <Text>{props.byWeight? "Price per lb:" : "Price:"} {props.price} $ </Text>
+          {props.byWeight? <Text>Price per kg : {(props.price*2.20462).toFixed(2)} $</Text> : null}
+          <Text>Tags : {props.relatedProduct.tags.map((tag: any) => tag).join(", ")}</Text>
+          <Text>Taxable : {props.taxable? "Yes" : "No"}</Text>
+          <Divider style={{backgroundColor: "transparent", marginTop: '10%'}}></Divider>
+          <Text>Description : Ajouter field description dans la query</Text>
+        </View>
+      </View>
+      <Text>Click outside this area to dismiss.</Text>
+        </Modal>
+      </Portal>
     </View>
   )
 }

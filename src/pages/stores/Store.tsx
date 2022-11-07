@@ -6,7 +6,9 @@ import { storeStyles } from "./StoreStyles";
 import { GET_STORE_VARIANTS_BY_ID } from "../../graphql/queries/GetStoreVariantsById";
 import Product, { VariantProps } from "./subsections/Product";
 
-const Store = ({ navigation }: any) => {
+const Store = ({ route,navigation }: any) => {
+
+  console.log("route",route.params.idStore)
 
   const [visible, setVisible] = React.useState(false);
 
@@ -14,7 +16,7 @@ const Store = ({ navigation }: any) => {
 
   const onDismissSnackBar = () => setVisible(false);
 
-  const storeId = "6362d3db4506a1e7168c4cac"
+  const storeId = route.params.idStore
 
   const [searchQuery, setSearchQuery] = useState('');
 

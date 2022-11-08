@@ -3,6 +3,7 @@ import {useTabIndex, useTabNavigation} from "react-native-paper-tabs";
 import React, {useEffect, useState, forwardRef, useImperativeHandle, Ref} from "react";
 import LoginInput from "../../../../atoms/LoginInput";
 import {useMandatoryFieldValidator} from "../../../../hooks/validators/useMandatoryFieldValidator";
+import { useTranslation } from "react-i18next";
 
 type InformationsStepProps = {
   setStepCompleted: (disabled: boolean) => void
@@ -14,6 +15,7 @@ export type InformationsStepRef = {
 }
 
 const InformationsStep = (props: InformationsStepProps, ref: Ref<InformationsStepRef>) => {
+  const {t} = useTranslation('translation')
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
@@ -38,14 +40,24 @@ const InformationsStep = (props: InformationsStepProps, ref: Ref<InformationsSte
     props.setStepCompleted(checkInputs())
   }, [firstName, lastName])
 
-  const firstNameErrors=useMandatoryFieldValidator(firstName)
-  const lastNameErrors=useMandatoryFieldValidator(lastName)
+  const firstNameErrors = useMandatoryFieldValidator(firstName)
+  const lastNameErrors = useMandatoryFieldValidator(lastName)
 
   return (
     <View style={styles.root}>
       <View style={styles.inputsWrapper}>
-        <LoginInput errors={firstNameErrors} placeholder={"First Name"} setValue={setFirstName} value={firstName}></LoginInput>
-        <LoginInput errors={lastNameErrors} placeholder={"Last Name"} setValue={setLastName} value={lastName}></LoginInput>
+        <LoginInput 
+          errors={firstNameErrors}
+          placeholder={t('signUp.stepper.informations.firstName.title')}
+          setValue={setFirstName}
+          value={firstName} 
+        />
+        <LoginInput
+          errors={lastNameErrors}
+          placeholder={t('signUp.stepper.informations.lastName.title')}
+          setValue={setLastName}
+          value={lastName} 
+        />
       </View>
       <View style={styles.nextButtonContainer}>
         <TouchableOpacity style={!props.stepCompleted ? styles.nextButtonDisabled : styles.nextButton}
@@ -53,9 +65,8 @@ const InformationsStep = (props: InformationsStepProps, ref: Ref<InformationsSte
                             goTo(index + 1)
                           }}
                           disabled={!props.stepCompleted}>
-          <Text style={styles.nextButtonText}>Next</Text>
+          <Text style={styles.nextButtonText}>{t('signUp.next')}</Text>
         </ TouchableOpacity>
-
       </View>
     </View>
   );

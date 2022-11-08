@@ -1,0 +1,79 @@
+{
+  "language": {
+    "en": "Anglais",
+    "fr": "Français"
+  },
+  "login": {
+    "epip": "EPIP",
+    "resto": "RESTO",
+    "subtitle": "Une place de marché d'épicerie en ligne pas comme les autres",
+    "usernameOrEmail": {
+      "placeholder": "Email ou Pseudonyme",
+      "label": "Email ou Pseudonyme"
+    },
+    "password": {
+      "placeholder": "Mot de passe",
+      "label": "Mot de passe"
+    },
+    "newUser": "Nouveau à Épipreso?",
+    "createAccount": "Créer un compte",
+    "buttonTitle": "Connexion"
+  },
+  "signUp": {
+    "sign": "INSCR",
+    "up": "IPTION",
+    "alreadyMember": "Déjà membre?",
+    "login": "CONNECTEZ-VOUS",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "emptyFieldError": "Ce champ ne peut pas être vide",
+    "stepper": {
+      "informations": {
+        "sectionTitle": "Informations",
+        "firstName": {
+          "title": "Prénom"
+        },
+        "lastName": {
+          "title": "Nom de famille"
+        }
+      },
+      "contact": {
+        "sectionTitle": "Contact",
+        "phone": {
+          "title": "Numéro de téléphone",
+          "errors": {
+            "format": "Le format du numéro de téléphone est incorrect"
+          }
+        },
+        "email": {
+          "title": "Email",
+          "errors": {
+            "format": "Le format de l'email est incorrect",
+            "used": "Cet email est déjà utilisé"
+          }
+        }
+      },
+      "address": {
+        "sectionTitle": "Adresse",
+        "number": "Numéro",
+        "street": "Rue",
+        "postalCode": "Code postal",
+        "city": "Ville",
+        "province": "Province"
+      },
+      "account": {
+        "sectionTitle": "Compte",
+        "username": {
+          "title": "Pseudonyme",
+          "error": "Ce pseudonyme est déjà utilisé"
+        },
+        "password": "Mot de passe",
+        "confirmPassword": {
+          "title": "Confirmez votre mot de passe",
+          "error": "Les deux mots de passes sont différents"
+        },
+        "submit": "Soumettre"
+      }
+    }
+  }
+}

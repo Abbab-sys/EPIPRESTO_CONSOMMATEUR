@@ -5,11 +5,14 @@ import {RootStackParamList} from "../../../navigation/Navigation";
 import LinearGradient from 'react-native-linear-gradient'
 import {useNavigation} from "@react-navigation/native";
 import {SignupStepper} from "./sign-up-stepper/SignupStepper";
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../../../common/language-selection/LanguageSelector';
 
 
 type LogoutProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUp: (props: LogoutProps) => JSX.Element = () => {
+  const {t} = useTranslation('translation')
   const navigation = useNavigation();
 
   const handleLogin = () => {
@@ -27,22 +30,27 @@ const SignUp: (props: LogoutProps) => JSX.Element = () => {
             <View style={styles.titleWrapper}>
               <View style={styles.title}>
                 <Text style={styles.epiprestoTitle}>
-                  SIGN
-                  <Text style={{color: "#FFAA55"}}>UP</Text>
+                  {t('signUp.sign')}
+                  <Text style={{color: "#FFAA55"}}>
+                    {t('signUp.up')}
+                  </Text>
                 </Text>
+              </View>
+              <View style={styles.languageSelector}>
+                <LanguageSelector />
               </View>
             </View>
           </LinearGradient>
           <LinearGradient colors={['#FECFA0', '#FFAA55']} style={styles.formWrapperGradient}>
             <View style={styles.formWrapper}>
-              <SignupStepper></SignupStepper>
+              <SignupStepper/>
             </View>
           </LinearGradient>
           <View style={styles.bottomTextContainer}>
             <View style={styles.bottomTextWrapper}>
               <Text style={styles.bottomText}>
-                <Text style={styles.new}>Already a member? </Text>
-                <Text onPress={handleLogin} style={styles.create}>LOGIN</Text>
+                <Text style={styles.new}>{t('signUp.alreadyMember')}</Text>
+                <Text onPress={handleLogin} style={styles.create}>{t('signUp.login')}</Text>
               </Text>
             </View>
           </View>
@@ -89,10 +97,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontStyle: 'normal',
     fontWeight: '700',
-    lineHeight: 48,
+    // lineHeight: 48,
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
     textShadowOffset: {width: 0, height: 4},
     textShadowRadius: 4,
+  },
+  languageSelector: {
+    flex: 20,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   formWrapperGradient: {
     flex: 415,
@@ -141,6 +154,7 @@ const styles = StyleSheet.create({
   bottomTextWrapper: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center'
   },
   bottomText: {
     borderRadius: 12,

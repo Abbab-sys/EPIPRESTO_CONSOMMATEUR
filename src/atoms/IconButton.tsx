@@ -5,7 +5,7 @@ export const useIconButton = (icon: string, onPress: () => void) => {
   const iconButton = (
     <IconButton
       icon={icon}
-      iconColor={MD3Colors.error50}
+      iconColor={'#FFAA55'}
       size={20}
       onPress={onPress}
     />

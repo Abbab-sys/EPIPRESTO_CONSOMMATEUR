@@ -7,8 +7,10 @@ import ContactStep, {ContactStepRef} from "./ContactStep";
 import {CLIENT_SIGN_UP, ClientSignUpData} from "../../../../graphql/queries/ClientSignUp";
 import {useMutation} from "@apollo/client";
 import {useNavigation} from "@react-navigation/native";
+import { useTranslation } from 'react-i18next';
 
 export const SignupStepper = () => {
+  const {t} = useTranslation('translation')
   const navigation = useNavigation();
 
   const [informationsStepCompleted, setInformationsStepCompleted] = useState(false)
@@ -55,6 +57,7 @@ export const SignupStepper = () => {
   const disabledContactStep = !informationsStepCompleted
   const disabledAdressStepStep = !contactStepCompleted || !informationsStepCompleted
   const disabledAccountStep = !adressStepCompleted || !contactStepCompleted || !informationsStepCompleted
+  
   return (
     <Tabs
       // defaultIndex={0} // default = 0
@@ -70,19 +73,19 @@ export const SignupStepper = () => {
       disableSwipe={true} // (default=false) disable swipe to left/right gestures
     >
 
-      <TabScreen label="Informations" icon="information-outline">
+      <TabScreen label={t('signUp.stepper.informations.sectionTitle')} icon="information-outline">
         <InformationsStep ref={informationsStepRef} setStepCompleted={setInformationsStepCompleted}
                           stepCompleted={informationsStepCompleted}/>
       </TabScreen>
-      <TabScreen label="Contact" icon={"card-account-phone-outline"} disabled={disabledContactStep}>
+      <TabScreen label={t('signUp.stepper.contact.sectionTitle')} icon={"card-account-phone-outline"} disabled={disabledContactStep}>
         <ContactStep ref={contactStepRef} setStepCompleted={setContactStepCompleted}
                      stepCompleted={contactStepCompleted}/>
       </TabScreen>
-      <TabScreen label="Address" icon={"home-account"} disabled={disabledAdressStepStep}>
+      <TabScreen label={t('signUp.stepper.address.sectionTitle')} icon={"home-account"} disabled={disabledAdressStepStep}>
         <AdressStep ref={addressStepRef} setStepCompleted={setAdressStepCompleted}
                     stepCompleted={adressStepCompleted}></AdressStep>
       </TabScreen>
-      <TabScreen label="Account" icon="account-outline" disabled={disabledAccountStep}>
+      <TabScreen label={t('signUp.stepper.account.sectionTitle')} icon="account-outline" disabled={disabledAccountStep}>
         <AccountStep ref={accountStepRef} signUp={signUp} setStepCompleted={setAccountStepCompleted}
                      stepCompleted={accountStepCompleted}/>
       </TabScreen>

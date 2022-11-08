@@ -2,6 +2,7 @@ import React from "react";
 import {HelperText, Text, TextInput} from "react-native-paper";
 import {StyleSheet, View} from "react-native";
 import {Error} from "../types/errors/Error";
+import { useTranslation } from "react-i18next";
 
 export type LoginInputProps = {
   value: string,
@@ -11,6 +12,8 @@ export type LoginInputProps = {
   placeholder?: string;
 }
 const LoginInput = (props: LoginInputProps) => {
+
+  const {t} = useTranslation('translation')
 
   const errors = props.errors || [];
 
@@ -27,7 +30,7 @@ const LoginInput = (props: LoginInputProps) => {
                        mode={"outlined"} value={props.value} onChangeText={props.setValue}>
             </TextInput>
             {errors.length>0? <HelperText type="error" visible={errors.length > 0}>
-              {errors.length > 0 && errors[0].messageKey}
+              {errors.length > 0 && t(errors[0].messageKey)}
             </HelperText> : null}
           </View>
         </View>

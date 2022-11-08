@@ -84,15 +84,16 @@ console.log("client id", clientId)
                 <Card style={productStyles.cardStyle}>
                   <View 
                   // put buttons and stock in a row
-                  style={{ marginTop: '4%', justifyContent: 'center'}}
+                  style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
                   >
                   <Text ellipsizeMode='tail' numberOfLines={2} variant="titleMedium" style={productStyles.productInfo}>
                     {item.name}
                   </Text>
-                  <Text ellipsizeMode='tail' numberOfLines={2} variant="labelSmall" style={productStyles.productInfo}>
-                    {item.address}
+                  <Text variant="labelLarge" style={item.isOpen ? {color: "green"} : {color: "red"}}>
+                    {item.isOpen ? "  (Open)" : "  (Closed)"}
                   </Text>
-                  </View>                  
+                  </View>
+                  <Text variant="labelMedium" style={productStyles.productInfo}>{item.address}</Text>                  
                   <View 
                   // put buttons and stock in a row
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}

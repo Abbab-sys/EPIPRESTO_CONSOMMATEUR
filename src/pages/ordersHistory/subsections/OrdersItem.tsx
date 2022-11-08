@@ -1,0 +1,125 @@
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { OrderHistory } from "../../../interfaces/OrderHistoryInterface";
+
+const OrdersItem = (order: OrderHistory) => {
+    const {t} = useTranslation('translation');
+    const navigation = useNavigation();
+  
+    return (
+      <View style={orderStyles.order}>
+        <View style={orderStyles.margin} />
+        <View style={orderStyles.orderView}>
+          <View style={orderStyles.margin} />
+          <View style={orderStyles.descriptionView}>
+            <Text style={orderStyles.titleText}>{order.orderNumber}</Text>
+            <Text
+              style={[
+                orderStyles.statusText,
+                {
+                  color:
+                    order.status === 'WAITING_CONFIRMATION'
+                      ? '#FFAA55'
+                      : 'green',
+                },
+              ]}>
+              {t('OrdersHistory.' + order.status)}
+            </Text>
+            <Text style={orderStyles.restOfDescriptionText}>
+              {order.numberOfProducts} {t('OrdersHistory.item')}
+              {order.numberOfProducts > 1 ? 's' : ''} | {(Math.round(order.price*100)/100).toFixed(2)} $
+            </Text>
+            <Text style={orderStyles.restOfDescriptionText}>
+              {order.time.toLocaleDateString(t('dateLanguage')as string,{weekday: "short", year: "numeric", month: "long", day: "numeric"})}
+            </Text>
+          </View>
+          <View style={orderStyles.buttonView}>
+            <View style={orderStyles.buttonMargin} />
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate(
+                  'Order' as never,
+                  {orderId: order.id} as never,
+                )
+              }
+              style={orderStyles.button}>
+              <Text style={orderStyles.buttonText}>
+                {t('OrdersHistory.view')}
+              </Text>
+            </TouchableOpacity>
+            <View style={orderStyles.buttonMargin} />
+          </View>
+          <View style={orderStyles.margin} />
+        </View>
+        <View style={orderStyles.margin} />
+      </View>
+    );
+  };
+  
+  const orderStyles = StyleSheet.create({
+    order: {
+      marginBottom: 10,
+    },
+    margin: {
+      flex: 10,
+    },
+    orderView: {
+      flex: 95,
+      flexDirection: 'row',
+      backgroundColor: '#F2F4F8',
+      padding: 10,
+      borderRadius: 10,
+    },
+    descriptionView: {
+      flex: 188,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      // backgroundColor: 'blue',
+    },
+    titleText: {
+      fontSize: 24,
+      fontWeight: '600',
+      fontFamily: 'Lato',
+      fontStyle: 'normal',
+      color: '#000000',
+    },
+    statusText: {
+      fontSize: 15,
+      fontWeight: '600',
+      fontFamily: 'Lato',
+      fontStyle: 'normal',
+      color: '#000000',
+    },
+    restOfDescriptionText: {
+      fontSize: 15,
+      fontWeight: 'normal',
+      fontFamily: 'Lato',
+      fontStyle: 'normal',
+    },
+    buttonView: {
+      flex: 122,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    },
+    buttonMargin: {
+      flex: 40,
+    },
+    button: {
+      flex: 30,
+      backgroundColor: '#FFAA55',
+      borderRadius: 20,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    buttonText: {
+      color: 'black',
+      fontFamily: 'Lato',
+      fontSize: 20,
+      fontStyle: 'normal',
+      fontWeight: '600',
+    },
+  });
+
+  export default OrdersItem;

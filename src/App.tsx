@@ -7,6 +7,7 @@ import {createClient} from "graphql-ws";
 import {Navigation} from "./navigation/Navigation";
 import {ClientAuthenticationProvider} from "./context/ClientAuthenticationContext";
 import {Provider as PaperProvider} from 'react-native-paper';
+import StoreList from './pages/stores/StoreList';
 import {theme} from "./theme/Theme";
 import '../i18n'
 import {CartProvider} from './context/CartContext';

@@ -23,7 +23,7 @@ export const Navigation = () => {
 
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={"Stores"}>
-      {clientId ? (
+      {!clientId ? (
         <>
           <Stack.Screen name="Login" component={Login}/>
            <Stack.Screen name="SignUp" component={SignUp}/>

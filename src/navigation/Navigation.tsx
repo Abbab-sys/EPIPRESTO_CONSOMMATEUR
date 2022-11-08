@@ -5,8 +5,9 @@ import {Home} from "../pages/home/Home";
 import {ClientAuthenticationContext} from "../context/ClientAuthenticationContext";
 import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
 import SignUp from "../pages/login-signup/sign-up/SignUp";
-import Stores from "../pages/stores/Stores";
 import Store from "../pages/stores/Store";
+import Stores from "../pages/stores/Stores";
+
 
 export type RootStackParamList = {
   Login: undefined;

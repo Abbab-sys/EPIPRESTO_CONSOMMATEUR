@@ -93,7 +93,7 @@ console.log("client id", clientId)
                     {item.isOpen ? "  (Open)" : "  (Closed)"}
                   </Text>
                   </View>
-                  <Text variant="labelMedium" style={productStyles.productInfo}>{item.address}</Text>                  
+                  <Text variant="labelMedium" style={productStyles.productInfo}>CATEGORY</Text>                  
                   <View 
                   // put buttons and stock in a row
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}

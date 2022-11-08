@@ -9,9 +9,7 @@ export const productStyles = StyleSheet.create({
   },
   productInfo: {
     textAlign: 'center',
-    marginVertical: '4%',
-    color: "white"
-  },
+    marginVertical: '4%'  },
   cardStyle: {
     flex: 1,
     elevation: 4,

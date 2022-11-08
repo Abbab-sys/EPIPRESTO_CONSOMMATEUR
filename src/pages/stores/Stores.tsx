@@ -8,6 +8,7 @@ import Product, { VariantProps } from "./subsections/Product";
 import { productStyles } from "./subsections/ProductStyles";
 import { ClientAuthenticationContext } from "../../context/ClientAuthenticationContext";
 import { GET_CLIENT_ACCOUNT_BY_ID } from "../../graphql/queries/GetClientAccountById";
+import { useNavigation } from "@react-navigation/native";
 
 export interface StoreProps {
   _id: string;
@@ -17,7 +18,9 @@ export interface StoreProps {
 }
 
 
-const Stores = ({ navigation }: any) => {
+const Stores = () => {
+
+  const navigation = useNavigation();
 
   const storeId = "6362d3db4506a1e7168c4cac"
 
@@ -84,22 +87,22 @@ console.log("client id", clientId)
                 <Card style={productStyles.cardStyle}>
                   <View 
                   // put buttons and stock in a row
-                  style={{ marginTop: '4%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
+                  style={{ margin: '4%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
                   >
-                  <Text ellipsizeMode='tail' numberOfLines={2} variant="titleMedium" style={productStyles.productInfo}>
+                  <Text ellipsizeMode='tail' numberOfLines={2} variant="titleMedium" >
                     {item.name}
                   </Text>
                   <Text variant="labelLarge" style={item.isOpen ? {color: "green"} : {color: "red"}}>
                     {item.isOpen ? "  (Open)" : "  (Closed)"}
                   </Text>
                   </View>
-                  <Text variant="labelMedium" style={productStyles.productInfo}>CATEGORY</Text>                  
+                  <Text variant="labelMedium" style ={{textAlign: 'center'}}>CATEGORY</Text>                  
                   <View 
                   // put buttons and stock in a row
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
                   >
                       <Button
-                      onPress={() => {navigation.navigate('Store', {idStore: item._id})}}
+                      onPress={() => {navigation.navigate('Store' as never, {idStore: item._id} as never)}}
                       > View </Button>
                   </View>
                 </Card>

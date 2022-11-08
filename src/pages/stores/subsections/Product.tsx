@@ -61,7 +61,11 @@ const Product = (props: VariantProps) => {
         </View>
 
         <Text style={productStyles.productInfo}>{props.price} $ {props.byWeight? "/lb" : ""}</Text>
-        
+        {(!props.availableForSale || props.stock <= 0) ? ( 
+        <View>
+        <Text style={{color:"red", alignSelf:'center', marginTop: '4%'}}>{props.stock <= 0 ? "Out of stock" : ""}</Text>
+        </View>
+        ) : (
         <View 
         // put buttons and stock in a row
         style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: '4%'}}
@@ -70,14 +74,12 @@ const Product = (props: VariantProps) => {
             onPress={() => {handleQuantity((parseFloat(quantity)-1).toString())}}
             disabled={parseFloat(quantity) <= 1}
             mode="contained"
-            iconColor="#FFA500"
             icon="minus"
             />
 
             <TextInput
-              underlineColor="#FFA500"
               activeUnderlineColor="transparent"
-              style={{ borderColor: '#FFA500' , textAlign: 'center'}}
+              style={{textAlign: 'center'}}
               keyboardType= "numeric"
               value = {quantity}
               onChangeText={text => handleQuantity(text)}
@@ -88,7 +90,6 @@ const Product = (props: VariantProps) => {
             onPress={() => {handleQuantity((parseFloat(quantity)+1).toString())}}
             disabled={parseInt(quantity) >= props.stock || props.stock <= 0}
             mode="contained"
-            iconColor="#FFA500"
             icon="plus"
             />
 
@@ -96,11 +97,10 @@ const Product = (props: VariantProps) => {
             onPress={() => {props.addToCart(parseInt(quantity))}}
             disabled={parseInt(quantity) <= 0 || props.stock <= 0}
             mode="contained"
-            iconColor="#FFA500"
             icon="cart-plus"
             />
         </View>
-      <Text style={{color:"red", alignSelf:'center', marginTop: '4%'}}>{props.stock <= 0 ? "Out of stock" : ""}</Text>
+        )}
       </Card>
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>

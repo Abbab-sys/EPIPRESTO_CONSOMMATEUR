@@ -7,9 +7,10 @@ import {useIconButton} from "../../atoms/IconButton";
 import Dashboard from "../dashboard/Dashboard";
 import {Cart} from "../../components/cart/Cart";
 import ShoppingCart from "../shoppingCart/ShoppingCart";
+import Stores from "../stores/Stores";
 
 
-const AlbumsRoute = () => <Text>Albums</Text>;
+const AlbumsRoute = () => <Stores/>;
 
 const RecentsRoute = () => <Text>Recents</Text>;
 
@@ -52,7 +53,7 @@ export const Home = () => {
     stores: Cart,
     home: RecentsRoute,
     orders: NotificationsRoute,
-    menu: RecentsRoute,
+    menu: AlbumsRoute,
   });
 
   return (

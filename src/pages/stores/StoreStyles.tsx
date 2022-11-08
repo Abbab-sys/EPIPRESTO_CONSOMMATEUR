@@ -32,8 +32,8 @@ export const storeStyles = StyleSheet.create({
         flexWrap: "wrap",
         alignItems: "stretch",
         justifyContent: "center",
-        flexDirection: "column",
-    },
+        flexDirection: "column"
+        },
     innerView: {
         flexDirection: "row",
     },
@@ -53,7 +53,7 @@ export const storeStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: 10,
+        margin: 10,
         fontFamily: text_font_family,
         fontStyle: text_font_style,
     },

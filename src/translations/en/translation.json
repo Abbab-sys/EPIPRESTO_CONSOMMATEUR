@@ -3,6 +3,7 @@
     "en": "English",
     "fr": "French"
   },
+  "dateLanguage": "en-US",
   "login": {
     "epip": "EPIP",
     "resto": "RESTO",
@@ -75,5 +76,22 @@
         "submit": "Submit"
       }
     }
+  },
+  "OrdersHistory":{
+    "title": "Orders",
+    "orderHistoryError": "An error occured while fetching your orders",
+    "WAITING_CONFIRMATION": "PENDING",
+    "CONFIRMED": "DELIVERED",
+    "cancelled": "Cancelled",
+    "order": "Order",
+    "orderError": "An error occured while fetching your order",
+    "view": "View",
+    "item": "Item"
+  },
+  "Prices":{
+    "subTotal": "Subtotal",
+    "taxes": "Taxes",
+    "delivery": "Delivery",
+    "total": "Total"
   }
 }

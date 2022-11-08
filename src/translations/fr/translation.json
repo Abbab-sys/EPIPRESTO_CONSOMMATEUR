@@ -3,6 +3,7 @@
     "en": "Anglais",
     "fr": "Français"
   },
+  "dateLanguage": "fr-FR",
   "login": {
     "epip": "EPIP",
     "resto": "RESTO",
@@ -75,5 +76,22 @@
         "submit": "Soumettre"
       }
     }
+  },
+  "OrdersHistory":{
+    "title": "Commandes",
+    "orderHistoryError": "Une erreur est survenue lors de la récupération de l'historique des commandes",
+    "WAITING_CONFIRMATION": "EN ATTENTE",
+    "CONFIRMED": "LIVRÉ",
+    "cancelled": "Annulé",
+    "order": "Commande",
+    "orderError": "Une erreur est survenue lors de la récupération de la commande",
+    "view": "Voir",
+    "item": "Article"
+  },
+  "Prices":{
+    "subTotal": "Sous-total",
+    "taxes": "Taxes",
+    "delivery": "Livraison",
+    "total": "Total"
   }
 }

@@ -94,6 +94,8 @@ const Order = ({navigation, route}: any) => {
     messageTranslationKey: t('OrdersHistory.orderError'),
   });
 
+  console.log("ROUTE: ", route.params.orderId)
+
   useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
     variables: {idOrder: route.params.orderId},
     onCompleted: handleData,

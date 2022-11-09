@@ -13,7 +13,7 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
           published
           variants {
             _id
-            variantTitle
+            displayName
             imgSrc
             stock
             price

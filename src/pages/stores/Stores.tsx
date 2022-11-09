@@ -88,15 +88,15 @@ console.log("client id", clientId)
                 renderItem={({item}) => 
                 <View style={productStyles.root}>
                 <Card style={productStyles.cardStyle}>
+                  <Text variant="labelLarge" style={[{textAlign:'center'}, item.isOpen? {color:'green'} : {color:'red'} ]}>
+                    {item.isOpen ? "Open" : "Closed"}
+                  </Text>
                   <View 
                   // put buttons and stock in a row
-                  style={{ margin: '4%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
+                  style={{ flex: 1, margin: '4%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
                   >
                   <Text ellipsizeMode='tail' numberOfLines={2} variant="titleMedium" >
                     {item.name}
-                  </Text>
-                  <Text variant="labelLarge" style={item.isOpen ? {color: "green"} : {color: "red"}}>
-                    {item.isOpen ? "  (Open)" : "  (Closed)"}
                   </Text>
                   </View>
                   <Text variant="labelMedium" style ={{textAlign: 'center'}}>CATEGORY</Text>                  

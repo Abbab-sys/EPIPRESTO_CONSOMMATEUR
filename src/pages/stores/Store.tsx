@@ -42,7 +42,7 @@ const Store = ({ route,navigation }: any) => {
     }
     else {
       const data = variants.filter(variant => {
-        return variant.variantTitle.toLowerCase().includes(text.toString().toLowerCase())
+        return variant.displayName.toLowerCase().includes(text.toString().toLowerCase())
       })
       setVariants(data)
     }
@@ -126,7 +126,7 @@ const Store = ({ route,navigation }: any) => {
                 renderItem={({item}) => 
                   <Product
                     _id={item._id}
-                    variantTitle={item.variantTitle}
+                    displayName={item.displayName}
                     // if no image, use default image
                     imgSrc={item.imgSrc ? item.imgSrc : "https://img.icons8.com/ios/452/no-image.png"}
                     stock={item.stock}

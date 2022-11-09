@@ -77,7 +77,7 @@
       }
     }
   },
-  "OrdersHistory":{
+  "OrdersHistory": {
     "title": "Commandes",
     "orderHistoryError": "Une erreur est survenue lors de la récupération de l'historique des commandes",
     "WAITING_CONFIRMATION": "EN ATTENTE",
@@ -88,10 +88,13 @@
     "view": "Voir",
     "item": "Article"
   },
-  "Prices":{
+  "Prices": {
     "subTotal": "Sous-total",
     "taxes": "Taxes",
     "delivery": "Livraison",
     "total": "Total"
+  },
+  "chat": {
+    "noChats": "Pas de chats disponibles"
   }
 }

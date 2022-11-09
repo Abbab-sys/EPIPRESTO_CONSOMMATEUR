@@ -2,7 +2,7 @@ import {gql} from "@apollo/client";
 
 export const GET_ORDERS = gql`
 query GetOrders($idClient: ID!) {
-    getClientById(idClient: $idClient) {
+  getClientAccountById(idClient: $idClient) {
       code
       message
       clientAccount {
@@ -26,7 +26,7 @@ query GetOrders($idClient: ID!) {
 `;
 
 export type GetOrdersData = {
-    getClientById: {
+  getClientAccountById: {
         code: number;
         message: string;
         clientAccount: {

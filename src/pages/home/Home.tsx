@@ -7,11 +7,13 @@ import {useIconButton} from "../../atoms/IconButton";
 import Dashboard from "../dashboard/Dashboard";
 import {Cart} from "../../components/cart/Cart";
 import ShoppingCart from "../shoppingCart/ShoppingCart";
+import AllChats from "../chat/AllChats";
+import OrdersHistory from "../ordersHistory/OrdersHistory";
 
 
 const AlbumsRoute = () => <Text>Albums</Text>;
 
-const RecentsRoute = () => <Text>Recents</Text>;
+const RecentsRoute = () => <AllChats />;
 
 const HomeRoute = () => <Dashboard />
 
@@ -45,13 +47,13 @@ export const Home = () => {
     {key: 'stores', epiprestoTitle: 'Albums', focusedIcon: 'hamburger'},
     {key: 'cart', epiprestoTitle: 'Favorites', focusedIcon: 'cart', unfocusedIcon: 'cart-outline'},
     {key: 'orders', epiprestoTitle: 'Notifications', focusedIcon: 'basket'},
-    {key: 'menu', epiprestoTitle: 'Notifications', focusedIcon: 'menu'},
+    {key: 'menu', epiprestoTitle: 'Notifications', focusedIcon: 'message'},
   ]);
   const renderScene = BottomNavigation.SceneMap({
     cart: ShoppingCart,
     stores: Cart,
-    home: RecentsRoute,
-    orders: NotificationsRoute,
+    home: HomeRoute,
+    orders: OrdersHistory,
     menu: RecentsRoute,
   });
 

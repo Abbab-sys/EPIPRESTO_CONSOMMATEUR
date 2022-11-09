@@ -18,7 +18,7 @@ const OrdersHistory = () => {
   const {t} = useTranslation('translation');
   const handleData = async (data: GetOrdersData) => {
     console.log('data', data);
-    const ordersDatabase = data.getClientById.clientAccount.orders;
+    const ordersDatabase = data.getClientAccountById.clientAccount.orders;
     const ordersData: OrderHistory[] = [];
     ordersDatabase.forEach(order => {
       let totalProducts = 0;
@@ -45,7 +45,7 @@ const OrdersHistory = () => {
   });
 
   const {clientId} = useContext(ClientAuthenticationContext);
-
+   console.log("clientId : ", clientId)
 
 
   useQuery<GetOrdersData>(GET_ORDERS, {

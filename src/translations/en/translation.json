@@ -77,7 +77,7 @@
       }
     }
   },
-  "OrdersHistory":{
+  "OrdersHistory": {
     "title": "Orders",
     "orderHistoryError": "An error occured while fetching your orders",
     "WAITING_CONFIRMATION": "PENDING",
@@ -88,10 +88,13 @@
     "view": "View",
     "item": "Item"
   },
-  "Prices":{
+  "Prices": {
     "subTotal": "Subtotal",
     "taxes": "Taxes",
     "delivery": "Delivery",
     "total": "Total"
+  },
+  "chat": {
+    "noChats": "No chats available"
   }
 }

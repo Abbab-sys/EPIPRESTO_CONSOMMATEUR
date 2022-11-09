@@ -5,7 +5,7 @@ export const theme = {
   ...DefaultTheme,
   "colors": {
     // couleur bouton
-    "primary": "rgb(255, 184, 117)",
+    "primary": "rgb(32, 27, 23)",
     "onPrimary": "rgb(75, 40, 0)",
     "primaryContainer": "rgb(107, 59, 0)",
     "onPrimaryContainer": "rgb(255, 220, 192)",
@@ -27,7 +27,7 @@ export const theme = {
     // main texte de l'app
     "onSurface": "rgb(32, 27, 23)",
     "surfaceVariant": "rgb(81, 68, 58)",
-    "onSurfaceVariant": "rgb(213, 195, 182)",
+    "onSurfaceVariant": "FFFFFF",
     "outline": "rgb(158, 142, 129)",
     "outlineVariant": "rgb(81, 68, 58)",
     "shadow": "rgb(0, 0, 0)",
@@ -45,7 +45,7 @@ export const theme = {
     },
     // couleur boutton (et texte) disabled
     "surfaceDisabled": "rgba(236, 224, 217, 0.12)",
-    "onSurfaceDisabled": "rgba(236, 224, 217, 0.38)",
+    "onSurfaceDisabled": "lightgray",
     backdrop: "rgba(57, 46, 37, 0.4)"
   }
 };

@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/client";
 import { storeStyles } from "./StoreStyles";
 import { GET_STORE_VARIANTS_BY_ID } from "../../graphql/queries/GetStoreVariantsById";
 import Product, { VariantProps } from "./subsections/Product";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
 
 const Store = ({ route,navigation }: any) => {
 
@@ -100,7 +101,7 @@ const Store = ({ route,navigation }: any) => {
         </Text>
       </View>
       <View>
-        <Searchbar style={{marginVertical: 10, marginHorizontal:20}} placeholder={searchPlaceholder} onChangeText={handleSearch} value={searchQuery}/>
+        <Searchbar style={storeStyles.searchBar} placeholder={searchPlaceholder} onChangeText={handleSearch} value={searchQuery}/>
       </View>
 
       <SafeAreaView style={{flex: 1}}>
@@ -134,7 +135,7 @@ const Store = ({ route,navigation }: any) => {
                     taxable={item.taxable}
                     relatedProduct={item.relatedProduct}
                     availableForSale={item.availableForSale}
-                    addToCart={(quantity: number) => {
+                    addToCart={(quantity: Float) => {
                       console.log("nb items", quantity)
                       onToggleSnackBar()
                   }}
@@ -170,6 +171,8 @@ const Store = ({ route,navigation }: any) => {
       <Snackbar
         visible={visible}
         onDismiss={onDismissSnackBar}
+        style={{backgroundColor: "#F2F4F8"}}
+        theme={{ colors: { surface: 'black' }}}
         action={{
           label: 'Ok',
           onPress: () => {

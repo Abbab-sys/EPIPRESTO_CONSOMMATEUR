@@ -17,9 +17,6 @@ export interface VariantProps {
 }
 
 const Product = (props: VariantProps) => {
-
-  console.log("product ", props.relatedProduct)
-
   const [visible, setVisible] = React.useState(false);
 
   const showModal = () => setVisible(true);
@@ -43,11 +40,9 @@ const Product = (props: VariantProps) => {
     <View style={productStyles.root}>
       <Card style={productStyles.cardStyle}>
         <Image style={productStyles.image} source={{uri: props.imgSrc}}/>
-        <Divider bold style={{backgroundColor: "#FFA500", marginTop: '4%'}}></Divider>
-
         <View 
         // put buttons and stock in a row
-        style={{flexDirection: 'row',  marginTop: '4%', justifyContent: 'center'}}
+        style={{flexDirection: 'row',  justifyContent: 'center'}}
         >
         <Text ellipsizeMode='tail' numberOfLines={2} variant="titleSmall" style={productStyles.productInfo}>
           {props.relatedProduct.title} - {props.variantTitle}
@@ -55,8 +50,9 @@ const Product = (props: VariantProps) => {
         <IconButton 
             onPress={() => {showModal()}}
             mode="contained"
-            iconColor="#FFA500"
+            iconColor="grey"
             icon="information"
+            style={{backgroundColor: 'F2F4F8'}}
             />
         </View>
 
@@ -68,44 +64,58 @@ const Product = (props: VariantProps) => {
         ) : (
         <View 
         // put buttons and stock in a row
-        style={{flexDirection: 'row', justifyContent: 'space-between', marginTop: '4%'}}
+        style={{flexDirection: 'row', justifyContent: 'space-between'}}
         >
             <IconButton 
             onPress={() => {handleQuantity((parseFloat(quantity)-1).toString())}}
             disabled={parseFloat(quantity) <= 1}
             mode="contained"
             icon="minus"
+            iconColor="black"
+            style={{backgroundColor: '#F2F4F8'}}
+
             />
 
             <TextInput
               activeUnderlineColor="transparent"
-              style={{textAlign: 'center'}}
+              underlineColor="transparent"
+              style={{textAlign: 'center', backgroundColor: '#F2F4F8', color: 'red'}}
               keyboardType= "numeric"
               value = {quantity}
               onChangeText={text => handleQuantity(text)}
               disabled={props.stock <= 0}
               />
 
+              <Text style={{marginVertical:15}}>
+
+              {props.byWeight? "lb(s)" : ""}
+              </Text>
+
             <IconButton 
             onPress={() => {handleQuantity((parseFloat(quantity)+1).toString())}}
-            disabled={parseInt(quantity) >= props.stock || props.stock <= 0}
+            disabled={parseFloat(quantity) >= props.stock || props.stock <= 0}
             mode="contained"
             icon="plus"
+            iconColor="black"
+            style={{backgroundColor: '#F2F4F8'}}
+
             />
 
             <IconButton 
-            onPress={() => {props.addToCart(parseInt(quantity))}}
-            disabled={parseInt(quantity) <= 0 || props.stock <= 0}
+            onPress={() => {props.addToCart(parseFloat(quantity))}}
+            disabled={parseFloat(quantity) <= 0 || props.stock <= 0}
             mode="contained"
             icon="cart-plus"
+            iconColor="black"
+            style={{backgroundColor: '#FFAA55'}}
+
             />
         </View>
         )}
       </Card>
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-      <Text>Afficher toute l'info du variant ici. Img a gauche et titre, tags, prix en lb et kg quand appplicable, taxable</Text>
-      <Text>Description en bas de l'image et apres description affihcer les autres variants visibles?</Text>
+      <Text>Afficher toute l'info du variant ici. </Text>
       <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop: '4%'}}>
         <Image style={{resizeMode:'contain',width:400 , height:400}} source={{uri: props.imgSrc}}/>
         <View>

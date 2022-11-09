@@ -56,7 +56,10 @@ console.log("client id", clientId)
     <SafeAreaView style={storeStyles.root}>
       <View style={storeStyles.view}>
         <Text variant="headlineMedium" style={storeStyles.headline}>
-          NEARBY STORES
+          NEARBY  
+          <Text style={{color:"#FFAA55"}}>
+             STORES
+          </Text>
         </Text>
         <Text variant="titleMedium">
             Only stores within a 15 km radius are shown
@@ -102,8 +105,9 @@ console.log("client id", clientId)
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
                   >
                       <Button
+                      style={{backgroundColor: '#FFAA55', marginHorizontal: '2%'}}
                       onPress={() => {navigation.navigate('Store' as never, {idStore: item._id} as never)}}
-                      > View </Button>
+                      >    View    </Button>
                   </View>
                 </Card>
               </View>

@@ -51,7 +51,7 @@ export const Home = () => {
   const renderScene = BottomNavigation.SceneMap({
     cart: ShoppingCart,
     stores: Cart,
-    home: RecentsRoute,
+    home: HomeRoute,
     orders: NotificationsRoute,
     menu: AlbumsRoute,
   });

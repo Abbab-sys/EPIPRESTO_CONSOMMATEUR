@@ -50,7 +50,6 @@ export const storeStyles = StyleSheet.create({
         justifyContent: 'center',
     },
     headline: {
-        fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
         margin: 10,
@@ -90,5 +89,15 @@ export const storeStyles = StyleSheet.create({
     back_button_icon: {
         width: 35,
         height: 35,
+    },
+    searchBar: {
+    marginBottom: '2%',
+    marginTop: '1%',
+    marginHorizontal: '2%',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(242, 244, 248, 0.93)',
+    elevation: 5,
     }
 })

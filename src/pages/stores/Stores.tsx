@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
-import { Button, Card, Searchbar, Snackbar, Text } from 'react-native-paper';
+import { Button, Card, HelperText, Searchbar, Snackbar, Text } from 'react-native-paper';
 import { useQuery, useSubscription } from "@apollo/client";
 import { storeStyles } from "./StoreStyles";
 import { GET_STORE_VARIANTS_BY_ID } from "../../graphql/queries/GetStoreVariantsById";
@@ -61,9 +61,9 @@ console.log("client id", clientId)
              STORES
           </Text>
         </Text>
-        <Text variant="titleMedium">
+        <HelperText type="info" >
             Only stores within a 15 km radius are shown
-        </Text>
+        </HelperText>
       </View>
 
       <SafeAreaView style={{flex: 1 , marginVertical:10}}>
@@ -93,11 +93,15 @@ console.log("client id", clientId)
                   </Text>
                   <View 
                   // put buttons and stock in a row
-                  style={{ flex: 1, margin: '4%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
+                  style={{ flex: 1, margin: '2%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
                   >
                   <Text ellipsizeMode='tail' numberOfLines={2} variant="titleMedium" >
                     {item.name}
                   </Text>
+                  </View>
+                  <View style={{flex:1, justifyContent: "center"}}>
+                    <HelperText
+                    type='info' style ={{textAlign: 'center'}}>{item.address.slice(0, item.address.indexOf(','))}</HelperText>
                   </View>
                   <Text variant="labelMedium" style ={{textAlign: 'center'}}>CATEGORY</Text>                  
                   <View 

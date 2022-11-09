@@ -55,7 +55,7 @@ const Product = (props: VariantProps) => {
         style={{flexDirection: 'row',  justifyContent: 'center'}}
         >
         <Text ellipsizeMode='tail' numberOfLines={2} variant="titleSmall" style={productStyles.productInfo}>
-          {props.displayName} fewf cjebc jhnj wcjsanwdc bewncdbh
+          {props.displayName}
         </Text>
         
         </View>
@@ -125,13 +125,12 @@ const Product = (props: VariantProps) => {
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
       <SafeAreaView>
-      <Text>More information about this product: </Text>
       <View style={{flexDirection: 'row', justifyContent: 'flex-start', marginTop: '4%'}}>
         <Image style={{resizeMode:'contain',width:"40%", marginRight: "2%", height:"100%"}} source={{uri: props.imgSrc}}/>
         <Divider bold style={{backgroundColor: "#FFAA55", width: 1, height: '100%', marginRight: "2%"}}></Divider>
         <View style={{flex: 1}}>
 
-          <Text style={{fontWeight:'bold'}}>Title :
+          <Text style={{fontWeight:'bold'}}>{"Title: "}
             <Text>
              {props.displayName}
              </Text>
@@ -163,7 +162,6 @@ const Product = (props: VariantProps) => {
               </Text>
             </Text>
 
-          <Divider style={{backgroundColor: "transparent", marginTop: '10%'}}></Divider>
           <Text style={{fontWeight:'bold'}}>Description :
               <Text>
                 Ajouter field description dans la query             

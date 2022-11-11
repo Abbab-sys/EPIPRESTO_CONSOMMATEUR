@@ -60,6 +60,8 @@ export const Home = () => {
   return (
     <BottomNavigation
       barStyle={{ backgroundColor: '#FFAA55' }}
+      activeColor="gold"
+      inactiveColor="white"
       navigationState={{index, routes}}
       onIndexChange={setIndex}
       renderScene={renderScene}

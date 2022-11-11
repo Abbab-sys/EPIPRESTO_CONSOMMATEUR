@@ -1,28 +1,44 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export interface OrderProps {
-  orderNum: number;
+  orderNum: string;
   orderStatus: string;
   //navigation: () => {}
 } 
 
 const Order = (props: OrderProps) => {
 
+  const {i18n} = useTranslation('translation')
+
   const backgroundColor = 
-    props.orderStatus === 'WAITING_CONFIRMATION' 
-    ? 'gold'
-    : props.orderStatus === 'CONFIRMED'
-    ? 'green'
-    : props.orderStatus === 'IN_DELIVERY'
-    ? 'blue'
-    : props.orderStatus === 'DELIVERED'
-    ? '#86FFA8'
-    : 'red'
+    i18n.language === 'fr' ? 
+    (
+      props.orderStatus === 'ATTENTE DE CONFIRMATION' 
+      ? 'gold'
+      : props.orderStatus === 'CONFIRMÉ'
+      ? 'green'
+      : props.orderStatus === 'EN LIVRAISON'
+      ? 'blue'
+      : props.orderStatus === 'DÉLIVERÉ'
+      ? '#86FFA8'
+      : 'red'
+    ) : (
+      props.orderStatus === 'WAITING CONFIRMATION' 
+      ? 'gold'
+      : props.orderStatus === 'CONFIRMED'
+      ? 'green'
+      : props.orderStatus === 'IN DELIVERY'
+      ? 'blue'
+      : props.orderStatus === 'DELIVERED'
+      ? '#86FFA8'
+      : 'red'
+    )
+
 
   const orderStyles = StyleSheet.create({
     root: {
-      flex: 1,
       backgroundColor: '#F2F4F8',
       elevation: 4,
       borderRadius: 10,
@@ -48,14 +64,16 @@ const Order = (props: OrderProps) => {
 
   return(
     <SafeAreaView style={orderStyles.root}>
-      <Text style={orderStyles.text}>
-        #EP {props.orderNum}
-      </Text>
-      <View style={orderStyles.orderStatus}>
-        <Text>
-          {props.orderStatus}
+      <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Text style={orderStyles.text}>
+          #{props.orderNum}
         </Text>
-      </View>
+        <View style={orderStyles.orderStatus}>
+          <Text>
+            {props.orderStatus}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }

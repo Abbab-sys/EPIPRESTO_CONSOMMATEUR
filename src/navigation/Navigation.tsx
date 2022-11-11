@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {Home} from "../pages/home/Home";
 import {ClientAuthenticationContext} from "../context/ClientAuthenticationContext";
 import SignUp from "../pages/login-logout/sign-up/SignUp";
-import StoreList from "../pages/stores/StoreList";
+// import StoreList from "../pages/stores/StoreList";
 import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
 import Order from "../pages/order/Order";
 import AllChats from "../pages/chat/AllChats";
@@ -41,7 +41,6 @@ export const Navigation = () => {
       ) : (
         <>
           <Stack.Screen name="Home" component={Home}/>
-          <Stack.Screen name="StoreList" component={StoreList}/>
           <Stack.Screen name="ShoppingCart" component={ShoppingCart}/>
           <Stack.Screen name="Orders" component={OrdersHistory}/>
           <Stack.Screen name="Order" component={Order}/>

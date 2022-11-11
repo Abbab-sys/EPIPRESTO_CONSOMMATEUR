@@ -1,42 +1,34 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  ScrollView,
-  SectionList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import {Divider} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScreenContainer} from 'react-native-screens';
 import {useCartManager} from '../../hooks/management/useCartManager';
-import {RootStackParamList} from '../../navigation/Navigation';
+import {useCheckoutManager} from "../../hooks/management/useCheckoutManager";
 
 
 const ShoppingCart = () => {
   const {
-    cart,
     cartView,
-    addVariantToCart,
-    getCartSubTotal,
-    getCartDeliveryCost,
-    getTaxedCartSubTotal,
+
+    cartSubTotal,
+    cartDeliveryCost,
+    cartTaxedSubTotal,
     quantityErrorSnackbar,
   } = useCartManager();
+
+  const {checkout} = useCheckoutManager()
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleView}>
-        <View style={styles.marginTop} />
+        <View style={styles.marginTop}/>
         <View style={styles.titleWrapper}>
           <Text
             style={styles.title}>
             SHOPPING CART
           </Text>
         </View>
-        <View style={styles.marginBottom} />
+        <View style={styles.marginBottom}/>
       </View>
       <View style={styles.orderDetailsView}>
         <View style={styles.orderDetailsWrapper}>
@@ -45,53 +37,53 @@ const ShoppingCart = () => {
             Order Details
           </Text>
         </View>
-        <View style={styles.orderDetailBottomMargin} />
+        <View style={styles.orderDetailBottomMargin}/>
       </View>
       <View style={styles.productsView}>{cartView}</View>
       <View style={styles.dividerView}>
-        <View style={styles.dividerMargin} />
+        <View style={styles.dividerMargin}/>
         <Divider style={styles.divider}></Divider>
-        <View style={styles.dividerMargin} />
+        <View style={styles.dividerMargin}/>
       </View>
       <View style={styles.pricesView}>
-        <View style={styles.pricesViewMargin} />
+        <View style={styles.pricesViewMargin}/>
         <View style={styles.priceTextView}>
           <Text style={styles.priceText}>Subtotal</Text>
           <Text style={styles.priceNumber}>
-            ${Math.round(getCartSubTotal() * 100) / 100}
+            ${Math.round(cartSubTotal * 100) / 100}
           </Text>
         </View>
-        <View style={styles.spaceBetweenPrices} />
+        <View style={styles.spaceBetweenPrices}/>
         <View style={styles.priceTextView}>
           <Text style={styles.priceText}>Taxes</Text>
-          <Text style={styles.priceNumber}>${Math.round(getTaxedCartSubTotal() * 100) / 100}</Text>
+          <Text style={styles.priceNumber}>${Math.round(cartTaxedSubTotal * 100) / 100}</Text>
         </View>
-        <View style={styles.spaceBetweenPrices} />
+        <View style={styles.spaceBetweenPrices}/>
         <View style={styles.priceTextView}>
           <Text style={styles.priceText}>Delivery Fee</Text>
           <Text style={styles.priceNumber}>
-            ${Math.round(getCartDeliveryCost() * 100) / 100}
+            ${Math.round(cartDeliveryCost * 100) / 100}
           </Text>
         </View>
-        <View style={styles.spaceBetweenDeliveryAndTotal} />
+        <View style={styles.spaceBetweenDeliveryAndTotal}/>
         <View style={styles.priceTextView}>
           <Text style={styles.totalText}>Total</Text>
           <Text style={styles.totalNumber}>
             $
-            {Math.round((getCartSubTotal() + getCartDeliveryCost() + getTaxedCartSubTotal()) * 100) /
+            {Math.round((cartSubTotal + cartDeliveryCost + cartTaxedSubTotal) * 100) /
               100}
           </Text>
         </View>
-        <View style={styles.pricesViewMargin} />
+        <View style={styles.pricesViewMargin}/>
       </View>
       <View style={styles.buttonView}>
-        <View style={styles.buttonMargin} />
+        <View style={styles.buttonMargin}/>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {}}>
+          onPress={checkout}>
           <Text style={styles.buttonText}>CHECKOUT</Text>
         </TouchableOpacity>
-        <View style={styles.buttonMargin} />
+        <View style={styles.buttonMargin}/>
       </View>
       {quantityErrorSnackbar}
     </SafeAreaView>

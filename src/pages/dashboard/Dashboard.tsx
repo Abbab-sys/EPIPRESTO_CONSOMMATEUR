@@ -1,14 +1,14 @@
-import { useQuery } from "@apollo/client";
-import React, { useContext, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
-import { ActivityIndicator, Searchbar } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useIconButton } from "../../atoms/IconButton";
-import { ClientAuthenticationContext } from "../../context/ClientAuthenticationContext";
-import { GET_CLIENT_ACCOUNT_BY_ID, GetClientAccountData, OrderStatus } from "../../graphql/queries/GetClientAccountById";
-import Category, { CategoryProps } from "./subsections/Category";
-import Order, { OrderProps } from "./subsections/Order";
+import {useQuery} from "@apollo/client";
+import React, {useContext, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View} from "react-native";
+import {ActivityIndicator, Searchbar} from "react-native-paper";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {useIconButton} from "../../atoms/IconButton";
+import {ClientAuthenticationContext} from "../../context/ClientAuthenticationContext";
+import {GET_CLIENT_ACCOUNT_BY_ID, OrderStatus} from "../../graphql/queries/GetClientAccountById";
+import Category, {CategoryProps} from "./subsections/Category";
+import Order from "./subsections/Order";
 import Shop from "./subsections/Shop";
 
 type Shop = {
@@ -86,57 +86,58 @@ const Dashboard = () => {
   console.log("LOADING: ", loading)
   console.log("ERROR: ", error)
 
-  return(
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
-      <View style={styles.header}>
-        <View style={styles.searchIcon}>
-          {searchButton.iconButton}
-        </View>
-        <View style={styles.title}>
-          <Text style={styles.epiprestoTitle}>
-            EPIP
-            <Text style={{color: "#FFAA55"}}>
-              RESTO
+  return (
+    <SafeAreaView style={{flex: 1}}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
+        <View style={styles.header}>
+          <View style={styles.searchIcon}>
+            {searchButton.iconButton}
+          </View>
+          <View style={styles.title}>
+            <Text style={styles.epiprestoTitle}>
+              EPIP
+              <Text style={{color: "#FFAA55"}}>
+                RESTO
+              </Text>
             </Text>
-          </Text>
-          <Text>
-            {data ? (t('dashboard.hello') + " " + data.getClientAccountById.clientAccount.firstName) : ("")}
-          </Text>
-        </View>
-        <View>
-          {accountButton.iconButton}
-        </View>
-      </View>
-      <View style={styles.searchBar}>
-        <Searchbar elevation={0} placeholder={t('dashboard.search')} onChangeText={handleSearch} value={searchQuery}/>
-      </View>
-      <View style={styles.categoriesContainer}>
-        <Text style={styles.categoriesTitle}>
-          {t('dashboard.categories.title')}
-        </Text>
-        <View style={{flex: 6}}>
-          <ScrollView horizontal>
-            {categories.map((category, index) => (
-              <Category key={index} color={category.color} categoryName={category.categoryName}/>
-              ))}
-          </ScrollView>
-        </View>
-      </View>
-      <View style={styles.nearbyShopsContainer}>
-        <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.subCategoriesTitle}>
-            {t('dashboard.nearbyShops.title')}
-          </Text>
-          <View style={{marginTop: '1%'}}>
-            <Text style={styles.seeAll}>
-              {t('dashboard.seeAll')}
+            <Text>
+              {data ? (t('dashboard.hello') + " " + data.getClientAccountById.clientAccount.firstName) : ("")}
             </Text>
           </View>
+          <View>
+            {accountButton.iconButton}
+          </View>
         </View>
-        <View style={{flex: 10}}>
-          { loading ? (
+        <View style={styles.searchBar}>
+          <Searchbar elevation={0} placeholder={t('dashboard.search')} onChangeText={handleSearch} value={searchQuery}/>
+        </View>
+        <View style={styles.categoriesContainer}>
+          <Text style={styles.categoriesTitle}>
+            {t('dashboard.categories.title')}
+          </Text>
+          <View style={{flex: 6}}>
+            <ScrollView horizontal>
+              {categories.map((category, index) => (
+                <Category key={index} color={category.color} categoryName={category.categoryName}/>
+              ))}
+            </ScrollView>
+          </View>
+        </View>
+        <View style={styles.nearbyShopsContainer}>
+          <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.subCategoriesTitle}>
+              {t('dashboard.nearbyShops.title')}
+            </Text>
+            <View style={{marginTop: '1%'}}>
+              <Text style={styles.seeAll}>
+                {t('dashboard.seeAll')}
+              </Text>
+            </View>
+          </View>
+          <View style={{flex: 10}}>
+            {loading ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <ActivityIndicator />
+                <ActivityIndicator/>
               </View>
             ) : error ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -152,28 +153,28 @@ const Dashboard = () => {
                   //The slice takes the first 5 nearby stores
                   data.getClientAccountById.clientAccount.nearbyShops.slice(0, 5).map((shop: Shop, index: number) => (
                     <Shop key={index} shopName={shop.name} isOpen={shop.isOpen}/>
-                    ))
+                  ))
                 }
               </ScrollView>
             )
-          }
-        </View>
-      </View>
-      <View style={styles.latestOrdersContainer}>
-        <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text style={styles.subCategoriesTitle}>
-            {t('dashboard.latestOrders.title')}
-          </Text>
-          <View style={{marginTop: '1%'}}>
-            <Text style={styles.seeAll}>
-              {t('dashboard.seeAll')}
-            </Text>
+            }
           </View>
         </View>
-        <View style={{flex: 10}}>
-            { loading ? (
+        <View style={styles.latestOrdersContainer}>
+          <View style={{flex: 3, flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={styles.subCategoriesTitle}>
+              {t('dashboard.latestOrders.title')}
+            </Text>
+            <View style={{marginTop: '1%'}}>
+              <Text style={styles.seeAll}>
+                {t('dashboard.seeAll')}
+              </Text>
+            </View>
+          </View>
+          <View style={{flex: 10}}>
+            {loading ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <ActivityIndicator />
+                <ActivityIndicator/>
               </View>
             ) : error ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -188,15 +189,17 @@ const Dashboard = () => {
                 {
                   data.getClientAccountById.clientAccount.orders.slice(-5).reverse().map((order: OrderData, index: number) => {
                     console.log(order)
-                    return (<Order key={index} orderNum={order.orderNumber} orderStatus={t('dashboard.latestOrders.' + order.logs[order.logs.length - 1].status)} />)
+                    return (<Order key={index} orderNum={order.orderNumber}
+                                   orderStatus={t('dashboard.latestOrders.' + order.logs[order.logs.length - 1].status)}/>)
                   })
                 }
               </ScrollView>
             )
             }
+          </View>
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 

@@ -1,9 +1,9 @@
 import {useState} from 'react';
 import {useQuery, useSubscription} from '@apollo/client';
 import {useMutation} from '@apollo/client/react';
-import {GetInitialChatsData, GET_INITIAL_CHATS} from '../graphql/queries/GetInitChats';
+import {GET_INITIAL_CHATS} from '../graphql/queries/GetInitChats';
 import {SEND_MESSAGE} from '../graphql/mutations/SendMessage';
-import {MessageSentData, MESSAGE_SENT} from '../graphql/subscriptions';
+import {MESSAGE_SENT} from '../graphql/subscriptions';
 
 export type Chat = {
   id: string;
@@ -147,9 +147,9 @@ export const useChatManager = (clientId: string): ChatManager => {
   };
 
   const onNewMessageReceived = (data: any) => {
-    console.log('DATA: ', data);
-    const newMessage = data.subscriptionData.data.messageSent;
-    const relatedChatId = newMessage.relatedChat._id;
+    console.log('DATA: ', data.data.data);
+    const newMessage = data.data.data.messageSent;
+    const relatedChatId = newMessage?.relatedChat._id;
     const message: Message = {
       relatedChatId,
       id: newMessage._id,

@@ -1,34 +1,14 @@
 import {useQuery} from '@apollo/client';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useState} from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  ActivityIndicator,
-  Image,
-  ScrollView,
-  SectionList,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {Image, SectionList, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View,} from 'react-native';
 import {Divider} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScreenContainer} from 'react-native-screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loading from '../../components/cart/Loading';
-import {
-  getOrderByIdData,
-  GET_ORDER_BY_ID,
-} from '../../graphql/queries/GetOrderById';
-import { useSnackbar } from '../../hooks/UiHooks/UiHooks';
-import {
-  Order as OrderInfo,
-  ProductVariant,
-} from '../../interfaces/OrderInterface';
-import {RootStackParamList} from '../../navigation/Navigation';
+import {GET_ORDER_BY_ID, getOrderByIdData,} from '../../graphql/queries/GetOrderById';
+import {useSnackbar} from '../../hooks/UiHooks/UiHooks';
+import {Order as OrderInfo, ProductVariant,} from '../../interfaces/OrderInterface';
 import OrderProduct from './subsections/OrderedProduct';
 
 

@@ -173,16 +173,7 @@ export const useCartManager = () => {
     });
     return total;
   };
-
-  const getTaxedCartSubTotal = () => {
-    let total = 0;
-    cart.forEach((variants) => {
-      variants.forEach(variant => {
-        if (variant.taxable) total += variant.price * variant.quantity;
-      });
-    });
-    return (total + getCartDeliveryCost()) * 0.14975;
-  };
+  const cartSubTotal = getCartSubTotal();
 
   const getCartDeliveryCost = () => {
     let deliveryCost = 0;
@@ -191,6 +182,19 @@ export const useCartManager = () => {
     }
     return deliveryCost;
   };
+  const cartDeliveryCost = getCartDeliveryCost();
+
+  const getTaxedCartSubTotal = () => {
+    let total = 0;
+    cart.forEach((variants) => {
+      variants.forEach(variant => {
+        if (variant.taxable) total += variant.price * variant.quantity;
+      });
+    });
+    return (total + cartDeliveryCost) * 0.14975;
+  };
+  const cartTaxedSubTotal = getTaxedCartSubTotal();
+
 
   // todo map in an array all the cart
   const getCart = () => {
@@ -293,13 +297,13 @@ export const useCartManager = () => {
     cart,
     cartView,
     addVariantToCart,
-    getCartSubTotal,
+    cartSubTotal,
     deleteVariantFromCart,
     changeVariantQuantity,
     incrementVariantQuantity,
     decrementVariantQuantity,
-    getCartDeliveryCost,
-    getTaxedCartSubTotal,
+    cartDeliveryCost,
+    cartTaxedSubTotal,
     quantityErrorSnackbar,
     clearCart,
   };

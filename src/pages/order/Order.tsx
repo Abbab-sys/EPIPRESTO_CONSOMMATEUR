@@ -6,9 +6,15 @@ import {Divider} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loading from '../../components/cart/Loading';
-import {GET_ORDER_BY_ID, getOrderByIdData,} from '../../graphql/queries/GetOrderById';
-import {useSnackbar} from '../../hooks/UiHooks/UiHooks';
-import {Order as OrderInfo, ProductVariant,} from '../../interfaces/OrderInterface';
+import {
+  getOrderByIdData,
+  GET_ORDER_BY_ID,
+} from '../../graphql/queries/GetOrderById';
+import { useSnackbar } from '../../hooks/UiHooks/UiHooks';
+import {
+  Order as OrderInfo,
+  ProductVariant,
+} from '../../interfaces/OrderInterface';
 import OrderProduct from './subsections/OrderedProduct';
 
 
@@ -21,6 +27,7 @@ const Order = ({navigation, route}: any) => {
   const handleData = (data: getOrderByIdData) => {
     const order = data.getOrderById.order;
     const storeProductsMap = new Map<string, ProductVariant[]>();
+    const storeIdNameMap = new Map<string, string>();
     order.productsVariantsOrdered.forEach(currentProduct => {
       const product: ProductVariant = {
         id: currentProduct.relatedProductVariant._id,
@@ -32,26 +39,43 @@ const Order = ({navigation, route}: any) => {
       };
       if (
         storeProductsMap.has(
-          currentProduct.relatedProductVariant.relatedProduct.relatedStore.name,
+          currentProduct.relatedProductVariant.relatedProduct.relatedStore._id,
         )
       ) {
         const currentProductList = storeProductsMap.get(
-          currentProduct.relatedProductVariant.relatedProduct.relatedStore.name,
+          currentProduct.relatedProductVariant.relatedProduct.relatedStore._id,
         );
         if (currentProductList) {
           currentProductList.push(product);
           storeProductsMap.set(
             currentProduct.relatedProductVariant.relatedProduct.relatedStore
-              .name,
+              ._id,
             currentProductList,
           );
         }
       } else {
         storeProductsMap.set(
-          currentProduct.relatedProductVariant.relatedProduct.relatedStore.name,
+          currentProduct.relatedProductVariant.relatedProduct.relatedStore._id,
           [product],
         );
       }
+      if (
+        !storeIdNameMap.has(
+          currentProduct.relatedProductVariant.relatedProduct.relatedStore._id,
+        )
+      ) {
+        storeIdNameMap.set(
+          currentProduct.relatedProductVariant.relatedProduct.relatedStore._id,
+          currentProduct.relatedProductVariant.relatedProduct.relatedStore.name,
+        );
+      }
+    });
+    const vendorChatMap = new Map<string, string>();
+    order.relatedChats.forEach(currentChat => {
+      vendorChatMap.set(
+        currentChat.relatedVendor._id,
+        currentChat._id,
+      );
     });
     const newOrder: OrderInfo = {
       id: order._id,
@@ -62,6 +86,8 @@ const Order = ({navigation, route}: any) => {
       deliveryFee: order.deliveryFee,
       total: order.deliveryFee + order.taxs + order.subTotal,
       storeProductsMap: storeProductsMap,
+      vendorChatMap: vendorChatMap,
+      storeIdNameMap: storeIdNameMap,
     };
     setOrderInfo(newOrder);
   };
@@ -74,8 +100,6 @@ const Order = ({navigation, route}: any) => {
     messageTranslationKey: t('OrdersHistory.orderError'),
   });
 
-  console.log("ROUTE: ", route.params.orderId)
-
   useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
     variables: {idOrder: route.params.orderId},
     onCompleted: handleData,
@@ -83,9 +107,9 @@ const Order = ({navigation, route}: any) => {
   });
 
   const getOrderArray = () => {
-    const cartArray: {storeName: string; data: ProductVariant[]}[] = [];
+    const cartArray: {storeId: string; data: ProductVariant[]}[] = [];
     orderInfo?.storeProductsMap.forEach((value, key) => {
-      cartArray.push({storeName: key, data: value});
+      cartArray.push({storeId: key, data: value});
     });
     return cartArray;
   };
@@ -138,12 +162,15 @@ const Order = ({navigation, route}: any) => {
               renderItem={({item: orderVariant}) => (
                 <OrderProduct variant={orderVariant} />
               )}
-              renderSectionHeader={({section: {storeName}}) => (
+              renderSectionHeader={({section: {storeId: storeId}}) => (
                 <View style={styles.titleSection}>
-                  <Text style={styles.header}>{storeName}</Text>
+                  <Text style={styles.header}>{orderInfo.storeIdNameMap.get(storeId)}</Text>
                   <Icon
                     name="md-chatbubbles-outline"
                     color="black"
+                    onPress={() => {
+                      navigation.navigate('ChatPage', {chatId: orderInfo.vendorChatMap.get(storeId)});
+                    }}
                     size={30}></Icon>
                 </View>
               )}

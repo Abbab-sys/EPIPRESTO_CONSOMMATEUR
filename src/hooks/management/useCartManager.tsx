@@ -231,7 +231,7 @@ export const useCartManager = () => {
               adjustsFontSizeToFit
               numberOfLines={1}
               style={styles.cartItemPrice}>
-              {(Math.round(variant.price*100)/100).toFixed(2)} $
+              {((variant.price*100)/100).toFixed(2)} $
             </Text>
           </View>
           <View style={styles.cartItemInfoBottomMargin} />

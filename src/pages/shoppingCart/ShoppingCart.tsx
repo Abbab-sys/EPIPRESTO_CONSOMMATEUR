@@ -1,13 +1,6 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  ScrollView,
-  SectionList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {useTranslation} from 'react-i18next';
+import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import {Divider} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useCartManager} from '../../hooks/management/useCartManager';
@@ -59,19 +52,19 @@ const ShoppingCart = () => {
         <View style={styles.priceTextView}>
           <Text style={styles.priceText}>{t("Prices.subTotal")}</Text>
           <Text style={styles.priceNumber}>
-            ${(Math.round(getCartSubTotal() * 100) / 100).toFixed(2)}
+            ${((cartSubTotal * 100) / 100).toFixed(2)}
           </Text>
         </View>
         <View style={styles.spaceBetweenPrices}/>
         <View style={styles.priceTextView}>
           <Text style={styles.priceText}>{t("Prices.taxes")}</Text>
-          <Text style={styles.priceNumber}>${(Math.round(getTaxedCartSubTotal() * 100) / 100).toFixed(2)}</Text>
+          <Text style={styles.priceNumber}>${(Math.round(cartTaxedSubTotal * 100) / 100).toFixed(2)}</Text>
         </View>
         <View style={styles.spaceBetweenPrices}/>
         <View style={styles.priceTextView}>
           <Text style={styles.priceText}>{t("Prices.delivery")}</Text>
           <Text style={styles.priceNumber}>
-            ${Math.round((getCartDeliveryCost() * 100) / 100).toFixed(2)}
+            ${((cartDeliveryCost * 100) / 100).toFixed(2)}
           </Text>
         </View>
         <View style={styles.spaceBetweenDeliveryAndTotal}/>
@@ -79,7 +72,7 @@ const ShoppingCart = () => {
           <Text style={styles.totalText}>{t("Prices.total")}</Text>
           <Text style={styles.totalNumber}>
             $
-            {(Math.round((getCartSubTotal() + getCartDeliveryCost() + getTaxedCartSubTotal()) * 100) /
+            {(((cartSubTotal + cartDeliveryCost + cartTaxedSubTotal) * 100) /
               100).toFixed(2)}
           </Text>
         </View>
@@ -89,7 +82,7 @@ const ShoppingCart = () => {
         <View style={styles.buttonMargin}/>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {}}>
+          onPress={checkout}>
           <Text style={styles.buttonText}>{t("ShoppingCart.checkout")}</Text>
         </TouchableOpacity>
         <View style={styles.buttonMargin}/>

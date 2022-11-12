@@ -81,8 +81,9 @@ const ShoppingCart = () => {
       <View style={styles.buttonView}>
         <View style={styles.buttonMargin}/>
         <TouchableOpacity
-          style={styles.button}
-          onPress={checkout}>
+          style={cartSubTotal <= 0 ? {...styles.button, backgroundColor: "grey"} : styles.button}
+          onPress={checkout}
+          disabled={cartSubTotal <= 0}>
           <Text style={styles.buttonText}>{t("ShoppingCart.checkout")}</Text>
         </TouchableOpacity>
         <View style={styles.buttonMargin}/>

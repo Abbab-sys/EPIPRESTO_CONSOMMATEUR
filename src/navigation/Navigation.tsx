@@ -10,6 +10,7 @@ import Order from "../pages/order/Order";
 import AllChats from "../pages/chat/AllChats";
 import Chat from "../pages/chat/subsections/Chat";
 import OrdersHistory from "../pages/ordersHistory/OrdersHistory";
+import Dashboard from "../pages/dashboard/Dashboard";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   Order: undefined;
   AllChats: undefined;
   ChatPage: undefined;
+  Dashboard: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -39,11 +41,12 @@ export const Navigation = () => {
       ) : (
         <>
           <Stack.Screen name="Home" component={Home}/>
+          <Stack.Screen name="Dashboard" component={Dashboard}/>
           <Stack.Screen name="ShoppingCart" component={ShoppingCart}/>
           <Stack.Screen name="Orders" component={OrdersHistory}/>
           <Stack.Screen name="Order" component={Order}/>
-          <Stack.Screen name="AllChats" component={AllChats} />
-          <Stack.Screen name="ChatPage" component={Chat} />
+          <Stack.Screen name="AllChats" component={AllChats}/>
+          <Stack.Screen name="ChatPage" component={Chat}/>
         </>
       )}
     </Stack.Navigator>

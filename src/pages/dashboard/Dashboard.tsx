@@ -17,7 +17,7 @@ type Shop = {
   isOpen: boolean
 }
 
-type OrderData = {
+export type OrderData = {
   _id: string,
   orderNumber: string,
   logs: [
@@ -187,10 +187,9 @@ const Dashboard = () => {
             ) : (
               <ScrollView horizontal>
                 {
-                  data.getClientAccountById.clientAccount.orders.slice(-5).reverse().map((order: OrderData, index: number) => {
+                  data.getClientAccountById.clientAccount.orders.slice(-5).reverse().map((order: OrderData) => {
                     console.log(order)
-                    return (<Order key={index} orderNum={order.orderNumber}
-                                   orderStatus={t('dashboard.latestOrders.' + order.logs[order.logs.length - 1].status)}/>)
+                    return (<Order orderData={order} key={order._id}/>)
                   })
                 }
               </ScrollView>

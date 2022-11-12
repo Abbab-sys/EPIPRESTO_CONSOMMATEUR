@@ -1,40 +1,41 @@
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {useTranslation} from "react-i18next";
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {OrderData} from "../Dashboard";
+import {useNavigation} from "@react-navigation/native";
 
 export interface OrderProps {
-  orderNum: string;
-  orderStatus: string;
-  //navigation: () => {}
-} 
+  orderData: OrderData
+}
 
 const Order = (props: OrderProps) => {
-
-  const {i18n} = useTranslation('translation')
-
-  const backgroundColor = 
-    i18n.language === 'fr' ? 
-    (
-      props.orderStatus === 'ATTENTE DE CONFIRMATION' 
-      ? 'gold'
-      : props.orderStatus === 'CONFIRMÉ'
-      ? 'green'
-      : props.orderStatus === 'EN LIVRAISON'
-      ? 'blue'
-      : props.orderStatus === 'DÉLIVERÉ'
-      ? '#86FFA8'
-      : 'red'
-    ) : (
-      props.orderStatus === 'WAITING CONFIRMATION' 
-      ? 'gold'
-      : props.orderStatus === 'CONFIRMED'
-      ? 'green'
-      : props.orderStatus === 'IN DELIVERY'
-      ? 'blue'
-      : props.orderStatus === 'DELIVERED'
-      ? '#86FFA8'
-      : 'red'
-    )
+  const navigation = useNavigation()
+  const {i18n, t} = useTranslation('translation')
+  const orderNum = props.orderData.orderNumber
+  const orderStatus = t('dashboard.latestOrders.' + props.orderData.logs[props.orderData.logs.length - 1].status)
+  const backgroundColor =
+    i18n.language === 'fr' ?
+      (
+        orderStatus === 'ATTENTE DE CONFIRMATION'
+          ? 'gold'
+          : orderStatus === 'CONFIRMÉ'
+            ? 'green'
+            : orderStatus === 'EN LIVRAISON'
+              ? 'blue'
+              : orderStatus === 'DÉLIVERÉ'
+                ? '#86FFA8'
+                : 'red'
+      ) : (
+        orderStatus === 'WAITING CONFIRMATION'
+          ? 'gold'
+          : orderStatus === 'CONFIRMED'
+            ? 'green'
+            : orderStatus === 'IN DELIVERY'
+              ? 'blue'
+              : orderStatus === 'DELIVERED'
+                ? '#86FFA8'
+                : 'red'
+      )
 
 
   const orderStyles = StyleSheet.create({
@@ -61,16 +62,18 @@ const Order = (props: OrderProps) => {
       padding: 10
     }
   })
-
-  return(
+  const navigateToOrder = () => {
+    navigation.navigate('Order' as never, {orderId: props.orderData._id} as never);
+  };
+  return (
     <SafeAreaView style={orderStyles.root}>
-      <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+      <TouchableOpacity onPress={navigateToOrder} style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
         <Text style={orderStyles.text}>
-          #{props.orderNum}
+          #{orderNum}
         </Text>
         <View style={orderStyles.orderStatus}>
           <Text>
-            {props.orderStatus}
+            {orderStatus}
           </Text>
         </View>
       </TouchableOpacity>

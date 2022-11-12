@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {GET_VARIANT_QUANTITY, GetVariantQuantityData,} from '../../graphql/queries/GetVariantQuantity';
 import {useLazyQuery} from '@apollo/client';
 import {useSnackbar} from '../UiHooks/UiHooks';
+import { useTranslation } from 'react-i18next';
 
 export type AddVariantToCart = {
   variantId: string;
@@ -18,7 +19,7 @@ export type AddVariantToCart = {
 export const useCartManager = () => {
   const {cart, setCart, variantIdStore, setVariantIdStore} =
     useContext(CartContext);
-
+    const {t} = useTranslation('translation');
 
   const [
     quantityErrorSnackbar,
@@ -230,7 +231,7 @@ export const useCartManager = () => {
               adjustsFontSizeToFit
               numberOfLines={1}
               style={styles.cartItemPrice}>
-              {variant.price} €
+              {(Math.round(variant.price*100)/100).toFixed(2)} $
             </Text>
           </View>
           <View style={styles.cartItemInfoBottomMargin} />
@@ -291,7 +292,7 @@ export const useCartManager = () => {
       />)
     };
 
-  const cartView = <CartList cartData={getCart()}></CartList>;
+  const cartView = cart.size > 0 ? <CartList cartData={getCart()}></CartList> : <View style={styles.emptyCart}><Text style={styles.emptyCartText}>{t("ShoppingCart.emptyCart")}</Text></View>;
 
   return {
     cart,
@@ -310,6 +311,18 @@ export const useCartManager = () => {
 };
 
 const styles = StyleSheet.create({
+  emptyCart: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyCartText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    color: '#000000',
+  },
   cartItem: {
     backgroundColor: '#F2F4F8',
     borderRadius: 10,

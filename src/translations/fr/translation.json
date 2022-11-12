@@ -97,6 +97,12 @@
   "chat": {
     "noChats": "Pas de chats disponibles"
   },
+  "ShoppingCart": {
+    "title": "PANIER",
+    "emptyCart": "Votre panier est vide",
+    "orderDetails": "Détails de la commande",
+    "checkout": "Commander"
+  },
   "dashboard": {
     "hello": "Bonjour,",
     "search": "Recherche",

@@ -1,5 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import { useTranslation } from 'react-i18next';
+import {
+  ScrollView,
+  SectionList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Divider} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useCartManager} from '../../hooks/management/useCartManager';
@@ -7,6 +15,7 @@ import {useCheckoutManager} from "../../hooks/management/useCheckoutManager";
 
 
 const ShoppingCart = () => {
+  const {t} = useTranslation('translation');
   const {
     cartView,
 
@@ -25,7 +34,7 @@ const ShoppingCart = () => {
         <View style={styles.titleWrapper}>
           <Text
             style={styles.title}>
-            SHOPPING CART
+            {t('ShoppingCart.title')}
           </Text>
         </View>
         <View style={styles.marginBottom}/>
@@ -34,7 +43,7 @@ const ShoppingCart = () => {
         <View style={styles.orderDetailsWrapper}>
           <Text
             style={styles.orderDetails}>
-            Order Details
+            {t('ShoppingCart.orderDetails')}
           </Text>
         </View>
         <View style={styles.orderDetailBottomMargin}/>
@@ -48,30 +57,30 @@ const ShoppingCart = () => {
       <View style={styles.pricesView}>
         <View style={styles.pricesViewMargin}/>
         <View style={styles.priceTextView}>
-          <Text style={styles.priceText}>Subtotal</Text>
+          <Text style={styles.priceText}>{t("Prices.subTotal")}</Text>
           <Text style={styles.priceNumber}>
-            ${Math.round(cartSubTotal * 100) / 100}
+            ${(Math.round(getCartSubTotal() * 100) / 100).toFixed(2)}
           </Text>
         </View>
         <View style={styles.spaceBetweenPrices}/>
         <View style={styles.priceTextView}>
-          <Text style={styles.priceText}>Taxes</Text>
-          <Text style={styles.priceNumber}>${Math.round(cartTaxedSubTotal * 100) / 100}</Text>
+          <Text style={styles.priceText}>{t("Prices.taxes")}</Text>
+          <Text style={styles.priceNumber}>${(Math.round(getTaxedCartSubTotal() * 100) / 100).toFixed(2)}</Text>
         </View>
         <View style={styles.spaceBetweenPrices}/>
         <View style={styles.priceTextView}>
-          <Text style={styles.priceText}>Delivery Fee</Text>
+          <Text style={styles.priceText}>{t("Prices.delivery")}</Text>
           <Text style={styles.priceNumber}>
-            ${Math.round(cartDeliveryCost * 100) / 100}
+            ${Math.round((getCartDeliveryCost() * 100) / 100).toFixed(2)}
           </Text>
         </View>
         <View style={styles.spaceBetweenDeliveryAndTotal}/>
         <View style={styles.priceTextView}>
-          <Text style={styles.totalText}>Total</Text>
+          <Text style={styles.totalText}>{t("Prices.total")}</Text>
           <Text style={styles.totalNumber}>
             $
-            {Math.round((cartSubTotal + cartDeliveryCost + cartTaxedSubTotal) * 100) /
-              100}
+            {(Math.round((getCartSubTotal() + getCartDeliveryCost() + getTaxedCartSubTotal()) * 100) /
+              100).toFixed(2)}
           </Text>
         </View>
         <View style={styles.pricesViewMargin}/>
@@ -80,8 +89,8 @@ const ShoppingCart = () => {
         <View style={styles.buttonMargin}/>
         <TouchableOpacity
           style={styles.button}
-          onPress={checkout}>
-          <Text style={styles.buttonText}>CHECKOUT</Text>
+          onPress={() => {}}>
+          <Text style={styles.buttonText}>{t("ShoppingCart.checkout")}</Text>
         </TouchableOpacity>
         <View style={styles.buttonMargin}/>
       </View>
@@ -116,6 +125,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 36,
+    color: '#000000',
   },
   orderDetailsView: {
     flex: 50,

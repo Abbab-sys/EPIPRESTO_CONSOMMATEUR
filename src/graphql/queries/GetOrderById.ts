@@ -1,35 +1,44 @@
 import {gql} from "@apollo/client";
 
 export const GET_ORDER_BY_ID = gql`query GetOrderById($idOrder: ID!) {
-    getOrderById(idOrder: $idOrder) {
-      order {
-        orderNumber
-        subTotal
-        taxs
-        deliveryFee
-        logs {
-          status
-        }
-        productsVariantsOrdered {
-          relatedProductVariant {
-            price
-            imgSrc
-            relatedProduct {
-              relatedStore {
-                name
-                _id
-              }
-              title
+  getOrderById(idOrder: $idOrder) {
+    order {
+      _id
+      orderNumber
+      subTotal
+      taxs
+      deliveryFee
+      logs {
+        status
+      }
+      productsVariantsOrdered {
+        
+        relatedProductVariant {
+          _id
+          price
+          imgSrc
+          relatedProduct {
+            relatedStore {
+              _id
+              name
             }
-            _id
-            variantTitle
+            title
           }
-          quantity
+          
+          variantTitle
         }
+        quantity
+      }
+      relatedChats {
         _id
+        relatedVendor {
+          _id
+        }
+        
       }
     }
   }
+}
 `;
 
 export type getOrderByIdData = {
@@ -52,11 +61,18 @@ export type getOrderByIdData = {
                     relatedProduct: {
                         title: string;
                         relatedStore: {
+                            _id: string;
                             name: string;
                         }
                     }
                 };
                 quantity: number;
+            }[];
+            relatedChats: {
+                _id: string;
+                relatedVendor: {
+                    _id: string;
+                }
             }[];
         }
     }

@@ -29,8 +29,6 @@ export const Navigation = () => {
 
   const {clientId} = useContext(ClientAuthenticationContext);
 
-  console.log("CLIENT ID: ", clientId)
-
   return (
     <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={"Login"}>
       {!clientId ? (

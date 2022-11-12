@@ -97,6 +97,12 @@
   "chat": {
     "noChats": "No chats available"
   },
+  "ShoppingCart": {
+    "title" : "Shopping Cart",
+    "emptyCart": "Your cart is empty",
+    "orderDetails": "Order Details",
+    "checkout": "Checkout"
+  },
   "dashboard": {
     "hello": "Hello,",
     "search": "Search",

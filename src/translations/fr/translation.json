@@ -1,5 +1,6 @@
 {
   "language": {
+    "title": "Langage",
     "en": "Anglais",
     "fr": "Français"
   },
@@ -96,5 +97,11 @@
   },
   "chat": {
     "noChats": "Pas de chats disponibles"
+  },
+  "settings":{
+    "title": "Paramètres",
+    "account": "Compte",
+    "language": "Langue",
+    "logout": "Déconnexion"
   }
 }

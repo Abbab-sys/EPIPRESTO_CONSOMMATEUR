@@ -36,6 +36,9 @@ const OrdersHistory = () => {
       };
       ordersData.push(orderData);
     });
+    ordersData.sort((a, b) => {
+      return b.time.getTime() - a.time.getTime();
+    });
     setOrders(ordersData);
   };
 
@@ -45,7 +48,6 @@ const OrdersHistory = () => {
   });
 
   const {clientId} = useContext(ClientAuthenticationContext);
-   console.log("clientId : ", clientId)
 
 
   useQuery<GetOrdersData>(GET_ORDERS, {

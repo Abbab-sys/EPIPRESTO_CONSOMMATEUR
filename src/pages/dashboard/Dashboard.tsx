@@ -1,8 +1,10 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useIconButton } from "../../atoms/IconButton";
+import { SettingsItemInfo } from "../settings/SettingsItem";
 import Category, { CategoryProps } from "./subsections/Category";
 import Order, { OrderProps } from "./subsections/Order";
 import Shop, { ShopProps } from "./subsections/Shop";
@@ -88,6 +90,8 @@ const recentOrders: OrderProps[] = [
 
 const Dashboard = () => {
 
+  const navigation = useNavigation();
+
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (text: React.SetStateAction<string>) => {
@@ -99,7 +103,7 @@ const Dashboard = () => {
   });
 
   const accountButton = useIconButton('account', () => {
-    // TODO Account
+    navigation.navigate('Settings' as never, {items: SettingsItemInfo, title: "settings.title"} as never);
   });
 
   return(

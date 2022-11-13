@@ -18,12 +18,12 @@ const App: () => JSX.Element = () => {
 
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: 'wss://10.0.2.2:4000/graphql',
+      url: 'ws://52.90.77.253:4000/graphql',
     }),
   );
 
   const httpLink = new HttpLink({
-    uri: 'http://10.0.2.2:4000/graphql',
+    uri: 'http://52.90.77.253:4000/',
   });
 
   const splitLink = split(

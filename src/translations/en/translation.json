@@ -96,5 +96,11 @@
   },
   "chat": {
     "noChats": "No chats available"
+  },
+  "settings":{
+    "title": "Settings",
+    "account": "Account",
+    "language": "Language",
+    "logout": "Logout"
   }
 }

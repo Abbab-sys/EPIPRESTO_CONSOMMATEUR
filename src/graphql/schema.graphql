@@ -39,6 +39,7 @@ type ClientAccount {
     email: String!
     firstName: String!
     lastName: String!
+    nearbyShops(distance: Int!): [Store!]!
     orders: [Order!]!
     password: String!
     phone: String!
@@ -82,6 +83,7 @@ type Mutation {
     submitOrder(clientId: ID!, paymentMethod: PaymentMethod!, productsVariantsToOrder: [ProductOrderedInput!]!): HttpResponse!
     synchronizeShopifyStore(shopifyCreds: ShopifyCredentials!): HttpResponse!
     synchronizeWoocommerceStore(woocommerceCreds: WoocommerceCredentials!): HttpResponse!
+    updateClientAccount(clientId: ID!, fieldsToUpdate: UpdateClientAccount!): ClientAccountResponse!
     updateOrderStatus(newStatus: OrderStatus!, orderId: ID!): HttpResponse!
     updateProduct(fieldsToUpdate: UpdateProduct!, productId: ID!): ProductResponse!
     updateProductVariant(fieldsToUpdate: UpdateProductVariant!, variantId: ID!): ProductVariantResponse!
@@ -120,6 +122,7 @@ type OrderResponse implements HttpResponseInterface {
 type Product {
     _id: ID!
     brand: String
+    description: String
     imgSrc: String!
     published: Boolean!
     relatedStore: Store!
@@ -162,10 +165,12 @@ type ProductVariantResponse implements HttpResponseInterface {
 
 type Query {
     getAnalytics(dateFrom: Date!, dateTo: Date!, idStore: ID!): AnalyticsResponse!
+    getClientAccountById(idClient: ID!): ClientAccountResponse!
     getOrderById(idOrder: ID!): OrderResponse!
     getProductById(idProduct: ID!): ProductResponse!
     getProductVariantById(idVariant: ID!): ProductVariantResponse!
     getStoreById(idStore: ID!): StoreResponse!
+    getStripe: StripeResponse!
     isClientEmailUsed(email: String!): Boolean!
     isClientUsernameUsed(username: String!): Boolean!
     isVendorEmailUsed(email: String!): Boolean!
@@ -186,6 +191,7 @@ type Store {
     orders: [Order!]!
     products(first: Int, offset: Int!, searchText: String): [Product!]!
     relatedVendor: VendorAccount!
+    shopCategory: String
 }
 
 type StoreResponse implements HttpResponseInterface {
@@ -194,7 +200,21 @@ type StoreResponse implements HttpResponseInterface {
     store: Store
 }
 
+type Stripe {
+    customer: ID!
+    ephemeralKey: String!
+    paymentIntent: String!
+    publishableKey: String!
+}
+
+type StripeResponse implements HttpResponseInterface {
+    code: Int!
+    message: String!
+    stripe: Stripe
+}
+
 type Subscription {
+    addressChanged(clientId: ID!): ID!
     messageSent(clientId: ID, storeId: ID): Message
 }
 
@@ -320,8 +340,19 @@ input ShopifyCredentials {
     shopDomain: String!
 }
 
+input UpdateClientAccount {
+    address: String
+    email: String
+    firstName: String
+    lastName: String
+    password: String
+    phone: String
+    username: String
+}
+
 input UpdateProduct {
     brand: String
+    description: String
     imgSrc: String
     published: Boolean
     tags: [String!]
@@ -359,6 +390,7 @@ input VendorAccountInput {
     email: String!
     password: String!
     phone: String!
+    shopCategory: String!
     shopName: String!
     username: String!
 }

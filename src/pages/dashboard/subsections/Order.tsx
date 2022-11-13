@@ -1,28 +1,45 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {useTranslation} from "react-i18next";
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {OrderData} from "../Dashboard";
+import {useNavigation} from "@react-navigation/native";
 
 export interface OrderProps {
-  orderNum: number;
-  orderStatus: string;
-  //navigation: () => {}
-} 
+  orderData: OrderData
+}
 
 const Order = (props: OrderProps) => {
+  const navigation = useNavigation()
+  const {i18n, t} = useTranslation('translation')
+  const orderNum = props.orderData.orderNumber
+  const orderStatus = t('dashboard.latestOrders.' + props.orderData.logs[props.orderData.logs.length - 1].status)
+  const backgroundColor =
+    i18n.language === 'fr' ?
+      (
+        orderStatus === 'ATTENTE DE CONFIRMATION'
+          ? 'gold'
+          : orderStatus === 'CONFIRMÉ'
+            ? 'green'
+            : orderStatus === 'EN LIVRAISON'
+              ? 'blue'
+              : orderStatus === 'DÉLIVERÉ'
+                ? '#86FFA8'
+                : 'red'
+      ) : (
+        orderStatus === 'WAITING CONFIRMATION'
+          ? 'gold'
+          : orderStatus === 'CONFIRMED'
+            ? 'green'
+            : orderStatus === 'IN DELIVERY'
+              ? 'blue'
+              : orderStatus === 'DELIVERED'
+                ? '#86FFA8'
+                : 'red'
+      )
 
-  const backgroundColor = 
-    props.orderStatus === 'WAITING_CONFIRMATION' 
-    ? 'gold'
-    : props.orderStatus === 'CONFIRMED'
-    ? 'green'
-    : props.orderStatus === 'IN_DELIVERY'
-    ? 'blue'
-    : props.orderStatus === 'DELIVERED'
-    ? '#86FFA8'
-    : 'red'
 
   const orderStyles = StyleSheet.create({
     root: {
-      flex: 1,
       backgroundColor: '#F2F4F8',
       elevation: 4,
       borderRadius: 10,
@@ -45,17 +62,21 @@ const Order = (props: OrderProps) => {
       padding: 10
     }
   })
-
-  return(
+  const navigateToOrder = () => {
+    navigation.navigate('Order' as never, {orderId: props.orderData._id} as never);
+  };
+  return (
     <SafeAreaView style={orderStyles.root}>
-      <Text style={orderStyles.text}>
-        #EP {props.orderNum}
-      </Text>
-      <View style={orderStyles.orderStatus}>
-        <Text>
-          {props.orderStatus}
+      <TouchableOpacity onPress={navigateToOrder} style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+        <Text style={orderStyles.text}>
+          #{orderNum}
         </Text>
-      </View>
+        <View style={orderStyles.orderStatus}>
+          <Text>
+            {orderStatus}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }

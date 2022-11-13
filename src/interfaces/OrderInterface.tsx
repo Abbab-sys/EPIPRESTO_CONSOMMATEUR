@@ -6,6 +6,11 @@ export type ProductVariant = {
     quantity: number;
     imageSrc: string;
   };
+
+  export type Store = {
+    id: string;
+    name: string;
+  };
   
   export type Order = {
     id: string;
@@ -16,4 +21,7 @@ export type ProductVariant = {
     deliveryFee: number;
     total: number;
     storeProductsMap: Map<string, ProductVariant[]>;
+    vendorChatMap: Map<string, string>;
+    storeIdNameMap: Map<string, string>;
   };
+

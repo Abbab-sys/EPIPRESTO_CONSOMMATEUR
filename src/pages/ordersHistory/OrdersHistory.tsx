@@ -1,16 +1,13 @@
 import {useQuery} from '@apollo/client';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React, {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Loading from '../../components/cart/Loading';
-import { ClientAuthenticationContext } from '../../context/ClientAuthenticationContext';
-import {GetOrdersData, GET_ORDERS} from '../../graphql/queries/GetOrders';
+import {ClientAuthenticationContext} from '../../context/ClientAuthenticationContext';
+import {GET_ORDERS, GetOrdersData} from '../../graphql/queries/GetOrders';
 import {useSnackbar} from '../../hooks/UiHooks/UiHooks';
 import {OrderHistory} from '../../interfaces/OrderHistoryInterface';
-import {RootStackParamList} from '../../navigation/Navigation';
 import OrdersItem from './subsections/OrdersItem';
 
 const OrdersHistory = () => {

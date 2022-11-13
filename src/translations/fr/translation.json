@@ -98,6 +98,46 @@
   "chat": {
     "noChats": "Pas de chats disponibles"
   },
+  "ShoppingCart": {
+    "title": "PANIER",
+    "emptyCart": "Votre panier est vide",
+    "orderDetails": "Détails de la commande",
+    "checkout": "Commander"
+  },
+  "dashboard": {
+    "hello": "Bonjour,",
+    "search": "Recherche",
+    "seeAll": "Voir Plus",
+    "categories": {
+      "title": "Catégories",
+      "fruits": "Fruits et légumes",
+      "fish": "Poissons et fruits de mer",
+      "healthy": "Produits santé",
+      "keto": "Keto",
+      "bakery": "Boulangerie",
+      "worldProducts": "Produits du monde",
+      "butcherShop": "Boucherie"
+    },
+    "nearbyShops": {
+      "title": "Commerces à proximité",
+      "errors": {
+        "notAvailable": "Pas de commerces disponibles",
+        "noShops": "Pas de commerces à proximité"
+      }
+    },
+    "latestOrders": {
+      "title": "Commandes récentes",
+      "CONFIRMED": "CONFIRMÉ",
+      "CLOSED": "FERMÉ",
+      "DELIVERED": "DÉLIVERÉ",
+      "IN_DELIVERY": "EN LIVRAISON",
+      "WAITING_CONFIRMATION": "ATTENTE DE CONFIRMATION",
+      "errors": {
+        "notAvailable": "Pas de commandes disponibles",
+        "noOrders": "Vous n'avez pas encore fait de commandes"
+      }
+    }
+  },
   "settings":{
     "title": "Paramètres",
     "account": "Compte",

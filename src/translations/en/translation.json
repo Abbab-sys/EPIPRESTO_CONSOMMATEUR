@@ -97,6 +97,46 @@
   "chat": {
     "noChats": "No chats available"
   },
+  "ShoppingCart": {
+    "title" : "Shopping Cart",
+    "emptyCart": "Your cart is empty",
+    "orderDetails": "Order Details",
+    "checkout": "Checkout"
+  },
+  "dashboard": {
+    "hello": "Hello,",
+    "search": "Search",
+    "seeAll": "See All",
+    "categories": {
+      "title": "Categories",
+      "fruits": "Fruits and vegetables",
+      "fish": "Fish and seafood",
+      "healthy": "Healthy food",
+      "keto": "Keto",
+      "bakery": "Bakery",
+      "worldProducts": "Products of the world",
+      "butcherShop": "Butcher shop"
+    },
+    "nearbyShops": {
+      "title": "Nearby Shops",
+      "errors": {
+        "notAvailable": "No stores available",
+        "noShops": "No nearby shops"
+      }
+    },
+    "latestOrders": {
+      "title": "Latest Orders",
+      "CONFIRMED": "CONFIRMED",
+      "CLOSED": "CLOSED",
+      "DELIVERED": "DELIVERED",
+      "IN_DELIVERY": "IN DELIVERY",
+      "WAITING_CONFIRMATION": "WAITING CONFIRMATION",
+      "errors": {
+        "notAvailable": "No orders available",
+        "noOrders": "You have not made any orders yet"
+      }
+    }
+  },
   "settings":{
     "title": "Settings",
     "account": "Account",

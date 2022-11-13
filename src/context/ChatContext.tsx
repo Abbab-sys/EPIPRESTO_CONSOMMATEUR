@@ -1,6 +1,6 @@
 import {createContext, useContext} from 'react';
 import {Chat, ChatManager, useChatManager} from '../hooks/ChatManagerHook';
-import { ClientAuthenticationContext } from './ClientAuthenticationContext';
+import {ClientAuthenticationContext} from './ClientAuthenticationContext';
 
 const defaultContext: ChatManager = [
     [] as Chat[],

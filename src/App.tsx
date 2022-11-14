@@ -10,17 +10,19 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {theme} from "./theme/Theme";
 import '../i18n'
 import {CartProvider} from './context/CartContext';
+import {StripeProvider} from '@stripe/stripe-react-native';
+import {ChatProvider} from './context/ChatContext';
 
 const App: () => JSX.Element = () => {
 
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: 'http://10.200.7.12:4000/',
+      url: 'ws://52.90.77.253:4000/graphql'
     }),
   );
 
   const httpLink = new HttpLink({
-    uri: 'http://10.200.7.12:4000/',
+    uri: 'http://52.90.77.253:4000',
   });
 
   const splitLink = split(
@@ -41,17 +43,25 @@ const App: () => JSX.Element = () => {
   });
 
   return (
-    <CartProvider>
-      <ClientAuthenticationProvider>
-        <ApolloProvider client={client}>
-          <PaperProvider theme={theme}>
-            <NavigationContainer>
-              <Navigation/>
-            </NavigationContainer>
-          </PaperProvider>
-        </ApolloProvider>
-      </ClientAuthenticationProvider>
-    </CartProvider>
+    <StripeProvider
+      publishableKey="pk_test_EK2EADQF4MqPyfL63ZrKGRiJ00MgduNzlC"
+      // urlScheme="your-url-scheme" // required for 3D Secure and bank redirects
+      // merchantIdentifier="merchant.com.{{YOUR_APP_NAME}}" // required for Apple Pay
+    >
+      <CartProvider>
+        <ClientAuthenticationProvider>
+          <ApolloProvider client={client}>
+            <ChatProvider>
+              <PaperProvider theme={theme}>
+                <NavigationContainer>
+                  <Navigation/>
+                </NavigationContainer>
+              </PaperProvider>
+            </ChatProvider>
+          </ApolloProvider>
+        </ClientAuthenticationProvider>
+      </CartProvider>
+    </StripeProvider>
 
   );
 };

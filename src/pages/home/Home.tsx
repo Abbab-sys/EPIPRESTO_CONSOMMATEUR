@@ -5,17 +5,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {BottomNavigation} from "react-native-paper";
 import {useIconButton} from "../../atoms/IconButton";
 import Dashboard from "../dashboard/Dashboard";
-import {Cart} from "../../components/cart/Cart";
 import ShoppingCart from "../shoppingCart/ShoppingCart";
-import Stores from "../stores/Stores";
-
-
-const AlbumsRoute = () => <Stores/>;
-
-const RecentsRoute = () => <Text>Recents</Text>;
-
-const HomeRoute = () => <Dashboard />
-
+import AllChats from "../chat/AllChats";
+import OrdersHistory from "../ordersHistory/OrdersHistory";
 
 
 const NotificationsRoute = () => {
@@ -46,14 +38,14 @@ export const Home = () => {
     {key: 'stores', epiprestoTitle: 'Albums', focusedIcon: 'hamburger'},
     {key: 'cart', epiprestoTitle: 'Favorites', focusedIcon: 'cart', unfocusedIcon: 'cart-outline'},
     {key: 'orders', epiprestoTitle: 'Notifications', focusedIcon: 'basket'},
-    {key: 'menu', epiprestoTitle: 'Notifications', focusedIcon: 'menu'},
+    {key: 'chats', epiprestoTitle: 'Chats', focusedIcon: 'message'},
   ]);
   const renderScene = BottomNavigation.SceneMap({
     cart: ShoppingCart,
-    stores: Cart,
-    home: HomeRoute,
-    orders: NotificationsRoute,
-    menu: AlbumsRoute,
+    stores: Dashboard,
+    home: Dashboard,
+    orders: OrdersHistory,
+    chats: AllChats,
   });
 
   return (

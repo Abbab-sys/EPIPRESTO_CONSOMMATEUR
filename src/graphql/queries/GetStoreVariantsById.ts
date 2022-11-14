@@ -24,6 +24,7 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
               brand
               title
               tags
+              description
             }
           }
         }

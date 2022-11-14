@@ -116,13 +116,14 @@
     }
   },
   "Product": {
-    "title": "Title",
-    "price": "Price",
-    "pricePerLb": "Price per lb",
-    "pricePerKg": "Price per kg",
-    "tags": "Tags",
-    "taxable": "Taxable",
-    "description": "Description",
+    "title": "Title: ",
+    "price": "Price: ",
+    "pricePerLb": "Price per lb: ",
+    "pricePerKg": "Price per kg: ",
+    "brand": "Brand: ",
+    "tags": "Tags: ",
+    "taxable": "Taxable: ",
+    "description": "Description: ",
     "yes": "Yes",
     "no": "No",
     "closeModal": "Click outside this area to dismiss."

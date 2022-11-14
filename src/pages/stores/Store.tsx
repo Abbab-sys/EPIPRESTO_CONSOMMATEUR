@@ -58,6 +58,7 @@ const Store = ({ route,navigation }: any) => {
     fetchPolicy: 'network-only',
     onCompleted(data) {
         const products = data.getStoreById.store.products
+        console.log("products", products)
         // consider only products that are published
         const publishedProducts = products.filter((product: any) => {
           return product.published

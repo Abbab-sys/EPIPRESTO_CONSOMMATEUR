@@ -152,6 +152,12 @@ const Product = (props: VariantProps) => {
               </Text> 
               : null}
 
+            <Text style={{fontWeight:'bold'}}>{t('product.brand')}
+              <Text>
+                {props.relatedProduct.brand}
+              </Text>
+            </Text>
+
             <Text style={{fontWeight:'bold'}}>{t('product.tags')}
               <Text>
                 {props.relatedProduct.tags.map((tag: any) => tag).join(", ")}
@@ -166,7 +172,7 @@ const Product = (props: VariantProps) => {
 
           <Text style={{fontWeight:'bold'}}>{t('product.description')}
               <Text>
-                Ajouter field description dans la query             
+                {props.relatedProduct.description}           
               </Text>
             </Text>
         </View>

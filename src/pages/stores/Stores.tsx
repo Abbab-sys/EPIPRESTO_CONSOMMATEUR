@@ -46,7 +46,7 @@ const Stores = () => {
     },
   });
 
-    const searchPlaceholder = t('stores.seacrh.placeholder')
+    const searchPlaceholder = t('stores.search.placeholder')
 
   return(
     <SafeAreaView style={storeStyles.root}>

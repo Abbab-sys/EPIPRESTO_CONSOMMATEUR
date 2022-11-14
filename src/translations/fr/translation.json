@@ -75,5 +75,52 @@
         "submit": "Soumettre"
       }
     }
-  }
+  },
+  "stores": {
+    "titlePart1": "MAGASINS ",
+    "titlePart2": "À PROXIMITÉ",
+    "shownRadius": "Seuls les magasins à moins de 15 km sont affichés",
+    "search": {
+      "placeholder": "Rechercher un magasin"
+    },
+    "data": {
+      "noStores": "Aucun magasin à proximité",
+      "error": "Une erreur est survenue lors de la récupération des magasins"
+    },
+    "store": {
+      "open": "Ouvert",
+      "closed": "Fermé",
+      "viewButton": "Voir le magasin",
+      "category": "Catégorie"
+    }   
+  },
+  "store":{
+    "open": "Ouvert",
+    "closed": "Fermé",
+    "search": {
+      "placeholder": "Rechercher un produit"
+    },
+    "data": {
+      "noProducts": "Aucun produit trouvé",
+      "error": "Une erreur est survenue lors de la récupération des produits",
+      "loading" : "Chargement du magasin..."
+    },
+    "addProduct": {
+      "button": "Ajouter au panier",
+      "success": "Produit ajouté au panier",
+      "error": "Une erreur est survenue lors de l'ajout du produit au panier"
+    }
+  },
+    "product": {
+      "title": "Titre: ",
+      "price": "Prix: ",
+      "pricePerLb": "Prix par lb: ",
+      "pricePerKg": "Prix par Kg: ",
+      "tags": "Tags: ",
+      "taxable": "Taxable: ",
+      "description": "Description: ",
+      "yes": "Oui",
+      "no": "Non",
+      "closeModal": "Cliquer en dehors de la fenêtre pour fermer"
+    }
 }

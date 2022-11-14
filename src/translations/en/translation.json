@@ -75,5 +75,56 @@
         "submit": "Submit"
       }
     }
+  },
+  "stores": {
+    "titlePart1": "NEARBY ",
+    "titlePart2": "SHOPS",
+    "shownRadius": "Only stores within a 15 km radius are shown",
+    "search": {
+      "placeholder": "Find a store"
+    },
+    "data": {
+      "noStores": "No stores found",
+      "error": "OUPS! Something went wrong"
+    },
+    "store": {
+      "open": "Open",
+      "closed": "Closed",
+      "noProducts": "No products found",
+      "error": "OUPS! Something went wrong",
+      "viewButton": "View",
+      "category": "Category"
+    }    
+  },
+  "store":{
+    "open": "Open",
+    "closed": "Closed",
+    "noProducts": "No products found",
+    "error": "OUPS! Something went wrong",
+    "search": {
+      "placeholder": "Find a product"
+    },
+    "data": {
+      "noProducts": "No products found",
+      "error": "OUPS! Something went wrong",
+      "loading" : "Loading store..."
+    },
+    "addProduct": {
+      "button": "Add to cart",
+      "success": "Product added to cart",
+      "error": "OUPS! Something went wrong"
+    }
+  },
+  "Product": {
+    "title": "Title",
+    "price": "Price",
+    "pricePerLb": "Price per lb",
+    "pricePerKg": "Price per kg",
+    "tags": "Tags",
+    "taxable": "Taxable",
+    "description": "Description",
+    "yes": "Yes",
+    "no": "No",
+    "closeModal": "Click outside this area to dismiss."
   }
 }

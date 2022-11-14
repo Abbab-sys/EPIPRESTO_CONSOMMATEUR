@@ -6,8 +6,11 @@ import { storeStyles } from "./StoreStyles";
 import { GET_STORE_VARIANTS_BY_ID } from "../../graphql/queries/GetStoreVariantsById";
 import Product, { VariantProps } from "./subsections/Product";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { useTranslation } from "react-i18next";
 
 const Store = ({ route,navigation }: any) => {
+
+  const {t} = useTranslation('translation')
 
   console.log("route",route.params.idStore)
 
@@ -74,7 +77,7 @@ const Store = ({ route,navigation }: any) => {
     },
   });
 
-    const searchPlaceholder = "Rechercher un produit"
+    const searchPlaceholder = t('store.search.placeholder')
 
     // close snackbar after 3 seconds
     useEffect(() => {
@@ -91,10 +94,10 @@ const Store = ({ route,navigation }: any) => {
     <SafeAreaView style={storeStyles.root}>
       <View style={storeStyles.view}>
         <Text variant="headlineMedium" style={storeStyles.headline}>
-          {data ? data.getStoreById.store.name : "Loading Store ..."}
+          {data ? data.getStoreById.store.name : t('store.data.loading')}
         </Text>
         <Text variant="labelLarge" style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
-          {data ? data.getStoreById.store.isOpen ? "Ouvert" : "Fermé" : ""}
+          {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.closed') : ""}
         </Text>
         <Text variant="labelSmall">
           {data ? data.getStoreById.store.address : ""}
@@ -111,12 +114,12 @@ const Store = ({ route,navigation }: any) => {
             </View>
           ) : error ? (
             <View style={storeStyles.innerContainer}>
-              <Text style={storeStyles.errorText}>OOPS UNE ERREUR EST SURVENUE</Text>
+              <Text style={storeStyles.errorText}>{t('store.data.error')}</Text>
             </View>)
           : (
             variants.length === 0 ? 
             
-              (<Text>YOUR RESEARCH DOES NOT MATCH ANY ITEM</Text>)
+              (<Text>{t('store.data.noProducts')}</Text>)
               : 
               (
                 <FlatList
@@ -179,7 +182,7 @@ const Store = ({ route,navigation }: any) => {
             console.log('Pressed');
           },
         }}>
-        Item added to cart!
+        {t('store.addProduct.success')}
       </Snackbar>
     </SafeAreaView>
   )

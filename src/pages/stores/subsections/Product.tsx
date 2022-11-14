@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Image, SafeAreaView, View } from "react-native";
 import { Button, Card, Divider, HelperText, IconButton, Modal, Portal, Text, TextInput } from 'react-native-paper';
 import { productStyles } from "./ProductStyles";
@@ -17,6 +18,8 @@ export interface VariantProps {
 }
 
 const Product = (props: VariantProps) => {
+  const {t} = useTranslation('translation')
+
   const [visible, setVisible] = React.useState(false);
 
   const showModal = () => setVisible(true);
@@ -33,7 +36,6 @@ const Product = (props: VariantProps) => {
     // if stock updated consle log id
     const handleQuantity = (text: React.SetStateAction<string>) => {
         setQuantity(text)
-        // updateStok in BD
     }
 
   return(
@@ -113,7 +115,7 @@ const Product = (props: VariantProps) => {
             disabled={parseFloat(quantity) <= 0 || props.stock <= 0}
             style={{backgroundColor: '#FFAA55'}}
             >
-              Add to cart
+              {t('store.addProduct.button')}
             </Button>
               
         </View>
@@ -130,39 +132,39 @@ const Product = (props: VariantProps) => {
         <Divider bold style={{backgroundColor: "#FFAA55", width: 1, height: '100%', marginRight: "2%"}}></Divider>
         <View style={{flex: 1}}>
 
-          <Text style={{fontWeight:'bold'}}>{"Title: "}
+          <Text style={{fontWeight:'bold'}}>{t('product.title')}
             <Text>
              {props.displayName}
              </Text>
             </Text>
 
-            <Text style={{fontWeight:'bold'}}>{props.byWeight? "Price per lb:" : "Price:"} 
+            <Text style={{fontWeight:'bold'}}>{props.byWeight? t('product.pricePerLb') : t('product.price')} 
             <Text>
             {props.price} $
              </Text>
             </Text>
             
             {props.byWeight?
-              <Text style={{fontWeight:'bold'}}>Price per kg :
+              <Text style={{fontWeight:'bold'}}>{t('product.pricePerKg')}
                 <Text>
                   {(props.price*2.20462).toFixed(2)} $
                 </Text> 
               </Text> 
               : null}
 
-            <Text style={{fontWeight:'bold'}}>Tags :
+            <Text style={{fontWeight:'bold'}}>{t('product.tags')}
               <Text>
                 {props.relatedProduct.tags.map((tag: any) => tag).join(", ")}
               </Text>
             </Text>
 
-            <Text style={{fontWeight:'bold'}}>Taxable : 
+            <Text style={{fontWeight:'bold'}}>{t('product.taxable')}
               <Text>
-                {props.taxable? "Yes" : "No"}              
+                {props.taxable? t('product.yes') : t('product.no')}              
               </Text>
             </Text>
 
-          <Text style={{fontWeight:'bold'}}>Description :
+          <Text style={{fontWeight:'bold'}}>{t('product.description')}
               <Text>
                 Ajouter field description dans la query             
               </Text>
@@ -170,7 +172,7 @@ const Product = (props: VariantProps) => {
         </View>
       </View>
       <Divider style={{backgroundColor: "transparent", marginTop: '2%'}}></Divider>
-      <HelperText type='info'>Click outside this area to dismiss.</HelperText>
+      <HelperText type='info'>{t('product.closeModal')}</HelperText>
       </SafeAreaView>
         </Modal>
       </Portal>

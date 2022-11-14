@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
-import { Button, Card, HelperText, Searchbar, Snackbar, Text } from 'react-native-paper';
+import { Button, Card, HelperText, Text } from 'react-native-paper';
 import { useQuery, useSubscription } from "@apollo/client";
 import { storeStyles } from "./StoreStyles";
-import { GET_STORE_VARIANTS_BY_ID } from "../../graphql/queries/GetStoreVariantsById";
-import Product, { VariantProps } from "./subsections/Product";
 import { productStyles } from "./subsections/ProductStyles";
 import { ClientAuthenticationContext } from "../../context/ClientAuthenticationContext";
 import { GET_CLIENT_ACCOUNT_BY_ID } from "../../graphql/queries/GetClientAccountById";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 export interface StoreProps {
   _id: string;
@@ -20,14 +19,11 @@ export interface StoreProps {
 
 const Stores = () => {
 
+  const {t} = useTranslation('translation')
   const navigation = useNavigation();
 
-  const storeId = "6362d3db4506a1e7168c4cac"
-
   // get client id from context
-const {clientId} = useContext(ClientAuthenticationContext);
-
-console.log("client id", clientId)
+  const {clientId} = useContext(ClientAuthenticationContext);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -50,19 +46,19 @@ console.log("client id", clientId)
     },
   });
 
-    const searchPlaceholder = "Rechercher un magasin"
+    const searchPlaceholder = t('stores.seacrh.placeholder')
 
   return(
     <SafeAreaView style={storeStyles.root}>
       <View style={storeStyles.view}>
         <Text variant="headlineMedium" style={storeStyles.headline}>
-          NEARBY  
+        {t('stores.titlePart1')} 
           <Text style={{color:"#FFAA55"}}>
-             STORES
+          {t('stores.titlePart2')} 
           </Text>
         </Text>
         <HelperText type="info" >
-            Only stores within a 15 km radius are shown
+        {t('stores.shownRadius')} 
         </HelperText>
       </View>
 
@@ -73,12 +69,12 @@ console.log("client id", clientId)
             </View>
           ) : error ? (
             <View style={storeStyles.innerContainer}>
-              <Text style={storeStyles.errorText}>OOPS UNE ERREUR EST SURVENUE</Text>
+              <Text style={storeStyles.errorText}>{t('stores.data.error')}</Text>
             </View>)
           : (
             stores.length === 0 ? 
             
-              (<Text>YOUR RESEARCH DOES NOT MATCH ANY STORE</Text>)
+              (<Text>{t('stores.data.noStores')}</Text>)
               : 
               (
                 <FlatList
@@ -89,7 +85,7 @@ console.log("client id", clientId)
                 <View style={productStyles.root}>
                 <Card style={productStyles.cardStyle}>
                   <Text variant="labelLarge" style={[{textAlign:'center'}, item.isOpen? {color:'green'} : {color:'red'} ]}>
-                    {item.isOpen ? "Open" : "Closed"}
+                    {item.isOpen ? t('stores.store.open') : t('stores.store.closed')}
                   </Text>
                   <View 
                   // put buttons and stock in a row
@@ -103,7 +99,7 @@ console.log("client id", clientId)
                     <HelperText
                     type='info' style ={{textAlign: 'center'}}>{item.address.slice(0, item.address.indexOf(','))}</HelperText>
                   </View>
-                  <Text variant="labelMedium" style ={{textAlign: 'center'}}>CATEGORY</Text>                  
+                  <Text variant="labelMedium" style ={{textAlign: 'center'}}>{t('stores.store.category')}</Text>                  
                   <View 
                   // put buttons and stock in a row
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
@@ -111,7 +107,7 @@ console.log("client id", clientId)
                       <Button
                       style={{backgroundColor: '#FFAA55', marginHorizontal: '2%'}}
                       onPress={() => {navigation.navigate('Store' as never, {idStore: item._id} as never)}}
-                      >    View    </Button>
+                      >    {t('stores.store.viewButton')}   </Button>
                   </View>
                 </Card>
               </View>

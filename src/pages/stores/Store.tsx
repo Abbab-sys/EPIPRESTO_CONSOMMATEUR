@@ -161,7 +161,7 @@ const Store = ({ route,navigation }: any) => {
                               })
                           // flatten array of arrays
                           const newEntriesFlattened = [].concat.apply([], newEntries)
-                          setVariants(oldProducts => [...oldProducts, ...newEntriesFlattened])
+                          setVariants(oldVariants => [...oldVariants, ...newEntriesFlattened])
                         },
                       })
                     }

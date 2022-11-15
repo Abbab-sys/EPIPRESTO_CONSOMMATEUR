@@ -11,6 +11,7 @@ import OrdersHistory from "../pages/ordersHistory/OrdersHistory";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Stores from "../pages/stores/Stores";
 import SignUp from "../pages/login-signup/sign-up/SignUp";
+import Store from "../pages/stores/Store";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -50,6 +51,7 @@ export const Navigation = () => {
           <Stack.Screen name="AllChats" component={AllChats}/>
           <Stack.Screen name="ChatPage" component={Chat}/>
           <Stack.Screen name="Stores" component={Stores}/>
+          <Stack.Screen name="Store" component={Store}/>
         </>
       )}
     </Stack.Navigator>

@@ -26,6 +26,7 @@ export const useCheckoutManager = () => {
         })
       }
     }
+    console.log("checkout", checkoutParams);
     //TODO add id variant and qty and discount
     await getStripe({variables: {variantsToOrder: checkoutParams}});
   }

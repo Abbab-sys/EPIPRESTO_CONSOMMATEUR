@@ -9,11 +9,20 @@ import {Float} from "react-native/Libraries/Types/CodegenTypes";
 import {useTranslation} from "react-i18next";
 import {useCartManager} from "../../hooks/management/useCartManager";
 
-const Store = ({idStore, goBack}: any) => {
+const Store = ({idStore, goBack,route}: any) => {
+
+  let finalStoreId = idStore;
+  if (route?.params?.idStore) {
+    finalStoreId = route.params.idStore;
+  }
+  let finalGoBack = goBack;
+  if (route?.params?.goBack) {
+    finalGoBack = route.params.goBack;
+  }
 
   const {t} = useTranslation('translation')
 
-  console.log("route", idStore)
+  console.log("route", finalStoreId)
 
   const [visible, setVisible] = React.useState(false);
 
@@ -21,7 +30,7 @@ const Store = ({idStore, goBack}: any) => {
 
   const onDismissSnackBar = () => setVisible(false);
 
-  const storeId = idStore
+  const storeId = finalStoreId
   //const storeId = "6362d3db4506a1e7168c4cac"
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -97,7 +106,7 @@ const Store = ({idStore, goBack}: any) => {
   return (
     <SafeAreaView style={storeStyles.root}>
       <View style={storeStyles.view}>
-        <Button icon="arrow-left-circle" mode="contained" onPress={goBack}>
+        <Button icon="arrow-left-circle" mode="contained" onPress={finalGoBack}>
         </Button>
         <Text variant="headlineMedium" style={storeStyles.headline}>
           {data ? data.getStoreById.store.name : t('store.data.loading')}

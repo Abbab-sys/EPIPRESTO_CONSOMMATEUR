@@ -86,6 +86,7 @@ const Dashboard = () => {
   console.log("LOADING: ", loading)
   console.log("ERROR: ", error)
 
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
@@ -151,8 +152,8 @@ const Dashboard = () => {
               <ScrollView horizontal>
                 {
                   //The slice takes the first 5 nearby stores
-                  data.getClientAccountById.clientAccount.nearbyShops.slice(0, 5).map((shop: Shop, index: number) => (
-                    <Shop key={index} shopName={shop.name} isOpen={shop.isOpen}/>
+                  data.getClientAccountById.clientAccount.nearbyShops.slice(0, 5).map((shop: Shop) => (
+                    <Shop key={shop._id} shopName={shop.name} isOpen={shop.isOpen} idStore={shop._id}/>
                   ))
                 }
               </ScrollView>

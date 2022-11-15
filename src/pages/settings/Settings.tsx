@@ -22,7 +22,6 @@ const SettingsItem = (setting: settingsInterface) => {
         navigation.navigate(onPress.object.routeName as never, onPress.object.params as never);
         break;
       case 'language':
-        
         i18n.changeLanguage(onPress.object);
         break;
       case "logout" :
@@ -33,7 +32,6 @@ const SettingsItem = (setting: settingsInterface) => {
         break;
       default:
         break;
-
     }
   };
   return (
@@ -41,11 +39,13 @@ const SettingsItem = (setting: settingsInterface) => {
       <View style={settingsItemStyles.descritpionView}>
         <View style={settingsItemStyles.leftRightMargin} />
         <View style={settingsItemStyles.IconView}>
+          {
           <IconButton
             icon={setting.icon}
-            iconColor={'black'}
+            iconColor={ setting.name.includes("language.") ? null :'black'}
             size={20}
           />
+    }
         </View>
         <View style={settingsItemStyles.iconTextMargin} />
         <View style={settingsItemStyles.descriptionView}>
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
   },
   titleView: {
     flex: 95,
+    marginLeft: 10,
   },
   marginTitle: {
     flex: 30,

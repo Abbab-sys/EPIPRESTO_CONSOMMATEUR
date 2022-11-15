@@ -206,10 +206,8 @@ export function accountCredentialsReducer(
       };
     }
     case 'SET_STORE_CREDENTIALS': {
-      console.log('SET_STORE_CREDENTIALS', action.data);
       const storeCredentials = action.data.getClientAccountById.clientAccount;
       const adressArray = storeCredentials.address.split(',');
-      console.log('adressArray', adressArray);
       return {
         ...state,
         storeInput: {

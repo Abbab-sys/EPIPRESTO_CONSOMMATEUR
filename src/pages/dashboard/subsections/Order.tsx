@@ -63,7 +63,7 @@ const Order = (props: OrderProps) => {
     }
   })
   const navigateToOrder = () => {
-    navigation.navigate('Order' as never, {orderId: props.orderData._id} as never);
+    navigation.navigate('Order' as never, {orderId: props.orderData._id,goBack:navigation.goBack} as never);
   };
   return (
     <SafeAreaView style={orderStyles.root}>

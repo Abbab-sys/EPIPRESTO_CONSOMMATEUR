@@ -131,10 +131,13 @@ const Account = ({navigation}: any) => {
 
   const [modifyAccount] = useMutation(MODIFY_ACCOUNT, {
     onCompleted: () => {
+      dispatchCredentialsState({
+        type: 'CHANGE_CURRENT_USERNAME',
+        newCurrentUsername: storeInput.username});
       openConfirmModificationSnackbar();
     },
     onError: error => {
-      openModificationErrorSnackbar();
+      openServerErrorSnackbar();
     },
   });
 
@@ -163,7 +166,7 @@ const Account = ({navigation}: any) => {
         },
       });
     } else {
-      openServerErrorSnackbar();
+      openModificationErrorSnackbar();
     }
   };
 

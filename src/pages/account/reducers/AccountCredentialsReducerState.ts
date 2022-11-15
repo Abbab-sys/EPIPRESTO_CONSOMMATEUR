@@ -18,7 +18,7 @@ export const initialStoreCredentialsState: AccountCredentialsReducerState = {
     lastName: '',
     password: '',
     email: '',
-    oldUsername: '',
+    currentUsername: '',
   },
   storeErrorMessage: {
     ...initialStoreErrorMessage

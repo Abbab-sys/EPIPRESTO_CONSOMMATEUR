@@ -190,12 +190,21 @@ export function accountCredentialsReducer(
         },
       };
     }
+    case 'CHANGE_CURRENT_USERNAME': {
+      return {
+        ...state,
+        storeInput: {
+          ...state.storeInput,
+          currentUsername: action.newCurrentUsername,
+        }
+      };
+    }
     case 'SET_USERNAME_ERROR': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
         errorMessage.usernameError,
         action.usernameError,
-        action.error && state.storeInput.username !== state.storeInput.oldUsername,
+        action.error && state.storeInput.username !== state.storeInput.currentUsername,
       );
       return {
         ...state,
@@ -223,7 +232,7 @@ export function accountCredentialsReducer(
           username: storeCredentials.username,
           lastName: storeCredentials.lastName,
           email: storeCredentials.email,
-          oldUsername: storeCredentials.username,
+          currentUsername: storeCredentials.username,
         },
         storeErrorMessage: {
           ...state.storeErrorMessage,

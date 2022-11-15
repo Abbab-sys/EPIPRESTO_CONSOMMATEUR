@@ -10,7 +10,7 @@ export interface ClientInput {
     lastName:string;
     password: string;
     email: string;
-    oldUsername: string;
+    currentUsername: string;
   }
   
   export interface StoreErrorMessage {

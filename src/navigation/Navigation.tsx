@@ -3,15 +3,14 @@ import React, {useContext} from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {Home} from "../pages/home/Home";
 import {ClientAuthenticationContext} from "../context/ClientAuthenticationContext";
-import SignUp from "../pages/login-logout/sign-up/SignUp";
 import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
 import Order from "../pages/order/Order";
 import AllChats from "../pages/chat/AllChats";
 import Chat from "../pages/chat/subsections/Chat";
 import OrdersHistory from "../pages/ordersHistory/OrdersHistory";
 import Dashboard from "../pages/dashboard/Dashboard";
-import Store from "../pages/stores/Store";
 import Stores from "../pages/stores/Stores";
+import SignUp from "../pages/login-signup/sign-up/SignUp";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -50,7 +49,6 @@ export const Navigation = () => {
           <Stack.Screen name="Order" component={Order}/>
           <Stack.Screen name="AllChats" component={AllChats}/>
           <Stack.Screen name="ChatPage" component={Chat}/>
-          <Stack.Screen name="Store" component={Store}/>
           <Stack.Screen name="Stores" component={Stores}/>
         </>
       )}

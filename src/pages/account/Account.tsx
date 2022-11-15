@@ -347,7 +347,7 @@ const Account = ({navigation}: any) => {
                         item.title === 'signUp.stepper.account.password' ? (
                           <TextInput.Icon
                             icon={passwordVisible ? 'eye' : 'eye-off'}
-                            color={passwordVisible ? '#FFA500' : '#000'}
+                            iconColor={'black'}
                             forceTextInputFocus={false}
                             onPress={() => {
                               setPasswordVisible(!passwordVisible);
@@ -440,8 +440,12 @@ export const styles = StyleSheet.create({
     backgroundColor: '#EAEAEA',
   },
   button: {
-    width: '90%',
     alignSelf: 'center',
+    backgroundColor: '#FFAA55',
+    borderRadius: 40,
+    width: '76%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   back_button: {
     position: 'absolute',

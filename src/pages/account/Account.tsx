@@ -141,7 +141,6 @@ const Account = ({navigation}: any) => {
   const handleModify = () => {
     Keyboard.dismiss();
     const areCredentialsValid = areAllCredentialsFieldsValid();
-    console.log(areCredentialsValid);
     if (areCredentialsValid) {
       modifyAccount({
         variables: {
@@ -310,7 +309,7 @@ const Account = ({navigation}: any) => {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.titleWrapper}>
-        <TouchableOpacity style={styles.back_button} onPress={() => {}}>
+        <TouchableOpacity style={styles.back_button} onPress={() => {navigation.goBack()}}>
           <Image
             style={styles.back_button_icon}
             source={require('../../assets/images/back.png')}

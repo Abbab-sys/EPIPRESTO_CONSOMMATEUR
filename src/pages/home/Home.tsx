@@ -8,6 +8,7 @@ import Dashboard from "../dashboard/Dashboard";
 import ShoppingCart from "../shoppingCart/ShoppingCart";
 import AllChats from "../chat/AllChats";
 import OrdersHistory from "../ordersHistory/OrdersHistory";
+import Stores from "../stores/Stores";
 
 
 const NotificationsRoute = () => {
@@ -42,7 +43,7 @@ export const Home = () => {
   ]);
   const renderScene = BottomNavigation.SceneMap({
     cart: ShoppingCart,
-    stores: Dashboard,
+    stores: Stores,
     home: Dashboard,
     orders: OrdersHistory,
     chats: AllChats,

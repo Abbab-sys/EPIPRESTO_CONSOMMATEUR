@@ -43,6 +43,7 @@ const Login: (props: LoginProps) => JSX.Element = () => {
 
   useEffect(() => {
       if (!unwrappedData) return;
+      console.log(unwrappedData)
       setClientId(unwrappedData.loginClientByUsername.clientAccount._id);
       AsyncStorage.setItem('@clientId', unwrappedData.loginClientByUsername.clientAccount._id).then(r =>
         console.log("client id saved", r)

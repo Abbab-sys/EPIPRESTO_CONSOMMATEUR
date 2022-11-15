@@ -3,8 +3,6 @@ import React, {useContext} from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {Home} from "../pages/home/Home";
 import {ClientAuthenticationContext} from "../context/ClientAuthenticationContext";
-import SignUp from "../pages/login-logout/sign-up/SignUp";
-// import StoreList from "../pages/stores/StoreList";
 import ShoppingCart from "../pages/shoppingCart/ShoppingCart";
 import Order from "../pages/order/Order";
 import AllChats from "../pages/chat/AllChats";
@@ -13,11 +11,16 @@ import OrdersHistory from "../pages/ordersHistory/OrdersHistory";
 import Settings from "../pages/settings/Settings";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Account from "../pages/account/Account";
+import Stores from "../pages/stores/Stores";
+import SignUp from "../pages/login-signup/sign-up/SignUp";
+import Store from "../pages/stores/Store";
 
 export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   Home: undefined;
+  Store: undefined;
+  Stores:undefined;
   StoreList: undefined;
   ShoppingCart: undefined;
   Orders: undefined;
@@ -36,7 +39,7 @@ export const Navigation = () => {
   const {clientId} = useContext(ClientAuthenticationContext);
 
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={"Login"}>
+    <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={"Home"}>
       {!clientId ? (
         <>
           <Stack.Screen name="Login" component={Login}/>
@@ -51,6 +54,8 @@ export const Navigation = () => {
           <Stack.Screen name="Order" component={Order}/>
           <Stack.Screen name="AllChats" component={AllChats}/>
           <Stack.Screen name="ChatPage" component={Chat}/>
+          <Stack.Screen name="Stores" component={Stores}/>
+          <Stack.Screen name="Store" component={Store}/>
           <Stack.Screen name="Settings" component={Settings}/>
           <Stack.Screen name="Account" component={Account}/>
         </>

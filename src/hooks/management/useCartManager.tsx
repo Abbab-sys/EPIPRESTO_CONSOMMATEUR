@@ -58,7 +58,7 @@ export const useCartManager = () => {
     }
   }, [unwrappedDataQuantity]);
 
-  const addVariantToCart = (variant: AddVariantToCart) => {
+  const addVariantToCart = (variant: AddVariantToCart,quantity:number) => {
     let store = variantIdStore.get(variant.variantId);
     if (!store) {
       for (let storeOrder of cart.keys()) {
@@ -73,7 +73,7 @@ export const useCartManager = () => {
       if (storeVariants) {
         const variantInCart = storeVariants.get(variant.variantId);
         if (variantInCart) {
-          variantInCart.quantity += 1;
+          variantInCart.quantity += quantity;
           verifyQuantity({variables: {idVariant: variant.variantId}});
           storeVariants.set(variant.variantId, variantInCart);
           setCart(new Map(cart.set(store, storeVariants)));

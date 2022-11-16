@@ -98,7 +98,7 @@ const Store = ({ route,navigation }: any) => {
           {data ? data.getStoreById.store.name : t('store.data.loading')}
         </Text>
         <Text variant="labelLarge" style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
-          {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.closed') : ""}
+          {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.paused') : ""}
         </Text>
         <Text variant="labelSmall">
           {data ? data.getStoreById.store.address : ""}
@@ -139,6 +139,7 @@ const Store = ({ route,navigation }: any) => {
                     taxable={item.taxable}
                     relatedProduct={item.relatedProduct}
                     availableForSale={item.availableForSale}
+                    relatedStoreIsPaused={!data.getStoreById.store.isOpen}
                     addToCart={(quantity: Float) => {
                       console.log("nb items", quantity)
                       onToggleSnackBar()

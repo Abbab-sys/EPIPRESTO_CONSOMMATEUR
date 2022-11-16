@@ -14,6 +14,7 @@ export interface VariantProps {
   availableForSale: boolean;
   taxable: boolean;
   relatedProduct: any;
+  relatedStoreIsPaused: boolean;
   addToCart : (quantity: number) => void;
 }
 
@@ -63,9 +64,9 @@ const Product = (props: VariantProps) => {
         </View>
 
         <Text style={productStyles.productInfo}>{props.price} $ {props.byWeight? "/lb" : ""}</Text>
-        {(!props.availableForSale || props.stock <= 0) ? ( 
+        {(props.stock <= 0 || props.relatedStoreIsPaused) ? ( 
         <View>
-        <Text style={{color:"red", alignSelf:'center', marginTop: '4%'}}>{props.stock <= 0 ? "Out of stock" : ""}</Text>
+        <Text style={{color:"red", alignSelf:'center', marginTop: '4%'}}>{props.stock <= 0 ? t('store.addProduct.outOfStock') : ""}</Text>
         </View>
         ) : (
 

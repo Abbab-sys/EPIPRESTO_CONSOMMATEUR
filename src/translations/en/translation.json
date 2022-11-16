@@ -77,6 +77,18 @@
       }
     }
   },
+  "disponibility":{
+    "title": "Working hours",
+    "days":{
+      "MONDAY": "Monday",
+      "TUESDAY": "Tuesday",
+      "WEDNESDAY": "Wednesday",
+      "THURSDAY": "Thursday",
+      "FRIDAY": "Friday",
+      "SATURDAY": "Saturday",
+      "SUNDAY": "Sunday"
+    }
+  },
   "stores": {
     "titlePart1": "NEARBY ",
     "titlePart2": "SHOPS",
@@ -100,6 +112,7 @@
   "store":{
     "open": "Open",
     "closed": "Closed",
+    "paused": "Store closed by the owner, no orders can be made",
     "noProducts": "No products found",
     "error": "OUPS! Something went wrong",
     "search": {
@@ -113,7 +126,8 @@
     "addProduct": {
       "button": "Add to cart",
       "success": "Product added to cart",
-      "error": "OUPS! Something went wrong"
+      "error": "OUPS! Something went wrong",
+      "outOfStock": "Out of stock"
     }
   },
   "Product": {

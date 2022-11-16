@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
-import { Button, Card, HelperText, Text } from 'react-native-paper';
+import { Button, Card, HelperText, IconButton, Modal, Portal, Text } from 'react-native-paper';
 import { useQuery, useSubscription } from "@apollo/client";
 import { storeStyles } from "./StoreStyles";
 import { productStyles } from "./subsections/ProductStyles";
@@ -14,6 +14,7 @@ export interface StoreProps {
   name: string;
   address: string;
   isOpen: boolean;
+  disponibilities: string[];
 }
 
 
@@ -22,8 +23,30 @@ const Stores = () => {
   const {t} = useTranslation('translation')
   const navigation = useNavigation();
 
+  const daysOfWeek = [t('disponibility.days.MONDAY'),
+                      t('disponibility.days.TUESDAY'),
+                      t('disponibility.days.WEDNESDAY'),
+                      t('disponibility.days.THURSDAY'),
+                      t('disponibility.days.FRIDAY'),
+                      t('disponibility.days.SATURDAY'),
+                      t('disponibility.days.SUNDAY')];
+
   // get client id from context
   const {clientId} = useContext(ClientAuthenticationContext);
+
+  console.log("clientId",clientId)
+
+  const [visible, setVisible] = React.useState(false);
+
+  const [disponibilities, setDisponibilities] = useState<string[]>([]);
+
+  const showModal = (dispo: string[]) => {setVisible(true)
+  console.log("showModal")
+  setDisponibilities(dispo)
+  console.log("dispo",disponibilities)
+};
+  const hideModal = () => {setVisible(false), setDisponibilities([])};
+  const containerStyle = {backgroundColor: 'white', padding: 20, elevation: 4, margin: "2%", borderRadius: 30};
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -41,10 +64,19 @@ const Stores = () => {
     },
     fetchPolicy: 'network-only',
     onCompleted(data) {
-        setStores(data.getClientAccountById.clientAccount.nearbyShops)
+        //format disponibilities to display
+        const stores = data.getClientAccountById.clientAccount.nearbyShops
+        const formattedStores = stores.map((store: any) => {
+          const disponibilities = store.disponibilities.map((disponibility: any) => {
+            return disponibility.day + " " + disponibility.activesHours[0].openingHour + "-" + disponibility.activesHours[0].endingHour
+          })
+          return {...store, disponibilities: disponibilities}
+        })
+        setStores(formattedStores)
         console.log("stores", stores)
     },
   });
+
 
     const searchPlaceholder = t('stores.search.placeholder')
 
@@ -84,11 +116,20 @@ const Stores = () => {
                 renderItem={({item}) => 
                 <View style={productStyles.root}>
                 <Card style={productStyles.cardStyle}>
+                  <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}>
                   <Text variant="labelLarge" style={[{textAlign:'center'}, item.isOpen? {color:'green'} : {color:'red'} ]}>
                     {item.isOpen ? t('stores.store.open') : t('stores.store.closed')}
                   </Text>
+                    <IconButton 
+                          onPress={() => {showModal(item.disponibilities)}}
+                          mode="contained"
+                          iconColor="grey"
+                          icon="information"
+                          style={{backgroundColor: 'F2F4F8', marginTop:'-3%'}}
+                          />
+
+                      </View>
                   <View 
-                  // put buttons and stock in a row
                   style={{ flex: 1, margin: '2%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
                   >
                   <Text ellipsizeMode='tail' numberOfLines={2} variant="titleMedium" >
@@ -101,7 +142,6 @@ const Stores = () => {
                   </View>
                   <Text variant="labelMedium" style ={{textAlign: 'center'}}>{t('stores.store.category')}</Text>                  
                   <View 
-                  // put buttons and stock in a row
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
                   >
                       <Button
@@ -118,6 +158,33 @@ const Stores = () => {
           ) }
 
       </SafeAreaView>
+
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+      <SafeAreaView>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+        <View style={{flex: 1}}>
+          <Text variant="titleMedium" style={{textAlign:'center', marginBottom:'4%'}}>
+            {t('disponibility.title')}
+          </Text>
+          {disponibilities.map((disponibility: string, index: number) => {
+            return (
+              <Text variant="labelMedium" style={{textAlign: 'center', margin:'0.5%'}} key={index}>
+                {daysOfWeek[index]} : {disponibility.split(" ")[1]}
+              </Text>
+            )
+          })}
+
+            
+        </View>
+      </View>
+      <HelperText style={{textAlign: 'center', margin:'0.5%'}} type='info'>{t('product.closeModal')}</HelperText>
+
+      </SafeAreaView>
+        </Modal>
+      </Portal>
+
+
     </SafeAreaView>
   )
 }

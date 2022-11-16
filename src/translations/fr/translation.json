@@ -95,9 +95,22 @@
       "category": "Catégorie"
     }   
   },
+  "disponibility":{
+    "title": "Heures d'ouverture",
+    "days":{
+      "MONDAY": "Lundi",
+      "TUESDAY": "Mardi",
+      "WEDNESDAY": "Mercredi",
+      "THURSDAY": "Jeudi",
+      "FRIDAY": "Vendredi",
+      "SATURDAY": "Samedi",
+      "SUNDAY": "Dimanche"
+    }
+  },
   "store":{
     "open": "Ouvert",
     "closed": "Fermé",
+    "paused": "Boutique fermée par le propriétaire, aucune commande ne peut être passée",
     "search": {
       "placeholder": "Rechercher un produit"
     },
@@ -109,7 +122,8 @@
     "addProduct": {
       "button": "Ajouter au panier",
       "success": "Produit ajouté au panier",
-      "error": "Une erreur est survenue lors de l'ajout du produit au panier"
+      "error": "Une erreur est survenue lors de l'ajout du produit au panier",
+      "outOfStock": "Produit en rupture de stock"
     }
   },
     "product": {

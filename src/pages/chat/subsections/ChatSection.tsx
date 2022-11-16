@@ -4,23 +4,22 @@ import { Divider } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export interface ChatSectionProps {
-  id: string;
   imageSrc?: any;
   orderNum: string;
   lastMessage: string;
   date: string | null;
-  navigation: any
+  goToChat: any
 }
 
 const ChatSection = (props: ChatSectionProps) => {
 
   return(
     <SafeAreaView style={ChatSectionStyles.root}>
-      <TouchableOpacity style={ChatSectionStyles.container} onPress={() => props.navigation.navigate('ChatPage', {chatId: props.id})}>
+      <TouchableOpacity style={ChatSectionStyles.container} onPress={props.goToChat}>
         <View style={ChatSectionStyles.view}>
-          {props.imageSrc ? 
+          {props.imageSrc ?
             (<Image style={ChatSectionStyles.image} source={{uri: props.imageSrc}}/>)
-            : 
+            :
             (<Icon style={ChatSectionStyles.icon} name="user" size={30}></Icon>)}
           <View style={ChatSectionStyles.innerView}>
             <Text style={ChatSectionStyles.contactNameText}>{props.orderNum}</Text>

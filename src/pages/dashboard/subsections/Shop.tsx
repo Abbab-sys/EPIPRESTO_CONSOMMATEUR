@@ -1,11 +1,12 @@
 import React from "react";
 import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {useNavigation} from "@react-navigation/native";
 
 export interface ShopProps {
   shopName: string;
+  idStore: string;
   isOpen: boolean;
-  //navigation: () => {}
-} 
+}
 
 const Shop = (props: ShopProps) => {
 
@@ -30,14 +31,18 @@ const Shop = (props: ShopProps) => {
     },
     image: {
       height: 60,
-      width: 60, 
+      width: 60,
       alignSelf: 'center'
     },
   })
+  const navigation = useNavigation()
+  const navigateToShop = () => {
+    navigation.navigate('Store' as never, {idStore: props.idStore,goBack:navigation.goBack} as never);
+  };
 
   return(
     <SafeAreaView style={categoryStyles.root}>
-      <TouchableOpacity disabled={!props.isOpen}>
+      <TouchableOpacity disabled={!props.isOpen} onPress={navigateToShop}>
         <Image source={require('../../../assets/images/shop.png')} style={categoryStyles.image}></Image>
         <Text numberOfLines={2} style={categoryStyles.text}>
           {props.shopName}

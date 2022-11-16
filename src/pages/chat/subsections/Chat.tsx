@@ -2,9 +2,9 @@ import React, {Fragment, useCallback, useContext} from 'react';
 import {GiftedChat} from 'react-native-gifted-chat';
 import {Image, SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {Button} from 'react-native-paper';
-import { MessageStatus, Role, Message } from '../../../hooks/ChatManagerHook';
-import { ChatContext } from '../../../context/ChatContext';
-import { ClientAuthenticationContext } from '../../../context/ClientAuthenticationContext';
+import {Message, MessageStatus, Role} from '../../../hooks/ChatManagerHook';
+import {ChatContext} from '../../../context/ChatContext';
+import {ClientAuthenticationContext} from '../../../context/ClientAuthenticationContext';
 
 interface message {
   _id: string;
@@ -19,24 +19,30 @@ interface message {
   };
 }
 
-const Chat = ({navigation, route}: any) => {
-  const {chatId} = route.params;
-
-  const [chats, {sendMessage, getChatById}] = useContext(ChatContext);
+const Chat = ({navigation,chatId,goBack,route }: any) => {
+ let finalChatId = chatId;
+  if (route?.params?.chatId) {
+    finalChatId = route.params.chatId;
+  }
+  let finalGoBack = goBack;
+  if (route?.params?.goBack) {
+    finalGoBack = route.params.goBack;
+  }
+  const [_,{sendMessage, getChatById}] = useContext(ChatContext);
 
   const {clientId} = useContext(ClientAuthenticationContext);
 
   const onSend = useCallback(
     (newMessage: message[]) => {
-      sendMessage(chatId, newMessage[0].text);
+      sendMessage(finalChatId, newMessage[0].text);
     },
-    [chatId, sendMessage],
+    [finalChatId, sendMessage],
   );
 
-  const chat = getChatById(chatId);
+  const chat = getChatById(finalChatId);
   const navigateToOrder = () => {
     console.log("chat orderId : ", chat?.relatedOrderId)
-    navigation.navigate('Order', {orderId: chat?.relatedOrderId});
+    navigation.navigate('Order', {orderId: chat?.relatedOrderId,goBack:navigation.goBack})
   };
   const messages = chat?.messages.map((message: Message) => {
     return {
@@ -71,7 +77,7 @@ const Chat = ({navigation, route}: any) => {
           }}>
           <TouchableOpacity
             style={{marginLeft: '2%', position: 'absolute', left: 0}}
-            onPress={() => navigation.goBack()}>
+            onPress={finalGoBack}>
             <Image
               style={{
                 width: 35,

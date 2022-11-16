@@ -9,6 +9,8 @@ import {GET_ORDERS, GetOrdersData} from '../../graphql/queries/GetOrders';
 import {useSnackbar} from '../../hooks/UiHooks/UiHooks';
 import {OrderHistory} from '../../interfaces/OrderHistoryInterface';
 import OrdersItem from './subsections/OrdersItem';
+import Order from "../order/Order";
+import {useNavigation} from "@react-navigation/native";
 
 const OrdersHistory = () => {
   const [orders, setOrders] = useState<OrderHistory[]>([]);
@@ -42,7 +44,7 @@ const OrdersHistory = () => {
   });
 
   const {clientId} = useContext(ClientAuthenticationContext);
-   console.log("clientId : ", clientId)
+  console.log("clientId : ", clientId)
 
 
   useQuery<GetOrdersData>(GET_ORDERS, {
@@ -53,24 +55,28 @@ const OrdersHistory = () => {
   });
 
 
-
-  const renderItem = ({item}: {item: OrderHistory}) => {
-    return <OrdersItem {...item} />;
+  const [currOrderId, setCurrOrderId] = useState('')
+  const renderItem = ({item}: { item: OrderHistory }) => {
+    return <OrdersItem order={item} goToOrder={() => setCurrOrderId(item.id)}/>;
   };
 
+  const navigation = useNavigation()
+  if (currOrderId) {
+    return <Order navigation={navigation} orderId={currOrderId} goBack={() => setCurrOrderId('')}></Order>;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleView}>
-        <View style={styles.marginTitle} />
+        <View style={styles.marginTitle}/>
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>{t('OrdersHistory.title')}</Text>
         </View>
-        <View style={styles.marginTitle} />
+        <View style={styles.marginTitle}/>
       </View>
 
       <View style={styles.restMargin}>
         {orders.length === 0 ? (
-          <Loading />
+          <Loading/>
         ) : (
           <FlatList
             data={orders}
@@ -79,7 +85,7 @@ const OrdersHistory = () => {
             style={{flex: 1}}></FlatList>
         )}
       </View>
-      <View style={styles.marginBottom} />
+      <View style={styles.marginBottom}/>
       {errorSnackbar}
     </SafeAreaView>
   );

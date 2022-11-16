@@ -18,7 +18,17 @@ import {
 import OrderProduct from './subsections/OrderedProduct';
 
 
-const Order = ({navigation, route}: any) => {
+const Order = ({navigation,orderId,goBack,route}: any) => {
+
+  let finalOrderId = orderId
+  if (route?.params?.orderId) {
+    finalOrderId= route.params.orderId
+  }
+  let finalGoBack = goBack
+  if (route?.params?.goBack) {
+    finalGoBack= route.params.goBack
+  }
+
 
   const [orderInfo, setOrderInfo] = useState<OrderInfo>();
 
@@ -101,7 +111,7 @@ const Order = ({navigation, route}: any) => {
   });
 
   useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
-    variables: {idOrder: route.params.orderId},
+    variables: {idOrder: finalOrderId},
     onCompleted: handleData,
     onError: openErrorSnackbar,
   });
@@ -124,9 +134,7 @@ const Order = ({navigation, route}: any) => {
           <View style={styles.titleWrapper}>
             <TouchableOpacity
               style={styles.back_button}
-              onPress={() => {
-                navigation.goBack();
-              }}>
+              onPress={finalGoBack}>
               <Image
                 style={styles.back_button_icon}
                 source={require('../../assets/images/back.png')}
@@ -169,7 +177,7 @@ const Order = ({navigation, route}: any) => {
                     name="md-chatbubbles-outline"
                     color="black"
                     onPress={() => {
-                      navigation.navigate('ChatPage', {chatId: orderInfo.vendorChatMap.get(storeId)});
+                      navigation.navigate('ChatPage', {goBack:navigation.goBack,chatId: orderInfo.vendorChatMap.get(storeId)});
                     }}
                     size={30}></Icon>
                 </View>

@@ -63,8 +63,15 @@ const Stores = () => {
     },
     fetchPolicy: 'network-only',
     onCompleted(data) {
-      setStores(data.getClientAccountById.clientAccount.nearbyShops)
-      console.log("stores", stores)
+      //format disponibilities to display
+      const stores = data.getClientAccountById.clientAccount.nearbyShops
+      const formattedStores = stores.map((store: any) => {
+        const disponibilities = store.disponibilities.map((disponibility: any) => {
+          return disponibility.day + " " + disponibility.activesHours[0].openingHour + "-" + disponibility.activesHours[0].endingHour
+        })
+        return {...store, disponibilities: disponibilities}
+      })
+      setStores(formattedStores)
     },
   });
 

@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import {ActivityIndicator, FlatList, SafeAreaView, View} from "react-native";
-import {Button, Card, HelperText, Text} from 'react-native-paper';
+import {Button, Card, HelperText, IconButton, Modal, Portal, Text} from 'react-native-paper';
 import {useQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
 import {productStyles} from "./subsections/ProductStyles";
@@ -21,8 +21,7 @@ export interface StoreProps {
 const Stores = () => {
 
   const {t} = useTranslation('translation')
-  const navigation = useNavigation();
-
+  
   const daysOfWeek = [t('disponibility.days.MONDAY'),
                       t('disponibility.days.TUESDAY'),
                       t('disponibility.days.WEDNESDAY'),
@@ -142,9 +141,12 @@ const Stores = () => {
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
                   >
                       <Button
-                      style={{backgroundColor: '#FFAA55', marginHorizontal: '2%'}}
-                      onPress={() => {navigation.navigate('Store' as never, {idStore: item._id} as never)}}
-                      >    {t('stores.store.viewButton')}   </Button>
+                            style={{backgroundColor: '#FFAA55', marginHorizontal: '2%'}}
+                            onPress={() => {
+                              setCurrStoreId(item._id)
+                            }}
+                          >    {t('stores.store.viewButton')}   </Button>
+
                   </View>
                 </Card>
               </View>

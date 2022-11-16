@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, SafeAreaView, View} from "react-native";
-import {Button, Searchbar, Snackbar, Text} from 'react-native-paper';
+import {Button, IconButton, Searchbar, Snackbar, Text} from 'react-native-paper';
 import {useQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
 import {GET_STORE_VARIANTS_BY_ID} from "../../graphql/queries/GetStoreVariantsById";
@@ -106,11 +106,22 @@ const Store = ({idStore, goBack,route}: any) => {
   return (
     <SafeAreaView style={storeStyles.root}>
       <View style={storeStyles.view}>
-        <Button icon="arrow-left-circle" mode="contained" onPress={finalGoBack}>
-        </Button>
-        <Text variant="headlineMedium" style={storeStyles.headline}>
-          {data ? data.getStoreById.store.name : t('store.data.loading')}
-        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <IconButton 
+                onPress={() => {finalGoBack()}}
+                mode="contained"
+                icon="arrow-left-circle"
+                iconColor="#FFA500"
+                style={{backgroundColor: '#F2F4F8',
+              //place icon in the start of the row
+              alignSelf: 'flex-start',
+             }}
+
+                />
+          <Text variant="headlineMedium" style={storeStyles.headline}>
+            {data ? data.getStoreById.store.name : t('store.data.loading')}
+          </Text>
+        </View>
         <Text variant="labelLarge"
               style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
           {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.paused') : ""}
@@ -155,6 +166,7 @@ const Store = ({idStore, goBack,route}: any) => {
                       taxable={item.taxable}
                       relatedProduct={item.relatedProduct}
                       availableForSale={item.availableForSale}
+                      relatedStoreIsPaused={!data.getStoreById.store.isOpen}
                       addToCart={(quantity: Float) => {
                         addVariantToCart({
                           variantId: item._id,

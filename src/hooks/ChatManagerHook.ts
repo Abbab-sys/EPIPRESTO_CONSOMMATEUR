@@ -184,7 +184,6 @@ export const useChatManager = (clientId: string): ChatManager => {
     return chatsById.get(id);
   };
 
-  console.log("CHATS: ", chats)
   return [chats, {sendMessage, getChatById}];
 };
 

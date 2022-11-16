@@ -102,7 +102,7 @@ const Dashboard = () => {
               </Text>
             </Text>
             <Text>
-              {data ? (t('dashboard.hello') + " " + data.getClientAccountById.clientAccount.firstName) : ("")}
+              {data ? (t('dashboard.hello') + " " + data.getClientAccountById.clientAccount.firstName) : ("")} 👋
             </Text>
           </View>
           <View>

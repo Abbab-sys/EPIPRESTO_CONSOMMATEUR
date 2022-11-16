@@ -82,7 +82,7 @@ const Account = ({navigation}: any) => {
     });
   };
 
-  const {loading} = useQuery<GetClientInfoData>(GET_CLIENT_INFO_BY_ID, {
+  const {loading, refetch} = useQuery<GetClientInfoData>(GET_CLIENT_INFO_BY_ID, {
     variables: {idClient: clientId},
     onCompleted: handleData,
     onError: openModificationErrorSnackbar,
@@ -131,10 +131,9 @@ const Account = ({navigation}: any) => {
 
   const [modifyAccount] = useMutation(MODIFY_ACCOUNT, {
     onCompleted: () => {
-      dispatchCredentialsState({
-        type: 'CHANGE_CURRENT_USERNAME',
-        newCurrentUsername: storeInput.username});
+      refetch({idClient: clientId})
       openConfirmModificationSnackbar();
+      
     },
     onError: error => {
       openServerErrorSnackbar();

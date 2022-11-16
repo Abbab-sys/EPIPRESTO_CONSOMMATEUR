@@ -190,15 +190,6 @@ export function accountCredentialsReducer(
         },
       };
     }
-    case 'CHANGE_CURRENT_USERNAME': {
-      return {
-        ...state,
-        storeInput: {
-          ...state.storeInput,
-          currentUsername: action.newCurrentUsername,
-        }
-      };
-    }
     case 'SET_USERNAME_ERROR': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(

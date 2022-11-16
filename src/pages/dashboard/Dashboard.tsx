@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {useQuery} from "@apollo/client";
 import React, {useContext, useState} from "react";
 import {useTranslation} from "react-i18next";
@@ -5,6 +6,7 @@ import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View} from
 import {ActivityIndicator, Searchbar} from "react-native-paper";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {useIconButton} from "../../atoms/IconButton";
+import { SettingsItemInfo } from "../settings/SettingsItem";
 import {ClientAuthenticationContext} from "../../context/ClientAuthenticationContext";
 import {GET_CLIENT_ACCOUNT_BY_ID, OrderStatus} from "../../graphql/queries/GetClientAccountById";
 import Category, {CategoryProps} from "./subsections/Category";
@@ -29,6 +31,8 @@ export type OrderData = {
 
 const Dashboard = () => {
 
+  const navigation = useNavigation();
+
   const {t} = useTranslation('translation')
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,7 +52,7 @@ const Dashboard = () => {
   });
 
   const accountButton = useIconButton('account', () => {
-    // TODO Account
+    navigation.navigate('Settings' as never, {items: SettingsItemInfo, title: "settings.title"} as never);
   });
 
   const categories: CategoryProps[] = [

@@ -131,6 +131,14 @@ const OrderedProduct = ({variant}: {variant: ProductVariant}) => {
       paddingTop: StatusBar.currentHeight,
       marginHorizontal: 16,
     },
+    errorText: {
+        textAlign: 'center',
+    },
+    innerContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1
+    },
   
   });
 

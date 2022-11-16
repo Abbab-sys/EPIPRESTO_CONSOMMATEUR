@@ -11,7 +11,6 @@ const ShoppingCart = () => {
   const {t} = useTranslation('translation');
   const {
     cartView,
-
     cartSubTotal,
     cartDeliveryCost,
     cartTaxedSubTotal,
@@ -23,14 +22,10 @@ const ShoppingCart = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleView}>
-        <View style={styles.marginTop}/>
-        <View style={styles.titleWrapper}>
           <Text
             style={styles.title}>
             {t('ShoppingCart.title')}
           </Text>
-        </View>
-        <View style={styles.marginBottom}/>
       </View>
       <View style={styles.orderDetailsView}>
         <View style={styles.orderDetailsWrapper}>
@@ -102,15 +97,6 @@ const styles = StyleSheet.create({
   },
   titleView: {
     flex: 118,
-  },
-  marginTop: {
-    flex: 20,
-  },
-  marginBottom: {
-    flex: 29,
-  },
-  titleWrapper: {
-    flex: 35,
     alignItems: 'center',
   },
   title: {
@@ -120,6 +106,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 36,
     color: '#000000',
+    textAlignVertical: 'center',
   },
   orderDetailsView: {
     flex: 50,

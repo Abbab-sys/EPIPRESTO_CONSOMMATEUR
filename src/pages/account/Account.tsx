@@ -377,10 +377,11 @@ const Account = ({navigation}: any) => {
           </View>
         )}
       </View>
-      <Button style={styles.button} mode="contained" onPress={handleModify}>
-        {translation('settings.account.modify')}
-      </Button>
-      <View style={styles.marginButton} />
+      <View style={styles.buttonView}>
+        <TouchableOpacity style={styles.button} onPress={handleModify}>
+          <Text style={styles.buttonText}>{translation('settings.account.modify')}</Text>
+        </TouchableOpacity>
+      </View>
       {modificationErrorSnackbar}
       {confirmModificationSnackbar}
       {serverErrorSnackbar}
@@ -428,12 +429,13 @@ export const styles = StyleSheet.create({
     color: '#000000',
   },
   scrollView: {
-    flex: 614,
+    flex: 594,
     marginLeft: 20,
     marginRight: 20,
   },
-  marginButton: {
-    flex: 20,
+  buttonView: {
+    flex: 40,
+    alignItems: "center",
   },
   root: {
     height: '100%',
@@ -441,10 +443,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#EAEAEA',
   },
   button: {
-    alignSelf: 'center',
     backgroundColor: '#FFAA55',
     borderRadius: 40,
     width: '76%',
+    height: "100%",
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -469,6 +471,13 @@ export const styles = StyleSheet.create({
     color: '#FFA500',
     fontFamily: 'Lato',
     fontStyle: 'normal',
+  },
+  buttonText: {
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 24,
+    color: '#FFFFFF',
   },
 });
 

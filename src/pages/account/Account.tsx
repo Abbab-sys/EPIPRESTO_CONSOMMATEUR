@@ -416,7 +416,8 @@ export const styles = StyleSheet.create({
   titleWrapper: {
     flex: 95,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    flexDirection : "row"
   },
   title: {
     flex: 1,
@@ -426,6 +427,8 @@ export const styles = StyleSheet.create({
     fontSize: 36,
     includeFontPadding: false,
     textAlignVertical: 'center',
+    textAlign: "center",
+    marginRight: 50,
     color: '#000000',
   },
   scrollView: {
@@ -435,7 +438,6 @@ export const styles = StyleSheet.create({
   },
   buttonView: {
     flex: 40,
-    alignItems: "center",
   },
   root: {
     height: '100%',
@@ -451,14 +453,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   back_button: {
-    position: 'absolute',
-    left: 0,
     justifyContent: 'center',
     alignItems: 'center',
     width: 50,
     height: 50,
     marginLeft: 10,
   },
+
   back_button_icon: {
     width: 35,
     height: 35,

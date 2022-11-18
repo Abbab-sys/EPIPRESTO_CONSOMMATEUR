@@ -79,7 +79,18 @@ const Stores = () => {
             />
           </View>
         ) : stores.length === 0 ? (
+          <View style={storeStyles.innerContainer}>
           <Text>{t('stores.data.noStores')}</Text>
+          <IconButton
+              icon="reload"
+              iconColor="orange"
+              size={30}
+              onPress={() => {
+                console.log("refetching")
+                refetch({idClient: clientId, distance: 15});
+              }}
+            />
+          </View>
         ) : (
           <FlatList
             numColumns={2}

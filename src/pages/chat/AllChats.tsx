@@ -6,16 +6,16 @@ import {ChatContext} from "../../context/ChatContext";
 import ChatSection from "./subsections/ChatSection";
 import Chat from "./subsections/Chat";
 import { IconButton } from "react-native-paper";
+import Loading from "../../components/cart/Loading";
 
 const AllChats = () => {
   const {t} = useTranslation('translation')
 
   const navigation = useNavigation()
 
-  const [chats, {loading, refreshChats}] = useContext(ChatContext);
+  const [chats, {loading, refreshChats, error}] = useContext(ChatContext);
 
 
-  console.log('CHAT MANAGER: ', chats);
 
   const [currChatId,setCurrChatId] = useState('')
   if (currChatId)
@@ -23,7 +23,21 @@ const AllChats = () => {
     ></Chat>
   return(
     <SafeAreaView style={styles.root}>
-      {chats.length === 0 ?
+      {loading ?  (
+        <Loading />
+      ) : !error ? (
+        <View style={styles.innerView}>
+        <Text>{t("chat.error")}</Text>
+        <IconButton
+              icon="reload"
+              iconColor="orange"
+              size={30}
+              onPress={() => {
+                refreshChats();
+              }}
+            />
+        </View>
+      ) : chats.length === 0 ?
         (
           <View style={styles.innerView}>
             <Text>{t('chat.noChats')}</Text>
@@ -74,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
 })
 
 export default AllChats

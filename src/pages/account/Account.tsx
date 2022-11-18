@@ -82,7 +82,7 @@ const Account = ({navigation}: any) => {
     });
   };
 
-  const {loading} = useQuery<GetClientInfoData>(GET_CLIENT_INFO_BY_ID, {
+  const {loading, refetch} = useQuery<GetClientInfoData>(GET_CLIENT_INFO_BY_ID, {
     variables: {idClient: clientId},
     onCompleted: handleData,
     onError: openModificationErrorSnackbar,
@@ -131,10 +131,9 @@ const Account = ({navigation}: any) => {
 
   const [modifyAccount] = useMutation(MODIFY_ACCOUNT, {
     onCompleted: () => {
-      dispatchCredentialsState({
-        type: 'CHANGE_CURRENT_USERNAME',
-        newCurrentUsername: storeInput.username});
+      refetch({idClient: clientId})
       openConfirmModificationSnackbar();
+      
     },
     onError: error => {
       openServerErrorSnackbar();
@@ -378,10 +377,11 @@ const Account = ({navigation}: any) => {
           </View>
         )}
       </View>
-      <Button style={styles.button} mode="contained" onPress={handleModify}>
-        {translation('settings.account.modify')}
-      </Button>
-      <View style={styles.marginButton} />
+      <View style={styles.buttonView}>
+        <TouchableOpacity style={styles.button} onPress={handleModify}>
+          <Text style={styles.buttonText}>{translation('settings.account.modify')}</Text>
+        </TouchableOpacity>
+      </View>
       {modificationErrorSnackbar}
       {confirmModificationSnackbar}
       {serverErrorSnackbar}
@@ -416,7 +416,8 @@ export const styles = StyleSheet.create({
   titleWrapper: {
     flex: 95,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    flexDirection : "row"
   },
   title: {
     flex: 1,
@@ -426,15 +427,17 @@ export const styles = StyleSheet.create({
     fontSize: 36,
     includeFontPadding: false,
     textAlignVertical: 'center',
+    textAlign: "center",
+    marginRight: 50,
     color: '#000000',
   },
   scrollView: {
-    flex: 614,
+    flex: 594,
     marginLeft: 20,
     marginRight: 20,
   },
-  marginButton: {
-    flex: 20,
+  buttonView: {
+    flex: 40,
   },
   root: {
     height: '100%',
@@ -442,22 +445,21 @@ export const styles = StyleSheet.create({
     backgroundColor: '#EAEAEA',
   },
   button: {
-    alignSelf: 'center',
     backgroundColor: '#FFAA55',
     borderRadius: 40,
     width: '76%',
+    height: "100%",
     alignItems: 'center',
     justifyContent: 'center',
   },
   back_button: {
-    position: 'absolute',
-    left: 0,
     justifyContent: 'center',
     alignItems: 'center',
     width: 50,
     height: 50,
     marginLeft: 10,
   },
+
   back_button_icon: {
     width: 35,
     height: 35,
@@ -470,6 +472,13 @@ export const styles = StyleSheet.create({
     color: '#FFA500',
     fontFamily: 'Lato',
     fontStyle: 'normal',
+  },
+  buttonText: {
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 24,
+    color: '#FFFFFF',
   },
 });
 

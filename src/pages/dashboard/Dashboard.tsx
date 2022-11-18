@@ -48,11 +48,11 @@ const Dashboard = () => {
   }
 
   const searchButton = useIconButton('cog', () => {
-    // TODO SEARCH BAR
+    navigation.navigate('Settings' as never, {items: SettingsItemInfo, title: "settings.title"} as never);
   });
 
   const accountButton = useIconButton('account', () => {
-    navigation.navigate('Settings' as never, {items: SettingsItemInfo, title: "settings.title"} as never);
+    navigation.navigate('Account' as never);
   });
 
   const categories: CategoryProps[] = [

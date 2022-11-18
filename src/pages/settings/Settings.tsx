@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
   titleWrapper: {
     flex: 95,
     alignItems: 'center',
-    justifyContent:'center'
+    justifyContent: 'space-between',
+    flexDirection : "row"
   },
   title: {
     flex: 1,
@@ -173,6 +174,8 @@ const styles = StyleSheet.create({
     fontSize: 36,
     includeFontPadding: false,
     textAlignVertical: 'center',
+    textAlign: "center",
+    marginRight : 50,
     color: '#000000',
   },
   marginBottom: {
@@ -185,8 +188,6 @@ const styles = StyleSheet.create({
     flex: 634,
   },
   back_button: {
-    position: 'absolute',
-    left: 0,
     justifyContent: 'center',
     alignItems: 'center',
     width: 50,

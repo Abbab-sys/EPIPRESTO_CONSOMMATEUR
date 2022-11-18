@@ -67,6 +67,7 @@ export const storeStyles = StyleSheet.create({
     },
     innerContainer: {
         justifyContent: 'center',
+        alignItems: 'center',
         flex: 1
     },
     loading: {

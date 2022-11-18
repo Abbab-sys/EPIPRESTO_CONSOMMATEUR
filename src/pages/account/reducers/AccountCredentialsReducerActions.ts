@@ -10,6 +10,5 @@ export type AccountCredentialsReducerActions =
     | { type: 'CHANGE_FIRST_NAME', newFirstName: string }
     | { type: 'CHANGE_LAST_NAME', newLastName: string }
     | { type: 'CHANGE_PASSWORD', newPassword: string }
-    | { type: 'CHANGE_CURRENT_USERNAME', newCurrentUsername: string }
     | { type: 'SET_USERNAME_ERROR', usernameError: string, error: boolean }
     | { type: 'SET_STORE_CREDENTIALS', data: GetClientInfoData}

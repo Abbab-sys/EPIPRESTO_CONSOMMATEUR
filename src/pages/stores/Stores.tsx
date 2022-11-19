@@ -42,7 +42,6 @@ const Stores = () => {
   const showModal = (dispo: string[]) => {setVisible(true)
   console.log("showModal")
   setDisponibilities(dispo)
-  console.log("dispo",disponibilities)
 };
   const hideModal = () => {setVisible(false), setDisponibilities([])};
   const containerStyle = {backgroundColor: 'white', padding: 20, elevation: 4, margin: "2%", borderRadius: 30};
@@ -69,9 +68,11 @@ const Stores = () => {
         const disponibilities = store.disponibilities.map((disponibility: any) => {
           return disponibility.day + " " + disponibility.activesHours[0].openingHour + "-" + disponibility.activesHours[0].endingHour
         })
+        console.log("disponibilities", disponibilities)
         return {...store, disponibilities: disponibilities}
       })
       setStores(formattedStores)
+      console.log("formattedStores", formattedStores)
     },
   });
 

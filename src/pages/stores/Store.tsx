@@ -124,7 +124,7 @@ const Store = ({idStore, goBack,route}: any) => {
         </View>
         <Text variant="labelLarge"
               style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
-          {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.paused') : ""}
+          {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.closed') : ""}
         </Text>
         <Text variant="labelSmall">
           {data ? data.getStoreById.store.address : ""}

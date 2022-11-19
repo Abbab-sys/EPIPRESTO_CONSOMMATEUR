@@ -54,12 +54,14 @@ const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
         <LoginInput
           errors={passwordErrors}
           placeholder={t('signUp.stepper.account.password')}
+          type="password"
           setValue={setPassword}
           value={password}
         />
         <LoginInput
           errors={confirmPasswordErrors}
           placeholder={t('signUp.stepper.account.confirmPassword.title')}
+          type="password"
           setValue={setConfirmPassword}
           value={confirmPassword}
         />

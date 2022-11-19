@@ -144,7 +144,8 @@
     "total": "Total"
   },
   "chat": {
-    "noChats": "Pas de chats disponibles"
+    "noChats": "Pas de chats disponibles",
+    "error": "Erreur! Impossible de récupérer les chats"
   },
   "ShoppingCart": {
     "title": "PANIER",

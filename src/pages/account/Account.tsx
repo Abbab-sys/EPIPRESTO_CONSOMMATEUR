@@ -86,6 +86,7 @@ const Account = ({navigation}: any) => {
     variables: {idClient: clientId},
     onCompleted: handleData,
     onError: openModificationErrorSnackbar,
+    fetchPolicy: 'network-only',
   });
 
   const areAllCredentialsFieldsValid = (): boolean => {
@@ -438,6 +439,7 @@ export const styles = StyleSheet.create({
   },
   buttonView: {
     flex: 40,
+    alignItems: 'center',
   },
   root: {
     height: '100%',

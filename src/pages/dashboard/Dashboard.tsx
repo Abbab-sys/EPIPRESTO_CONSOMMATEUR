@@ -114,7 +114,7 @@ const Dashboard = () => {
           </View>
         </View>
         <View style={styles.searchBar}>
-          <Searchbar elevation={0} placeholder={t('dashboard.search')} onChangeText={handleSearch} value={searchQuery}/>
+          <Searchbar elevation={0} placeholder={t('dashboard.search')} onChangeText={handleSearch} value={searchQuery} />
         </View>
         <View style={styles.categoriesContainer}>
           <Text style={styles.categoriesTitle}>
@@ -134,7 +134,9 @@ const Dashboard = () => {
               {t('dashboard.nearbyShops.title')}
             </Text>
             <View style={{marginTop: '1%'}}>
-              <Text style={styles.seeAll}>
+              <Text style={styles.seeAll} onPress={()=>{
+                //TODO
+              }}>
                 {t('dashboard.seeAll')}
               </Text>
             </View>
@@ -229,8 +231,8 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
     marginTop: '1%',
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     backgroundColor: 'rgba(242, 244, 248, 0.93)',
     elevation: 5,
   },

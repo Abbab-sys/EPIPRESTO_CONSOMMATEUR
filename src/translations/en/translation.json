@@ -147,7 +147,8 @@
     "total": "Total"
   },
   "chat": {
-    "noChats": "No chats available"
+    "noChats": "No chats available",
+    "error": "Error! Something went wrong while fetching your chats"
   },
   "ShoppingCart": {
     "title" : "Shopping Cart",

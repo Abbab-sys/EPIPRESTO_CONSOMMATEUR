@@ -17,7 +17,6 @@ const OrdersHistory = () => {
   const [orders, setOrders] = useState<OrderHistory[]>([]);
   const {t} = useTranslation('translation');
   const handleData = async (data: GetOrdersData) => {
-    console.log('data', data);
     const ordersDatabase = data.getClientAccountById.clientAccount.orders;
     const ordersData: OrderHistory[] = [];
     ordersDatabase.forEach(order => {
@@ -52,6 +51,7 @@ const OrdersHistory = () => {
   });
 
 
+  
   const [currOrderId, setCurrOrderId] = useState('')
   const renderItem = ({item}: { item: OrderHistory }) => {
     return <OrdersItem order={item} goToOrder={() => setCurrOrderId(item.id)}/>;
@@ -61,6 +61,7 @@ const OrdersHistory = () => {
   if (currOrderId) {
     return <Order navigation={navigation} orderId={currOrderId} goBack={() => setCurrOrderId('')}></Order>;
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleView}>
@@ -72,7 +73,7 @@ const OrdersHistory = () => {
       <View style={styles.restMargin}>
         {loading ? (
           <Loading/>
-        ) : error ? (
+        ): error ? (
           <View style={styles.innerContainer}>
             <Text style={styles.errorText}>{t('OrdersHistory.orderHistoryError')}</Text>
             <IconButton
@@ -84,6 +85,18 @@ const OrdersHistory = () => {
               }}
             />
           </View>
+        ): orders.length === 0 ? (
+          <View style={styles.innerContainer}>
+          <Text style={styles.errorText}>{t("dashboard.latestOrders.errors.notAvailable")}</Text>
+          <IconButton
+              icon="reload"
+              iconColor="orange"
+              size={30}
+              onPress={() => {
+                refetch({idClient: clientId, distance: 15});
+              }}
+            />
+            </View>
         )
           : (
             <FlatList

@@ -41,6 +41,9 @@ export type ChatManager = [
   {
     sendMessage: (channelId: string, content: string) => void;
     getChatById: (id: string) => Chat | undefined;
+    loading: boolean;
+    error: any;
+    refreshChats: () => void;
   },
 ];
 
@@ -98,10 +101,14 @@ export const useChatManager = (clientId: string): ChatManager => {
     setChats(chatsSortedByDate);
   };
 
-  useQuery(GET_INITIAL_CHATS, {
+  const {loading, error, refetch}= useQuery(GET_INITIAL_CHATS, {
     variables: {idClient: clientId},
     onCompleted: onInitialFetchComplete,
   });
+
+  const refreshChats = () => {
+    refetch({idClient: clientId});
+  };
 
   const onMessageCorrectlySent = (data: any) => {
     ///TODO DO ACCUSED CHECK
@@ -185,7 +192,7 @@ export const useChatManager = (clientId: string): ChatManager => {
   };
 
   console.log("CHATS: ", chats)
-  return [chats, {sendMessage, getChatById}];
+  return [chats, {sendMessage, getChatById, refreshChats, loading, error}];
 };
 
 export const useStateMap = <KEY, VALUE>(initialMap: Map<KEY, VALUE>) => {

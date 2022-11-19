@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native"
 const text_font_family = 'Lato';
 const text_font_style = 'normal';
 
-export const storeStyles = StyleSheet.create({
+export const productPageStyles = StyleSheet.create({
     root: {
       flex: 1,
     //   margin: 20,
@@ -67,7 +67,6 @@ export const storeStyles = StyleSheet.create({
     },
     innerContainer: {
         justifyContent: 'center',
-        alignItems: 'center',
         flex: 1
     },
     loading: {

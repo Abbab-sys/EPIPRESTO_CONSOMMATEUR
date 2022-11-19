@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import {useQuery} from "@apollo/client";
 import React, {useContext, useState} from "react";
 import {useTranslation} from "react-i18next";
@@ -5,6 +6,7 @@ import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View} from
 import {ActivityIndicator, Searchbar} from "react-native-paper";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {useIconButton} from "../../atoms/IconButton";
+import { SettingsItemInfo } from "../settings/SettingsItem";
 import {ClientAuthenticationContext} from "../../context/ClientAuthenticationContext";
 import {GET_CLIENT_ACCOUNT_BY_ID, OrderStatus} from "../../graphql/queries/GetClientAccountById";
 import Category, {CategoryProps} from "./subsections/Category";
@@ -29,6 +31,8 @@ export type OrderData = {
 
 const Dashboard = () => {
 
+  const navigation = useNavigation();
+
   const {t} = useTranslation('translation')
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -44,11 +48,11 @@ const Dashboard = () => {
   }
 
   const searchButton = useIconButton('cog', () => {
-    // TODO SEARCH BAR
+    navigation.navigate('Settings' as never, {items: SettingsItemInfo, title: "settings.title"} as never);
   });
 
   const accountButton = useIconButton('account', () => {
-    // TODO Account
+    navigation.navigate('Account' as never);
   });
 
   const categories: CategoryProps[] = [
@@ -102,7 +106,7 @@ const Dashboard = () => {
               </Text>
             </Text>
             <Text>
-              {data ? (t('dashboard.hello') + " " + data.getClientAccountById.clientAccount.firstName) : ("")}
+              {data ? (t('dashboard.hello') + " " + data.getClientAccountById.clientAccount.firstName) : ("")} 👋
             </Text>
           </View>
           <View>
@@ -110,7 +114,7 @@ const Dashboard = () => {
           </View>
         </View>
         <View style={styles.searchBar}>
-          <Searchbar elevation={0} placeholder={t('dashboard.search')} onChangeText={handleSearch} value={searchQuery}/>
+          <Searchbar elevation={0} placeholder={t('dashboard.search')} onChangeText={handleSearch} value={searchQuery} />
         </View>
         <View style={styles.categoriesContainer}>
           <Text style={styles.categoriesTitle}>
@@ -130,7 +134,9 @@ const Dashboard = () => {
               {t('dashboard.nearbyShops.title')}
             </Text>
             <View style={{marginTop: '1%'}}>
-              <Text style={styles.seeAll}>
+              <Text style={styles.seeAll} onPress={()=>{
+                //TODO
+              }}>
                 {t('dashboard.seeAll')}
               </Text>
             </View>
@@ -225,8 +231,8 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
     marginTop: '1%',
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     backgroundColor: 'rgba(242, 244, 248, 0.93)',
     elevation: 5,
   },

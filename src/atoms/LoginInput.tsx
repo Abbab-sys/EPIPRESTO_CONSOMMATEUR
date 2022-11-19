@@ -10,8 +10,10 @@ export type LoginInputProps = {
   errors?: Error[],
   label?: string;
   placeholder?: string;
+  type?:string
 }
 const LoginInput = (props: LoginInputProps) => {
+  const [passwordVisible, setPasswordVisible] = React.useState(true);
 
   const {t} = useTranslation('translation')
 
@@ -27,7 +29,20 @@ const LoginInput = (props: LoginInputProps) => {
         <View style={styles.inputContainer}>
           <View style={styles.textInputWrapper}>
             <TextInput style={styles.textInput} theme={{roundness: 12}}
-                       mode={"outlined"} value={props.value} onChangeText={props.setValue}>
+                       mode={"outlined"} value={props.value} onChangeText={props.setValue}
+                        secureTextEntry={props.type === "password" ? passwordVisible : false}
+                       right={
+                        props.type === "password"  ? (
+                          <TextInput.Icon
+                            icon={passwordVisible ? 'eye' : 'eye-off'}
+                            iconColor={'black'}
+                            forceTextInputFocus={false}
+                            onPress={() => {
+                              setPasswordVisible(!passwordVisible);
+                            }}
+                          />
+                        ):null}
+                       >
             </TextInput>
             {errors.length>0? <HelperText type="error" visible={errors.length > 0}>
               {errors.length > 0 && t(errors[0].messageKey)}

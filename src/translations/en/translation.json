@@ -161,7 +161,8 @@
     "total": "Total"
   },
   "chat": {
-    "noChats": "No chats available"
+    "noChats": "No chats available",
+    "error": "Error! Something went wrong while fetching your chats"
   },
   "ShoppingCart": {
     "title" : "Shopping Cart",
@@ -202,5 +203,17 @@
         "noOrders": "You have not made any orders yet"
       }
     }
+  },
+  "settings":{
+    "title": "Settings",
+    "account": {
+      "title": "Account",
+      "modify":"Modify",
+      "modifyError":"Error : Some fields are incorrect",
+      "serverError":"Error : An error occured while modifying your account",
+      "modifySuccess":"Your store has been successfully modified"
+    },
+    "language": "Language",
+    "logout": "Logout"
   }
 }

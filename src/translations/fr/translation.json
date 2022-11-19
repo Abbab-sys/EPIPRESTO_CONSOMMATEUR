@@ -1,5 +1,6 @@
 {
   "language": {
+    "title": "Langage",
     "en": "Anglais",
     "fr": "Français"
   },
@@ -157,7 +158,8 @@
     "total": "Total"
   },
   "chat": {
-    "noChats": "Pas de chats disponibles"
+    "noChats": "Pas de chats disponibles",
+    "error": "Erreur! Impossible de récupérer les chats"
   },
   "ShoppingCart": {
     "title": "PANIER",
@@ -198,5 +200,17 @@
         "noOrders": "Vous n'avez pas encore fait de commandes"
       }
     }
+  },
+  "settings":{
+    "title": "Paramètres",
+    "account": {
+      "title": "Compte",
+      "modify":"Modifier",
+      "modifyError": "Erreur : Certains champs renseignés sont incorrects",
+      "serverError": "Erreur : Une erreur est survenue lors de la modification de votre compte",
+      "modifySuccess": "Votre boutique a été modifiée avec succès!"
+    },
+    "language": "Langue",
+    "logout": "Déconnexion"
   }
 }

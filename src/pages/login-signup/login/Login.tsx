@@ -91,7 +91,7 @@ const Login: (props: LoginProps) => JSX.Element = () => {
               <LoginInput placeholder={t('login.usernameOrEmail.placeholder')}
                           label={t('login.usernameOrEmail.placeholder')}  setValue={setIdentifier}
                           value={identifier}></LoginInput>
-              <LoginInput placeholder={t('login.password.placeholder')}
+              <LoginInput placeholder={t('login.password.placeholder')} type="password"
                           label={t('login.password.placeholder')} setValue={setPassword} value={password}></LoginInput>
             </View>
 

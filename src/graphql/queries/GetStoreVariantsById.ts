@@ -9,6 +9,7 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
         name
         address
         isOpen
+        isPaused
         products(offset: $offset, first: $first) {
           published
           variants {

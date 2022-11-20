@@ -14,17 +14,7 @@ import {productStyles} from './subsections/ProductStyles';
 import {ClientAuthenticationContext} from '../../context/ClientAuthenticationContext';
 import {GET_CLIENT_ACCOUNT_BY_ID} from '../../graphql/queries/GetClientAccountById';
 import {useTranslation} from 'react-i18next';
-import Store from './Store';
-
-export interface StoreProps {
-  _id: string;
-  name: string;
-  address: string;
-  isOpen: boolean;
-  isPaused: boolean;
-  shopCategory: string;
-  disponibilities: string[];
-}
+import Store, { StoreProps } from './Store';
 
 const Stores = () => {
 

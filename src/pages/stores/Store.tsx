@@ -9,6 +9,16 @@ import {Float} from "react-native/Libraries/Types/CodegenTypes";
 import {useTranslation} from "react-i18next";
 import {useCartManager} from "../../hooks/management/useCartManager";
 
+export interface StoreProps {
+  _id: string;
+  name: string;
+  address: string;
+  isOpen: boolean;
+  isPaused: boolean;
+  shopCategory: string;
+  disponibilities: string[];
+}
+
 const Store = ({idStore, goBack,route}: any) => {
 
   let finalStoreId = idStore;
@@ -38,6 +48,8 @@ const Store = ({idStore, goBack,route}: any) => {
 
   const [variants, setVariants] = useState<VariantProps[]>([])
 
+  const [store, setStore] = useState<StoreProps>();
+
   const handleSearch = (text: React.SetStateAction<string>) => {
     setSearchQuery(text)
     if (text.toString() === "") {
@@ -66,6 +78,8 @@ const Store = ({idStore, goBack,route}: any) => {
     },
     fetchPolicy: 'network-only',
     onCompleted(data) {
+      // set store for only storeProps
+      setStore(data.getStoreById.store)
       const products = data.getStoreById.store.products
       console.log("products", products)
       // consider only products that are published
@@ -119,15 +133,16 @@ const Store = ({idStore, goBack,route}: any) => {
 
                 />
           <Text variant="headlineMedium" style={storeStyles.headline}>
-            {data ? data.getStoreById.store.name : t('store.data.loading')}
+            {store ? store.name : t('store.data.loading')}
           </Text>
         </View>
         <Text variant="labelLarge"
-              style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
-          {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.closed') : ""}
+              style={store ? (!data.getStoreById.store.isOpen || store.isPaused) ? 
+              {color: "red"} : {color: "green"} : {}}>
+          {store ? store.isOpen ? t('store.open') : (store.isPaused ? t('store.paused') :t('store.closed')) : ""}
         </Text>
         <Text variant="labelSmall">
-          {data ? data.getStoreById.store.address : ""}
+          {store ? store.address : ""}
         </Text>
       </View>
       <View>

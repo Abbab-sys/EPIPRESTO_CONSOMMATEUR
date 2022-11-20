@@ -147,6 +147,7 @@
     "total": "Total"
   },
   "chat": {
+    "title": "Chats",
     "noChats": "No chats available",
     "error": "Error! Something went wrong while fetching your chats"
   },

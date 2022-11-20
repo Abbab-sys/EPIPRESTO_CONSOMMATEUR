@@ -78,7 +78,7 @@ export const useCartManager = () => {
           storeVariants.set(variant.variantId, variantInCart);
           setCart(new Map(cart.set(store, storeVariants)));
         } else {
-          storeVariants.set(variant.variantId, {...variant, quantity: 1});
+          storeVariants.set(variant.variantId, {...variant, quantity: quantity});
           setVariantIdStore(
             new Map(variantIdStore.set(variant.variantId, store)),
           );
@@ -86,12 +86,12 @@ export const useCartManager = () => {
         }
       } else {
         const newStoreCart = new Map<string, OrderVariant>();
-        newStoreCart.set(variant.variantId, {...variant, quantity: 1});
+        newStoreCart.set(variant.variantId, {...variant, quantity: quantity});
         setCart(new Map(cart.set(store, newStoreCart)));
       }
     } else {
       const newStoreCart = new Map<string, OrderVariant>();
-      newStoreCart.set(variant.variantId, {...variant, quantity: 1});
+      newStoreCart.set(variant.variantId, {...variant, quantity: quantity});
       const newStore = {
         storeId: variant.storeId,
         storeName: variant.storeName,

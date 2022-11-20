@@ -23,6 +23,10 @@ const AllChats = () => {
     ></Chat>
   return(
     <SafeAreaView style={styles.root}>
+      <View style={styles.titleView}>
+          <Text style={styles.title}>{t('chat.title')}</Text>
+      </View>
+      <View style={styles.restMargin}>
       {loading ?  (
         <Loading />
       ) : !error ? (
@@ -75,6 +79,7 @@ const AllChats = () => {
           />
         )
       }
+      </View>
     </SafeAreaView>
   )
 }
@@ -88,6 +93,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  titleView: {
+    flex: 88,
+    alignItems: 'center',
+  },
+  title: {
+    flex: 1,
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 36,
+    includeFontPadding: false,
+    color: '#000000',
+    textAlignVertical: 'center',
+  },
+  restMargin: {
+    flex: 671,
   },
 })
 

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {ActivityIndicator, FlatList, SafeAreaView, View} from "react-native";
+import {ActivityIndicator, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
 import {Button, Searchbar, Snackbar, Text} from 'react-native-paper';
 import {useQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
@@ -105,12 +105,18 @@ const Store = ({idStore, goBack,route}: any) => {
 
   return (
     <SafeAreaView style={storeStyles.root}>
-      <View style={storeStyles.view}>
-        <Button icon="arrow-left-circle" mode="contained" onPress={finalGoBack}>
-        </Button>
-        <Text variant="headlineMedium" style={storeStyles.headline}>
-          {data ? data.getStoreById.store.name : t('store.data.loading')}
+        <View style={storeStyles.titleWrapper}>
+        <TouchableOpacity style={storeStyles.back_button} onPress={finalGoBack}>
+          <Image
+            style={storeStyles.back_button_icon}
+            source={require('../../assets/images/back.png')}
+          />
+        </TouchableOpacity>
+        <Text style={storeStyles.title}>
+        {data ? data.getStoreById.store.name : t('store.data.loading')}
         </Text>
+      </View>
+      <View style={storeStyles.view}>
         <Text variant="labelLarge"
               style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
           {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.closed') : ""}

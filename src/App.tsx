@@ -22,7 +22,7 @@ const App: () => JSX.Element = () => {
   );
 
   const httpLink = new HttpLink({
-    uri: 'http://localhost:4000/graphql',
+    uri: 'http://52.90.77.253:4000/graphql',
   });
 
   const splitLink = split(

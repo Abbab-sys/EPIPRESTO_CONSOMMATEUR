@@ -3,9 +3,11 @@ import {CartContext, OrderVariant, StoreOrder} from '../../context/CartContext';
 import {Image, SectionList, StatusBar, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {GET_VARIANT_QUANTITY, GetVariantQuantityData,} from '../../graphql/queries/GetVariantQuantity';
-import {useLazyQuery} from '@apollo/client';
+import {useLazyQuery, useMutation} from '@apollo/client';
 import {useSnackbar} from '../UiHooks/UiHooks';
 import { useTranslation } from 'react-i18next';
+import { SUBMIT_ORDER } from '../../graphql/mutations/SubmitOrder';
+import { ClientAuthenticationContext } from '../../context/ClientAuthenticationContext';
 
 export type AddVariantToCart = {
   variantId: string;
@@ -20,6 +22,8 @@ export const useCartManager = () => {
   const {cart, setCart, variantIdStore, setVariantIdStore} =
     useContext(CartContext);
     const {t} = useTranslation('translation');
+    const [submitOrder, {data: submitOrderData}] = useMutation(SUBMIT_ORDER)
+    const clientId = useContext(ClientAuthenticationContext).clientId
 
   const [
     quantityErrorSnackbar,
@@ -57,6 +61,41 @@ export const useCartManager = () => {
       }
     }
   }, [unwrappedDataQuantity]);
+
+  useEffect(() => {
+    if(submitOrderData) {
+      clearCart()
+    }
+  }, [submitOrderData])
+
+  const submitCartOrder = async () => {
+    const productsVariantsToOrder: any[] = []
+    for (let [store, variantMap] of cart) {
+      for (let [variantId, variant] of variantMap) {
+        productsVariantsToOrder.push({
+          discount: 0,
+          quantity: variant.quantity,
+          relatedProductVariantId: variant.variantId
+        })
+      }
+    } 
+    const orderId = await submitOrder({
+      variables: {
+        clientId: clientId,
+        //TO CHANGE TO WHAT USER CHOOSES
+        paymentMethod: 'VISA',
+        productsVariantsToOrder
+      }
+    })
+    return orderId.data.submitOrder.order._id
+    // .then(({data, errors}) => {
+    //   console.log("DATA: ", data)
+    //   console.log("ERRORS: ", errors)
+    //   if(data){
+    //     return data.submitOrder.order._id
+    //   }
+    // })
+  }
 
   const addVariantToCart = (variant: AddVariantToCart,quantity:number) => {
     let store = variantIdStore.get(variant.variantId);
@@ -307,6 +346,7 @@ export const useCartManager = () => {
     cartTaxedSubTotal,
     quantityErrorSnackbar,
     clearCart,
+    submitCartOrder
   };
 };
 

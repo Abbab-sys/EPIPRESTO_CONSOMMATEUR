@@ -3,9 +3,12 @@ import {CartContext, OrderVariant, StoreOrder} from '../../context/CartContext';
 import {Image, SectionList, StatusBar, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {GET_VARIANT_QUANTITY, GetVariantQuantityData,} from '../../graphql/queries/GetVariantQuantity';
-import {useLazyQuery} from '@apollo/client';
+import {useLazyQuery, useMutation} from '@apollo/client';
 import {useSnackbar} from '../UiHooks/UiHooks';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {SUBMIT_ORDER} from '../../graphql/mutations/SubmitOrder';
+import {ClientAuthenticationContext} from '../../context/ClientAuthenticationContext';
+import {ChatContext} from "../../context/ChatContext";
 
 export type AddVariantToCart = {
   variantId: string;
@@ -19,7 +22,12 @@ export type AddVariantToCart = {
 export const useCartManager = () => {
   const {cart, setCart, variantIdStore, setVariantIdStore} =
     useContext(CartContext);
-    const {t} = useTranslation('translation');
+
+  const [_, {refreshChats}] = useContext(ChatContext);
+
+  const {t} = useTranslation('translation');
+  const [submitOrder, {data: submitOrderData}] = useMutation(SUBMIT_ORDER)
+  const clientId = useContext(ClientAuthenticationContext).clientId
 
   const [
     quantityErrorSnackbar,
@@ -58,7 +66,44 @@ export const useCartManager = () => {
     }
   }, [unwrappedDataQuantity]);
 
-  const addVariantToCart = (variant: AddVariantToCart,quantity:number) => {
+  useEffect(() => {
+    if (submitOrderData) {
+      clearCart()
+      refreshChats()
+
+    }
+  }, [submitOrderData])
+
+  const submitCartOrder = async () => {
+    const productsVariantsToOrder: any[] = []
+    for (let [store, variantMap] of cart) {
+      for (let [variantId, variant] of variantMap) {
+        productsVariantsToOrder.push({
+          discount: 0,
+          quantity: variant.quantity,
+          relatedProductVariantId: variant.variantId
+        })
+      }
+    }
+    const orderId = await submitOrder({
+      variables: {
+        clientId: clientId,
+        //TO CHANGE TO WHAT USER CHOOSES
+        paymentMethod: 'VISA',
+        productsVariantsToOrder
+      }
+    })
+    return orderId.data.submitOrder.order._id
+    // .then(({data, errors}) => {
+    //   console.log("DATA: ", data)
+    //   console.log("ERRORS: ", errors)
+    //   if(data){
+    //     return data.submitOrder.order._id
+    //   }
+    // })
+  }
+
+  const addVariantToCart = (variant: AddVariantToCart, quantity: number) => {
     let store = variantIdStore.get(variant.variantId);
     if (!store) {
       for (let storeOrder of cart.keys()) {
@@ -199,25 +244,25 @@ export const useCartManager = () => {
 
   // todo map in an array all the cart
   const getCart = () => {
-    const cartArray: {store: StoreOrder; data: OrderVariant[]}[] = [];
+    const cartArray: { store: StoreOrder; data: OrderVariant[] }[] = [];
     cart.forEach((variants, store) => {
       cartArray.push({store, data: Array.from(variants.values())});
     });
     return cartArray;
   };
-  const CartItem = ({variant}: {variant: OrderVariant}) => {
+  const CartItem = ({variant}: { variant: OrderVariant }) => {
     return (
       <View style={styles.cartItem}>
         <View style={styles.margin}></View>
         <View style={styles.imageWrapper}>
-          <View style={styles.imageMargin} />
-          <Image source={{uri: variant.imageSrc}} style={styles.image} />
-          <View style={styles.imageMargin} />
+          <View style={styles.imageMargin}/>
+          <Image source={{uri: variant.imageSrc}} style={styles.image}/>
+          <View style={styles.imageMargin}/>
         </View>
-        <View style={styles.margin} />
-        <View style={styles.margin} />
+        <View style={styles.margin}/>
+        <View style={styles.margin}/>
         <View style={styles.cartItemInfo}>
-          <View style={styles.cartItemInfoTopMargin} />
+          <View style={styles.cartItemInfoTopMargin}/>
           <View style={styles.cartItemNameView}>
             <Text
               adjustsFontSizeToFit
@@ -231,13 +276,13 @@ export const useCartManager = () => {
               adjustsFontSizeToFit
               numberOfLines={1}
               style={styles.cartItemPrice}>
-              {((variant.price*100)/100).toFixed(2)} $
+              {((variant.price * 100) / 100).toFixed(2)} $
             </Text>
           </View>
-          <View style={styles.cartItemInfoBottomMargin} />
+          <View style={styles.cartItemInfoBottomMargin}/>
         </View>
         <View style={styles.quantityWrapper}>
-          <View style={styles.margin} />
+          <View style={styles.margin}/>
           <View style={styles.deleteVariantWrapper}>
             <TouchableOpacity
               onPress={() => {
@@ -246,7 +291,7 @@ export const useCartManager = () => {
               <Icon name="times" color="#FFAA55" size={20}></Icon>
             </TouchableOpacity>
           </View>
-          <View style={styles.margin} />
+          <View style={styles.margin}/>
           <View style={styles.cartItemQuantity}>
             <TouchableOpacity
               onPress={() => {
@@ -263,21 +308,21 @@ export const useCartManager = () => {
               <Icon color="black" name="plus" size={25}></Icon>
             </TouchableOpacity>
           </View>
-          <View style={styles.margin} />
-          <View style={styles.margin} />
-          <View style={styles.margin} />
-          <View style={styles.margin} />
+          <View style={styles.margin}/>
+          <View style={styles.margin}/>
+          <View style={styles.margin}/>
+          <View style={styles.margin}/>
         </View>
-        <View style={styles.margin} />
+        <View style={styles.margin}/>
       </View>
     );
   };
 
   type CartListProps = {
-    cartData: {store: StoreOrder; data: OrderVariant[]}[];
+    cartData: { store: StoreOrder; data: OrderVariant[] }[];
   };
   const CartList = (props: CartListProps) => {
-    const sectionListRef=useRef(null)
+    const sectionListRef = useRef(null)
     // sectionListRef.current?.scrollToLocation({sectionIndex:currSectionIndex?.current,itemIndex:currItemIndex?.current})
 
     return (
@@ -290,9 +335,10 @@ export const useCartManager = () => {
           <Text style={styles.header}>{store.storeName}</Text>
         )}
       />)
-    };
+  };
 
-  const cartView = cart.size > 0 ? <CartList cartData={getCart()}></CartList> : <View style={styles.emptyCart}><Text style={styles.emptyCartText}>{t("ShoppingCart.emptyCart")}</Text></View>;
+  const cartView = cart.size > 0 ? <CartList cartData={getCart()}></CartList> :
+    <View style={styles.emptyCart}><Text style={styles.emptyCartText}>{t("ShoppingCart.emptyCart")}</Text></View>;
 
   return {
     cart,
@@ -307,6 +353,7 @@ export const useCartManager = () => {
     cartTaxedSubTotal,
     quantityErrorSnackbar,
     clearCart,
+    submitCartOrder
   };
 };
 

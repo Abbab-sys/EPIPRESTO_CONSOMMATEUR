@@ -144,7 +144,7 @@ const Dashboard = () => {
           <View style={{flex: 10}}>
             {loading ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <ActivityIndicator/>
+                <ActivityIndicator color="#FFAA55"/>
               </View>
             ) : error ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -181,7 +181,7 @@ const Dashboard = () => {
           <View style={{flex: 10}}>
             {loading ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <ActivityIndicator/>
+                <ActivityIndicator color="#FFAA55"/>
               </View>
             ) : error ? (
               <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
@@ -195,7 +195,6 @@ const Dashboard = () => {
               <ScrollView horizontal>
                 {
                   data.getClientAccountById.clientAccount.orders.slice(-5).reverse().map((order: OrderData) => {
-                    console.log(order)
                     return (<Order orderData={order} key={order._id}/>)
                   })
                 }

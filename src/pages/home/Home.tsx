@@ -9,6 +9,7 @@ import ShoppingCart from "../shoppingCart/ShoppingCart";
 import AllChats from "../chat/AllChats";
 import OrdersHistory from "../ordersHistory/OrdersHistory";
 import Stores from "../stores/Stores";
+import Search from "../search/Search";
 
 
 const NotificationsRoute = () => {
@@ -36,6 +37,7 @@ export const Home = () => {
 
   const [routes] = React.useState([
     {key: 'home', epiprestoTitle: 'Home', focusedIcon: 'home'},
+    {key: 'search', epiprestoTitle: 'Search', focusedIcon: 'magnify'},
     {key: 'stores', epiprestoTitle: 'Albums', focusedIcon: 'hamburger'},
     {key: 'cart', epiprestoTitle: 'Favorites', focusedIcon: 'cart', unfocusedIcon: 'cart-outline'},
     {key: 'orders', epiprestoTitle: 'Notifications', focusedIcon: 'basket'},
@@ -43,6 +45,7 @@ export const Home = () => {
   ]);
   const renderScene = BottomNavigation.SceneMap({
     cart: ShoppingCart,
+    search: Search,
     stores: Stores,
     home: Dashboard,
     orders: OrdersHistory,

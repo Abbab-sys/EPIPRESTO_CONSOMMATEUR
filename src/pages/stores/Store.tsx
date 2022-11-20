@@ -62,7 +62,7 @@ const Store = ({idStore, goBack,route}: any) => {
 
   const {data, loading, error, fetchMore} = useQuery(GET_STORE_VARIANTS_BY_ID, {
     variables: {
-      idStore: storeId, "offset": 0, "first": 20
+      idStore: storeId, offset: 0, first: 20
     },
     fetchPolicy: 'network-only',
     onCompleted(data) {

@@ -16,6 +16,10 @@ const ProductPage = ({ idProduct, goBack, route }: any) => {
     if (route?.params?.goBack) {
         finalGoBack = route.params.goBack;
     }
+    let finalIdProduct = idProduct;
+    if (route?.params?.idProduct) {
+        finalIdProduct = route.params.idProduct;
+    }
 
     const [visible, setVisible] = React.useState(false);
 
@@ -28,7 +32,7 @@ const ProductPage = ({ idProduct, goBack, route }: any) => {
 
     const { data, loading, error, fetchMore } = useQuery(GET_PRODUCT_VARIANTS_BY_ID, {
         variables: {
-            idProduct: idProduct, "offset": 0, "first": 20
+            idProduct: finalIdProduct
         },
         fetchPolicy: "network-only",
         onCompleted(data) {

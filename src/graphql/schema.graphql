@@ -145,8 +145,8 @@ type ProductVariant {
     imgSrc: String!
     price: Float!
     relatedProduct: Product!
+    relatedStore: Store!
     sku: String
-    stock: Int!
     taxable: Boolean!
     variantTitle: String!
 }
@@ -170,7 +170,8 @@ type Query {
     getProductById(idProduct: ID!): ProductResponse!
     getProductVariantById(idVariant: ID!): ProductVariantResponse!
     getStoreById(idStore: ID!): StoreResponse!
-    getStripe: StripeResponse!
+    getStoresByCategory(category: ShopCategory!, idClient: ID!): StoresResponse!
+    getStripe(variantsToOrder: [VariantToOrder!]!): StripeResponse!
     isClientEmailUsed(email: String!): Boolean!
     isClientUsernameUsed(username: String!): Boolean!
     isVendorEmailUsed(email: String!): Boolean!
@@ -179,6 +180,8 @@ type Query {
     loginClientByUsername(password: String!, username: String!): ClientAccountResponse!
     loginVendorByEmail(email: String!, password: String!): VendorAccountResponse!
     loginVendorByUsername(password: String!, username: String!): VendorAccountResponse!
+    searchProducts(search: String!): [Product!]!
+    searchStores(idClient: ID!, search: String!): [Store!]!
 }
 
 type Store {
@@ -188,7 +191,7 @@ type Store {
     disponibilities: [Disponibility!]!
     isOpen: Boolean!
     name: String!
-    orders: [Order!]!
+    orders(idOrder: ID): [Order!]!
     products(first: Int, offset: Int!, searchText: String): [Product!]!
     relatedVendor: VendorAccount!
     shopCategory: String
@@ -198,6 +201,12 @@ type StoreResponse implements HttpResponseInterface {
     code: Int!
     message: String!
     store: Store
+}
+
+type StoresResponse implements HttpResponseInterface {
+    code: Int!
+    message: String!
+    stores: [Store!]
 }
 
 type Stripe {
@@ -277,6 +286,17 @@ enum Role {
     ADMIN
     CLIENT
     VENDOR
+}
+
+enum ShopCategory {
+    BAKERY
+    BUTCHER
+    FISH_AND_SEAFOOD
+    FRUITS_AND_VEGETABLES
+    HEALTHY
+    KETO
+    OTHER
+    WORLD_PRODUCTS
 }
 
 "Date custom scalar type"
@@ -383,6 +403,11 @@ input UpdateVendorAccount {
     password: String
     phone: String
     username: String
+}
+
+input VariantToOrder {
+    quantity: Int!
+    variantId: ID!
 }
 
 input VendorAccountInput {

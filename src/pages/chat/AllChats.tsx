@@ -5,7 +5,7 @@ import {FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, View} from "re
 import {ChatContext} from "../../context/ChatContext";
 import ChatSection from "./subsections/ChatSection";
 import Chat from "./subsections/Chat";
-import { IconButton } from "react-native-paper";
+import {IconButton} from "react-native-paper";
 import Loading from "../../components/cart/Loading";
 
 const AllChats = () => {
@@ -16,26 +16,25 @@ const AllChats = () => {
   const [chats, {loading, refreshChats, error}] = useContext(ChatContext);
 
 
-
-  const [currChatId,setCurrChatId] = useState('')
+  const [currChatId, setCurrChatId] = useState('')
   if (currChatId)
-    return <Chat navigation={navigation}  chatId={currChatId} goBack={() => setCurrChatId('')}
+    return <Chat navigation={navigation} chatId={currChatId} goBack={() => setCurrChatId('')}
     ></Chat>
-  return(
+  return (
     <SafeAreaView style={styles.root}>
-      {loading ?  (
-        <Loading />
-      ) : !error ? (
+      {loading ? (
+        <Loading/>
+      ) : error ? (
         <View style={styles.innerView}>
-        <Text>{t("chat.error")}</Text>
-        <IconButton
-              icon="reload"
-              iconColor="orange"
-              size={30}
-              onPress={() => {
-                refreshChats();
-              }}
-            />
+          <Text>{t("chat.error")}</Text>
+          <IconButton
+            icon="reload"
+            iconColor="orange"
+            size={30}
+            onPress={() => {
+              refreshChats();
+            }}
+          />
         </View>
       ) : chats.length === 0 ?
         (
@@ -50,19 +49,21 @@ const AllChats = () => {
               }}
             />
           </View>
-        ):(
+        ) : (
           <FlatList
             data={chats}
-            renderItem={({item, index}) => (
-              <ChatSection
-                key={index}
-                orderNum={item.relatedOrderNumber}
-                lastMessage={
-                  item.messages.length > 0 ? item.messages[0].message : ''
-                }
-                date={item.messages.length > 0 ? item.messages[item.messages.length - 1].date : null}
-               goToChat={()=>setCurrChatId(item.id)}/>
-            )}
+            renderItem={({item, index}) => {
+              if (item.messages.length === 0) return null
+              return (
+                <ChatSection
+                  key={index}
+                  orderNum={item.relatedOrderNumber}
+                  lastMessage={
+                    item.messages.length > 0 ? item.messages[0].message : ''
+                  }
+                  date={item.messages.length > 0 ? item.messages[item.messages.length - 1].date : null}
+                  goToChat={() => setCurrChatId(item.id)}/>)
+            }}
             refreshControl={
               <RefreshControl
                 refreshing={loading}

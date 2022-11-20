@@ -1,4 +1,4 @@
-import {createContext, useContext} from 'react';
+import React, {createContext, useContext} from 'react';
 import {Chat, ChatManager, useChatManager} from '../hooks/ChatManagerHook';
 import {ClientAuthenticationContext} from './ClientAuthenticationContext';
 
@@ -7,6 +7,7 @@ const defaultContext: ChatManager = [
     {
       sendMessage: (channelId: string, content: string) => {},
       getChatById: (chatId: string) => {},
+      refreshChats: () => {},
     },
 ] as ChatManager
 

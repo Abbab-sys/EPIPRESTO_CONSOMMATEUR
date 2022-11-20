@@ -21,6 +21,8 @@ export interface StoreProps {
   name: string;
   address: string;
   isOpen: boolean;
+  isPaused: boolean;
+  shopCategory: string;
   disponibilities: string[];
 }
 
@@ -145,10 +147,10 @@ const Stores = () => {
 
                 renderItem={({item}) => 
                 <View style={productStyles.root}>
-                <Card style={productStyles.cardStyle}>
+                <Card style={[productStyles.cardStyle, item.isPaused? {opacity:0.6} : {opacity:1}]}>
                   <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}>
                   <Text variant="labelLarge" style={[{textAlign:'center'}, item.isOpen? {color:'green'} : {color:'red'} ]}>
-                    {item.isOpen ? t('stores.store.open') : t('stores.store.closed')}
+                    {item.isOpen ? t('stores.store.open') : ( item.isPaused ? t('stores.store.paused') :t('stores.store.closed'))}
                   </Text>
                     <IconButton 
                           onPress={() => {showModal(item.disponibilities)}}
@@ -170,7 +172,7 @@ const Stores = () => {
                     <HelperText
                     type='info' style ={{textAlign: 'center'}}>{item.address.slice(0, item.address.indexOf(','))}</HelperText>
                   </View>
-                  <Text variant="labelMedium" style ={{textAlign: 'center'}}>{t('stores.store.category')}</Text>                  
+                  <Text variant="labelMedium" style ={{textAlign: 'center'}}>{item.shopCategory}</Text>                  
                   <View 
                   style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
                   >

@@ -64,9 +64,11 @@ const Product = (props: VariantProps) => {
         </View>
 
         <Text style={productStyles.productInfo}>{props.price} $ {props.byWeight? "/lb" : ""}</Text>
-        {(props.stock <= 0 /*|| props.relatedStoreIsPaused*/) ? ( 
+        {(props.stock <= 0 || props.relatedStoreIsPaused) ? ( 
         <View>
-        <Text style={{color:"red", alignSelf:'center', marginTop: '4%'}}>{props.stock <= 0 ? t('store.addProduct.outOfStock') : ""}</Text>
+          {(props.stock <= 0 ) ? ( 
+        <Text style={{color:"red", alignSelf:'center', marginTop: '4%'}}>{t('store.addProduct.outOfStock')}</Text>
+          ) : null}
         </View>
         ) : (
 

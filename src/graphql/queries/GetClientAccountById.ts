@@ -19,7 +19,9 @@ export const GET_CLIENT_ACCOUNT_BY_ID = gql`
           _id
           name
           isOpen
+          isPaused
           address
+          shopCategory
           disponibilities {
             activesHours {
               endingHour

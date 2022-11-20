@@ -166,7 +166,7 @@ const Store = ({idStore, goBack,route}: any) => {
                       taxable={item.taxable}
                       relatedProduct={item.relatedProduct}
                       availableForSale={item.availableForSale}
-                      relatedStoreIsPaused={!data.getStoreById.store.isOpen}
+                      relatedStoreIsPaused={data.getStoreById.store.isPaused}
                       addToCart={(quantity: Float) => {
                         addVariantToCart({
                           variantId: item._id,

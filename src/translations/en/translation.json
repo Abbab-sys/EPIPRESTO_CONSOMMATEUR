@@ -103,8 +103,7 @@
     "store": {
       "open": "Open",
       "closed": "Closed",
-      "noProducts": "No products found",
-      "error": "OUPS! Something went wrong",
+      "paused": "Store closed by the owner",
       "viewButton": "View",
       "category": "Category"
     }    

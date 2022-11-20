@@ -151,7 +151,8 @@
     "title": "PANIER",
     "emptyCart": "Votre panier est vide",
     "orderDetails": "Détails de la commande",
-    "checkout": "Commander"
+    "checkout": "Commander",
+    "alertMessage": "Paiement réussi!"
   },
   "dashboard": {
     "hello": "Bonjour,",

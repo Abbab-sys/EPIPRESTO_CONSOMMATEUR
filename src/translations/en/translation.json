@@ -154,7 +154,8 @@
     "title" : "Shopping Cart",
     "emptyCart": "Your cart is empty",
     "orderDetails": "Order Details",
-    "checkout": "Checkout"
+    "checkout": "Checkout",
+    "alertMessage": "Payment successful!"
   },
   "dashboard": {
     "hello": "Hello,",

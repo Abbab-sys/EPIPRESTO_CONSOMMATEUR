@@ -4,10 +4,15 @@ import {useLazyQuery} from "@apollo/client";
 import {GET_STRIPE, GetStripeData} from "../../graphql/queries/GetStripe";
 import {Alert} from "react-native";
 import {useCartManager} from "./useCartManager";
+import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
 
 export const useCheckoutManager = () => {
+  const {t} = useTranslation('translation')
   const {initPaymentSheet, presentPaymentSheet} = useStripe();
   const [loading, setLoading] = useState(false);
+  const {submitCartOrder} = useCartManager()
+  const navigation = useNavigation()
 
   const [getStripe, {data}] = useLazyQuery(GET_STRIPE, {
     fetchPolicy: "network-only",
@@ -63,7 +68,10 @@ export const useCheckoutManager = () => {
       }
       presentPaymentSheet().then(r => {
         if (!r.error) {
-          Alert.alert("Payment successful!");
+          submitCartOrder().then((orderId) => {
+            Alert.alert(t('ShoppingCart.alertMessage'));
+            navigation.navigate('Order' as never, {orderId: orderId, goBack:navigation.goBack} as never)
+          })
         }
       });
     });

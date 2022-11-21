@@ -110,7 +110,7 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
     messageTranslationKey: t('OrdersHistory.orderError'),
   });
 
-  useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
+  const {data, loading, error} = useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
     variables: {idOrder: finalOrderId},
     onCompleted: handleData,
     onError: openErrorSnackbar,
@@ -123,6 +123,8 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
     });
     return cartArray;
   };
+
+  console.log(error)
 
   return (
     <SafeAreaView style={styles.container}>

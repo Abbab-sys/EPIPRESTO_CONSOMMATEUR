@@ -15,6 +15,7 @@ import Stores from "../pages/stores/Stores";
 import SignUp from "../pages/login-signup/sign-up/SignUp";
 import Store from "../pages/stores/Store";
 import ProductPage from "../pages/product/ProductPage";
+import Search from "../pages/search/Search";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -32,6 +33,7 @@ export type RootStackParamList = {
   ProductPage: undefined;
   Settings: undefined;
   Account: undefined;
+  Search: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -61,6 +63,7 @@ export const Navigation = () => {
           <Stack.Screen name="ProductPage" component={ProductPage}/>
           <Stack.Screen name="Settings" component={Settings}/>
           <Stack.Screen name="Account" component={Account}/>
+          <Stack.Screen name="Search" component={Search}/>
         </>
       )}
     </Stack.Navigator>

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useQuery, useSubscription} from '@apollo/client';
 import {useMutation} from '@apollo/client/react';
 import {GET_INITIAL_CHATS} from '../graphql/queries/GetInitChats';
@@ -51,13 +51,21 @@ export const useChatManager = (clientId: string): ChatManager => {
   const chatsById = useStateMap<string, Chat>(new Map<string, Chat>());
   const [chats, setChats] = useState<Chat[]>([]);
 
-  const onInitialFetchComplete = (data: any) => {
+
+  const {data, loading, error, refetch} = useQuery(GET_INITIAL_CHATS, {
+    variables: {idClient: clientId},
+  });
+  useEffect(() => {
+    if (!data) return
+    console.log('useEffect',data.getClientAccountById.code);
+
     chatsById.clear();
     ///TODO check query result
     if (!data || data.getClientAccountById.code !== 200) {
-      console.log('ERROR');
+      console.log('ERROR',data);
       return;
     }
+    console.log("chats exists")
 
     const chatsPulled = data.getClientAccountById.clientAccount.chats;
 
@@ -99,12 +107,8 @@ export const useChatManager = (clientId: string): ChatManager => {
       );
     });
     setChats(chatsSortedByDate);
-  };
 
-  const {loading, error, refetch}= useQuery(GET_INITIAL_CHATS, {
-    variables: {idClient: clientId},
-    onCompleted: onInitialFetchComplete,
-  });
+  }, [data]);
 
   const refreshChats = () => {
     refetch({idClient: clientId});

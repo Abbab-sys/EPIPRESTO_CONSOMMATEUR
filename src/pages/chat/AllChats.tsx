@@ -76,6 +76,7 @@ const AllChats = () => {
           />
         )
       }
+      </View>
     </SafeAreaView>
   )
 }
@@ -89,6 +90,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  titleView: {
+    flex: 88,
+    alignItems: 'center',
+  },
+  title: {
+    flex: 1,
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 36,
+    includeFontPadding: false,
+    color: '#000000',
+    textAlignVertical: 'center',
+  },
+  restMargin: {
+    flex: 671,
   },
 })
 

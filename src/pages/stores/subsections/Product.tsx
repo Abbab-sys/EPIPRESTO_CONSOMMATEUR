@@ -30,7 +30,6 @@ const Product = (props: VariantProps) => {
   const [quantity, setQuantity] = React.useState("1");
 
   useEffect(() => {
-    console.log(props.byWeight)
   }, [quantity])
 
 

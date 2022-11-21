@@ -97,7 +97,7 @@ const Store = ({idStore, goBack,route}: any) => {
         return variant.availableForSale
       })
       setVariants(availableVariants)
-      console.log("variants", variants.length)
+      console.log("variants", availableVariants.length)
     },
   });
 
@@ -139,7 +139,7 @@ const Store = ({idStore, goBack,route}: any) => {
         <Text variant="labelLarge"
               style={store ? (!data.getStoreById.store.isOpen || store.isPaused) ? 
               {color: "red"} : {color: "green"} : {}}>
-          {store ? store.isOpen ? t('store.open') : (store.isPaused ? t('store.paused') :t('store.closed')) : ""}
+          {store ? (store.isOpen && !store.isPaused) ? t('store.open') : (store.isPaused ? t('store.paused') :t('store.closed')) : ""}
         </Text>
         <Text variant="labelSmall">
           {store ? store.address : ""}
@@ -206,6 +206,7 @@ const Store = ({idStore, goBack,route}: any) => {
                         offset: variants.length
                       },
                       updateQuery(previousQueryResult, {fetchMoreResult}) {
+                        console.log("fetchMoreResult", fetchMoreResult)
                         const products = fetchMoreResult.getStoreById.store.products
                         // get all variants of all products
                         const newEntries = products.map((product: any) => {

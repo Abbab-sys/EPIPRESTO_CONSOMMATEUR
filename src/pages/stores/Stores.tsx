@@ -139,8 +139,8 @@ const Stores = () => {
                 <View style={productStyles.root}>
                 <Card style={[productStyles.cardStyle, item.isPaused? {opacity:0.6} : {opacity:1}]}>
                   <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}>
-                  <Text variant="labelLarge" style={[{textAlign:'center'}, item.isOpen? {color:'green'} : {color:'red'} ]}>
-                    {item.isOpen ? t('stores.store.open') : ( item.isPaused ? t('stores.store.paused') :t('stores.store.closed'))}
+                  <Text variant="labelLarge" style={[{textAlign:'center'}, (item.isOpen && ! item.isPaused)? {color:'green'} : {color:'red'} ]}>
+                    {(item.isOpen && !item.isPaused) ? t('stores.store.open') : ( item.isPaused ? t('stores.store.paused') :t('stores.store.closed'))}
                   </Text>
                     <IconButton 
                           onPress={() => {showModal(item.disponibilities)}}

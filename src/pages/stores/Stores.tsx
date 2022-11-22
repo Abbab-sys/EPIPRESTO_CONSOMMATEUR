@@ -7,28 +7,49 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Button, Card, HelperText, IconButton, Text} from 'react-native-paper';
+import {Button, Card, HelperText, IconButton, Modal, Portal, Text} from 'react-native-paper';
 import {useQuery} from '@apollo/client';
 import {storeStyles} from './StoreStyles';
 import {productStyles} from './subsections/ProductStyles';
 import {ClientAuthenticationContext} from '../../context/ClientAuthenticationContext';
 import {GET_CLIENT_ACCOUNT_BY_ID} from '../../graphql/queries/GetClientAccountById';
 import {useTranslation} from 'react-i18next';
-import Store from './Store';
-
-export interface StoreProps {
-  _id: string;
-  name: string;
-  address: string;
-  isOpen: boolean;
-}
+import Store, { StoreProps } from './Store';
 
 const Stores = ({route}: any) => {
-  const {t} = useTranslation('translation');
+
+  const {t} = useTranslation('translation')
+  
+  const daysOfWeek = [t('disponibility.days.MONDAY'),
+                      t('disponibility.days.TUESDAY'),
+                      t('disponibility.days.WEDNESDAY'),
+                      t('disponibility.days.THURSDAY'),
+                      t('disponibility.days.FRIDAY'),
+                      t('disponibility.days.SATURDAY'),
+                      t('disponibility.days.SUNDAY')];
 
   // get client id from context
   const {clientId} = useContext(ClientAuthenticationContext);
 
+  console.log("clientId",clientId)
+
+  const [visible, setVisible] = React.useState(false);
+
+  const [disponibilities, setDisponibilities] = useState<string[]>([]);
+
+  const showModal = (dispo: string[]) => {setVisible(true)
+  console.log("showModal")
+  setDisponibilities(dispo)
+};
+  const hideModal = () => {setVisible(false), setDisponibilities([])};
+  const containerStyle = {backgroundColor: 'white', padding: 20, elevation: 4, margin: "2%", borderRadius: 30};
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  /*const { data, loading } = useSubscription(
+    COMMENTS_SUBSCRIPTION,
+    { variables: { postID } }
+  );*/
   const [stores, setStores] = useState<StoreProps[]>([]);
 
   const handleCategoryIndex = (categoryNum: number) => {
@@ -83,8 +104,17 @@ const Stores = ({route}: any) => {
     fetchPolicy: 'network-only',
 
     onCompleted(data) {
-      setStores(filterShopsByCategory(data.getClientAccountById.clientAccount.nearbyShops))
-      console.log('stores', stores);
+      //format disponibilities to display
+      const stores = data.getClientAccountById.clientAccount.nearbyShops
+      const formattedStores = stores.map((store: any) => {
+        const disponibilities = store.disponibilities.map((disponibility: any) => {
+          return disponibility.day + " " + disponibility.activesHours[0].openingHour + "-" + disponibility.activesHours[0].endingHour
+        })
+        console.log("disponibilities", disponibilities)
+        return {...store, disponibilities: disponibilities}
+      })
+      setStores(filterShopsByCategory(formattedStores))
+      console.log("formattedStores", formattedStores)
     },
   });
 
@@ -111,9 +141,9 @@ const Stores = ({route}: any) => {
             <ActivityIndicator size="large" color="#FFA500"></ActivityIndicator>
           </View>
         ) : error ? (
-          <View style={storeStyles.innerContainer}>
-            <Text style={storeStyles.errorText}>{t('stores.data.error')}</Text>
-            <IconButton
+            <View style={storeStyles.innerContainer}>
+              <Text style={storeStyles.errorText}>{t('stores.data.error')}</Text>
+              <IconButton
               icon="reload"
               iconColor="black"
               size={30}
@@ -121,94 +151,109 @@ const Stores = ({route}: any) => {
                 refetch({idClient: clientId, distance: 15});
               }}
             />
-          </View>
-        ) : stores.length === 0 ? (
-          <View style={storeStyles.innerContainer}>
-          <Text>{t('stores.data.noStores')}</Text>
-          <IconButton
-              icon="reload"
-              iconColor="orange"
-              size={30}
-              onPress={() => {
-                console.log("refetching")
-                refetch({idClient: clientId, distance: 15});
-              }}
-            />
-          </View>
-        ) : (
-          <FlatList
-            numColumns={2}
-            data={stores}
-            refreshControl={
-              <RefreshControl
-                refreshing={loading}
-                onRefresh={() => {
-                  refetch({idClient: clientId, distance: 15});
-                }}
-              />
-            }
-            renderItem={({item}) => (
-              <View style={productStyles.root}>
-                <Card style={productStyles.cardStyle}>
-                  <Text
-                    variant="labelLarge"
-                    style={[
-                      {textAlign: 'center'},
-                      item.isOpen ? {color: 'green'} : {color: 'red'},
-                    ]}>
-                    {item.isOpen
-                      ? t('stores.store.open')
-                      : t('stores.store.closed')}
+            </View>)
+          : (
+            stores.length === 0 ? (
+              <View style={storeStyles.innerContainer}>
+              <Text>{t('stores.data.noStores')}</Text>
+              <IconButton
+                  icon="reload"
+                  iconColor="orange"
+                  size={30}
+                  onPress={() => {
+                    console.log("refetching")
+                    refetch({idClient: clientId, distance: 15});
+                  }}
+                />
+              </View>
+            ) : (
+                <FlatList
+                numColumns={2}
+                data={stores}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={loading}
+                    onRefresh={() => {
+                      refetch({idClient: clientId, distance: 15});
+                    }}
+                  />
+                }
+
+                renderItem={({item}) => 
+                <View style={productStyles.root}>
+                <Card style={[productStyles.cardStyle, item.isPaused? {opacity:0.6} : {opacity:1}]}>
+                  <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}>
+                  <Text variant="labelLarge" style={[{textAlign:'center'}, (item.isOpen && ! item.isPaused)? {color:'green'} : {color:'red'} ]}>
+                    {(item.isOpen && !item.isPaused) ? t('stores.store.open') : ( item.isPaused ? t('stores.store.paused') :t('stores.store.closed'))}
                   </Text>
-                  <View
-                    // put buttons and stock in a row
-                    style={{
-                      flex: 1,
-                      margin: '2%',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                    }}>
-                    <Text
-                      ellipsizeMode="tail"
-                      numberOfLines={2}
-                      variant="titleMedium">
-                      {item.name}
-                    </Text>
-                  </View>
-                  <View style={{flex: 1, justifyContent: 'center'}}>
-                    <HelperText type="info" style={{textAlign: 'center'}}>
-                      {item.address.slice(0, item.address.indexOf(','))}
-                    </HelperText>
-                  </View>
-                  <Text variant="labelMedium" style={{textAlign: 'center'}}>
-                    {t('stores.store.category')}
+                    <IconButton 
+                          onPress={() => {showModal(item.disponibilities)}}
+                          mode="contained"
+                          iconColor="grey"
+                          icon="information"
+                          style={{backgroundColor: 'F2F4F8', marginTop:'-3%'}}
+                          />
+
+                      </View>
+                  <View 
+                  style={{ flex: 1, margin: '2%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
+                  >
+                  <Text ellipsizeMode='tail' numberOfLines={2} variant="titleMedium" >
+                    {item.name}
                   </Text>
-                  <View
-                    // put buttons and stock in a row
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      marginTop: '4%',
-                    }}>
-                    <Button
-                      style={{
-                        backgroundColor: '#FFAA55',
-                        marginHorizontal: '2%',
-                      }}
-                      onPress={() => {
-                        setCurrStoreId(item._id);
-                      }}>
-                      {' '}
-                      {t('stores.store.viewButton')}{' '}
-                    </Button>
+                  </View>
+                  <View style={{flex:1, justifyContent: "center"}}>
+                    <HelperText
+                    type='info' style ={{textAlign: 'center'}}>{item.address.slice(0, item.address.indexOf(','))}</HelperText>
+                  </View>
+                  <Text variant="labelMedium" style ={{textAlign: 'center'}}>{item.shopCategory}</Text>                  
+                  <View 
+                  style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
+                  >
+                      <Button
+                            style={{backgroundColor: '#FFAA55', marginHorizontal: '2%'}}
+                            onPress={() => {
+                              setCurrStoreId(item._id)
+                            }}
+                          >    {t('stores.store.viewButton')}   </Button>
+
                   </View>
                 </Card>
               </View>
-            )}
-          />
-        )}
+                }
+                />
+                
+              )
+          ) }
+
       </SafeAreaView>
+
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
+      <SafeAreaView>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+        <View style={{flex: 1}}>
+          <Text variant="titleMedium" style={{textAlign:'center', marginBottom:'4%'}}>
+            {t('disponibility.title')}
+          </Text>
+          {disponibilities.map((disponibility: string, index: number) => {
+            return (
+              <Text variant="labelMedium" style={{textAlign: 'center', margin:'0.5%'}} key={index}>
+                {daysOfWeek[index]} : {disponibility.split(" ")[1]}
+              </Text>
+            )
+          })}
+
+            
+        </View>
+      </View>
+      <HelperText style={{textAlign: 'center', margin:'0.5%'}} type='info'>{t('product.closeModal')}</HelperText>
+
+      </SafeAreaView>
+        </Modal>
+      </Portal>
+
+
     </SafeAreaView>
   );
 };

@@ -45,7 +45,6 @@ export const theme = {
     },
     // couleur boutton (et texte) disabled
     "surfaceDisabled": "rgba(236, 224, 217, 0.12)",
-    "onSurfaceDisabled": "lightgray",
     backdrop: "rgba(57, 46, 37, 0.4)"
   }
 };

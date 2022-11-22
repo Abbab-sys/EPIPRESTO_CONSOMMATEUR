@@ -1,13 +1,24 @@
 import React, {useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
 import {Button, Searchbar, Snackbar, Text} from 'react-native-paper';
-import {useQuery} from "@apollo/client";
+import {useLazyQuery, useQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
 import {GET_STORE_VARIANTS_BY_ID} from "../../graphql/queries/GetStoreVariantsById";
 import Product, {VariantProps} from "./subsections/Product";
 import {Float} from "react-native/Libraries/Types/CodegenTypes";
 import {useTranslation} from "react-i18next";
 import {useCartManager} from "../../hooks/management/useCartManager";
+import { useIsFocused } from "@react-navigation/native";
+
+export interface StoreProps {
+  _id: string;
+  name: string;
+  address: string;
+  isOpen: boolean;
+  isPaused: boolean;
+  shopCategory: string;
+  disponibilities: string[];
+}
 
 const Store = ({idStore, goBack,route}: any) => {
 
@@ -21,8 +32,6 @@ const Store = ({idStore, goBack,route}: any) => {
   }
 
   const {t} = useTranslation('translation')
-
-  console.log("route", finalStoreId)
 
   const [visible, setVisible] = React.useState(false);
 
@@ -38,36 +47,34 @@ const Store = ({idStore, goBack,route}: any) => {
 
   const [variants, setVariants] = useState<VariantProps[]>([])
 
+  const [store, setStore] = useState<StoreProps>();
+
   const handleSearch = (text: React.SetStateAction<string>) => {
     setSearchQuery(text)
-    if (text.toString() === "") {
-      setVariants([])
-      if (data) {
-        const products = data.getStoreById.store.products
-        // get all variants of all products
-        const variants = products.map((product: any) => {
-          return product.variants
-        })
-        // flatten array of arrays
-        const flattened = [].concat.apply([], variants)
-        setVariants(flattened)
-      }
-    } else {
-      const data = variants.filter(variant => {
-        return variant.displayName.toLowerCase().includes(text.toString().toLowerCase())
-      })
-      setVariants(data)
-    }
+    getItems()
   }
 
-  const {data, loading, error, fetchMore} = useQuery(GET_STORE_VARIANTS_BY_ID, {
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if(!isFocused) return
+    getItems()
+  }, [isFocused])
+
+  
+  const [getItems, { loading, error, data, fetchMore }] = useLazyQuery(GET_STORE_VARIANTS_BY_ID, {
     variables: {
-      idStore: storeId, offset: 0, first: 20
+      idStore: storeId,
+      offset: 0,
+      first: 20,
+      searchText: searchQuery
     },
-    fetchPolicy: 'network-only',
-    onCompleted(data) {
+  });
+
+  useEffect(() => {
+    if(data && data.getStoreById) {
+      setStore(data.getStoreById.store)
       const products = data.getStoreById.store.products
-      console.log("products", products)
       // consider only products that are published
       const publishedProducts = products.filter((product: any) => {
         return product.published
@@ -83,9 +90,8 @@ const Store = ({idStore, goBack,route}: any) => {
         return variant.availableForSale
       })
       setVariants(availableVariants)
-      console.log("variants", variants.length)
-    },
-  });
+    }
+  }, [data])
 
   const searchPlaceholder = t('store.search.placeholder')
 
@@ -113,16 +119,17 @@ const Store = ({idStore, goBack,route}: any) => {
           />
         </TouchableOpacity>
         <Text style={storeStyles.title}>
-        {data ? data.getStoreById.store.name : t('store.data.loading')}
+        {store ? store.name : t('store.data.loading')}
         </Text>
       </View>
       <View style={storeStyles.view}>
         <Text variant="labelLarge"
-              style={data ? data.getStoreById.store.isOpen ? {color: "green"} : {color: "red"} : {}}>
-          {data ? data.getStoreById.store.isOpen ? t('store.open') : t('store.closed') : ""}
+              style={data ? (!data.getStoreById.store.isOpen || data.getStoreById.store.isPaused) ? 
+              {color: "red"} : {color: "green"} : {}}>
+          {store ? (store.isOpen && !store.isPaused) ? t('store.open') : (store.isPaused ? t('store.paused') :t('store.closed')) : ""}
         </Text>
         <Text variant="labelSmall">
-          {data ? data.getStoreById.store.address : ""}
+          {store ? store.address : ""}
         </Text>
       </View>
       <View>
@@ -161,6 +168,7 @@ const Store = ({idStore, goBack,route}: any) => {
                       taxable={item.taxable}
                       relatedProduct={item.relatedProduct}
                       availableForSale={item.availableForSale}
+                      relatedStoreIsPaused={data.getStoreById.store.isPaused}
                       addToCart={(quantity: Float) => {
                         addVariantToCart({
                           variantId: item._id,
@@ -172,7 +180,6 @@ const Store = ({idStore, goBack,route}: any) => {
                           taxable: item.taxable,
 
                         }, quantity)
-                        console.log("nb items", quantity)
                         onToggleSnackBar()
                       }}
                     />

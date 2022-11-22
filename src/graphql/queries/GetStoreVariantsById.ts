@@ -1,7 +1,7 @@
 import {gql} from "@apollo/client";
 
 export const GET_STORE_VARIANTS_BY_ID = gql`
-  query GetStoreById($idStore: ID!, $offset: Int!, $first: Int) {
+  query GetStoreById($idStore: ID!, $offset: Int!, $first: Int, $searchText: String) {
     getStoreById(idStore: $idStore) {
       code
       message
@@ -9,9 +9,10 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
         name
         address
         isOpen
+        isPaused
         products(offset: $offset, first: $first) {
           published
-          variants {
+          variants(offset: $offset, first: $first, searchText: $searchText) {
             _id
             displayName
             imgSrc

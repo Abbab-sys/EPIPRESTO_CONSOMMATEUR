@@ -20,7 +20,7 @@ const ChatSection = (props: ChatSectionProps) => {
           {props.imageSrc ?
             (<Image style={ChatSectionStyles.image} source={{uri: props.imageSrc}}/>)
             :
-            (<Icon style={ChatSectionStyles.icon} name="user" size={30}></Icon>)}
+            (<Icon style={ChatSectionStyles.icon} name="user" size={30} color='black'></Icon>)}
           <View style={ChatSectionStyles.innerView}>
             <Text style={ChatSectionStyles.contactNameText}>{props.orderNum}</Text>
             <View style={ChatSectionStyles.bottomTextContainer}>

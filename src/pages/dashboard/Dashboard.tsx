@@ -105,7 +105,7 @@ const Dashboard = () => {
                 RESTO
               </Text>
             </Text>
-            <Text>
+            <Text style={{color: 'black'}}>
               {data ? (t('dashboard.hello') + " " + data.getClientAccountById.clientAccount.firstName) : ("")} 👋
             </Text>
           </View>
@@ -123,7 +123,7 @@ const Dashboard = () => {
           <View style={{flex: 6}}>
             <ScrollView horizontal>
               {categories.map((category, index) => (
-                <Category key={index} color={category.color} categoryName={category.categoryName}/>
+                <Category key={index} categoryIndex={index} color={category.color} categoryName={category.categoryName}/>
               ))}
             </ScrollView>
           </View>

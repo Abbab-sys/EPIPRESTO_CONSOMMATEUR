@@ -23,13 +23,57 @@ export interface StoreProps {
   isOpen: boolean;
 }
 
-const Stores = () => {
+const Stores = ({route}: any) => {
   const {t} = useTranslation('translation');
 
   // get client id from context
   const {clientId} = useContext(ClientAuthenticationContext);
 
   const [stores, setStores] = useState<StoreProps[]>([]);
+
+  const handleCategoryIndex = (categoryNum: number) => {
+    let mutationCategory = ''
+    switch (categoryNum) {
+      case 0:
+        mutationCategory = 'FRUITS_AND_VEGETABLES'
+        break;
+      case 1:
+        mutationCategory = 'FISH_AND_SEAFOOD'
+        break;
+      case 2:
+        mutationCategory = 'HEALTHY'  
+        break;
+      case 3:
+        mutationCategory = 'KETO'
+        break;
+      case 4:
+        mutationCategory = 'BAKERY'
+        break;
+      case 5:
+        mutationCategory = 'WORLD_PRODUCTS'
+        break;
+      case 6:
+        mutationCategory = 'BUTCHER'  
+        break;
+      case 7:
+        mutationCategory = 'OTHER'
+        break;
+      default:
+        break;
+    }
+    return mutationCategory
+  }
+
+  const filterShopsByCategory = (nearbyShops: any) => {
+    if (route?.params?.shopCategory) {
+      const currCategory = handleCategoryIndex(route.params.index)
+      return nearbyShops.filter((shop: any) => {
+        if(shop.shopCategory) return shop.shopCategory === currCategory
+      })
+    }
+    return nearbyShops
+  }
+
 
   const {loading, error, refetch} = useQuery(GET_CLIENT_ACCOUNT_BY_ID, {
     variables: {
@@ -39,7 +83,7 @@ const Stores = () => {
     fetchPolicy: 'network-only',
 
     onCompleted(data) {
-      setStores(data.getClientAccountById.clientAccount.nearbyShops);
+      setStores(filterShopsByCategory(data.getClientAccountById.clientAccount.nearbyShops))
       console.log('stores', stores);
     },
   });

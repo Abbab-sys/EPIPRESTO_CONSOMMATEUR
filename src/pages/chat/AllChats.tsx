@@ -76,7 +76,6 @@ const AllChats = () => {
           />
         )
       }
-      </View>
     </SafeAreaView>
   )
 }

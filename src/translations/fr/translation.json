@@ -159,6 +159,7 @@
     "total": "Total"
   },
   "chat": {
+    "title": "Chats",
     "noChats": "Pas de chats disponibles",
     "error": "Erreur! Impossible de récupérer les chats"
   },

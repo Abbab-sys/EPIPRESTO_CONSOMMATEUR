@@ -94,6 +94,7 @@ const orderStyles = StyleSheet.create({
     fontWeight: 'normal',
     fontFamily: 'Lato',
     fontStyle: 'normal',
+    color: 'black'
   },
   buttonView: {
     flex: 122,

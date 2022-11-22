@@ -90,6 +90,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  titleView: {
+    flex: 88,
+    alignItems: 'center',
+  },
+  title: {
+    flex: 1,
+    fontFamily: 'Lato',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 36,
+    includeFontPadding: false,
+    color: '#000000',
+    textAlignVertical: 'center',
+  },
+  restMargin: {
+    flex: 671,
+  },
 })
 
 export default AllChats

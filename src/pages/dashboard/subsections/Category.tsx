@@ -1,9 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { SafeAreaView, StyleSheet, Text } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export interface CategoryProps {
   color: string;
   categoryName: string;
+  categoryIndex?: number;
   //navigation: () => {}
 } 
 
@@ -28,11 +30,18 @@ const Category = (props: CategoryProps) => {
     }
   })
 
+  const navigation = useNavigation()
+  const navigateToShopList = () => {
+    navigation.navigate('Stores' as never, {shopCategory: props.categoryName, index: props.categoryIndex} as never);
+  };
+
   return(
     <SafeAreaView style={categoryStyles.root}>
-      <Text numberOfLines={2} style={categoryStyles.text}>
-        {props.categoryName}
-      </Text>
+      <TouchableOpacity onPress={navigateToShopList}>
+        <Text numberOfLines={2} style={categoryStyles.text}>
+          {props.categoryName}
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 

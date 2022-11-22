@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {ActivityIndicator, FlatList, SafeAreaView, View} from "react-native";
-import {Button, IconButton, Searchbar, Snackbar, Text} from 'react-native-paper';
+import {ActivityIndicator, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
+import {Button, Searchbar, Snackbar, Text} from 'react-native-paper';
 import {useLazyQuery, useQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
 import {GET_STORE_VARIANTS_BY_ID} from "../../graphql/queries/GetStoreVariantsById";
@@ -111,23 +111,18 @@ const Store = ({idStore, goBack,route}: any) => {
 
   return (
     <SafeAreaView style={storeStyles.root}>
+        <View style={storeStyles.titleWrapper}>
+        <TouchableOpacity style={storeStyles.back_button} onPress={finalGoBack}>
+          <Image
+            style={storeStyles.back_button_icon}
+            source={require('../../assets/images/back.png')}
+          />
+        </TouchableOpacity>
+        <Text style={storeStyles.title}>
+        {store ? store.name : t('store.data.loading')}
+        </Text>
+      </View>
       <View style={storeStyles.view}>
-        <View style={{flexDirection: 'row'}}>
-          <IconButton 
-                onPress={() => {finalGoBack()}}
-                mode="contained"
-                icon="arrow-left-circle"
-                iconColor="#FFA500"
-                style={{backgroundColor: '#F2F4F8',
-              //place icon in the start of the row
-              alignSelf: 'flex-start',
-             }}
-
-                />
-          <Text variant="headlineMedium" style={storeStyles.headline}>
-            {store ? store.name : t('store.data.loading')}
-          </Text>
-        </View>
         <Text variant="labelLarge"
               style={data ? (!data.getStoreById.store.isOpen || data.getStoreById.store.isPaused) ? 
               {color: "red"} : {color: "green"} : {}}>

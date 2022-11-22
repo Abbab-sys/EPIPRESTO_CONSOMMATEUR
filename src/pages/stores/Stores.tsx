@@ -16,7 +16,7 @@ import {GET_CLIENT_ACCOUNT_BY_ID} from '../../graphql/queries/GetClientAccountBy
 import {useTranslation} from 'react-i18next';
 import Store, { StoreProps } from './Store';
 
-const Stores = () => {
+const Stores = ({route}: any) => {
 
   const {t} = useTranslation('translation')
   
@@ -52,6 +52,50 @@ const Stores = () => {
   );*/
   const [stores, setStores] = useState<StoreProps[]>([]);
 
+  const handleCategoryIndex = (categoryNum: number) => {
+    let mutationCategory = ''
+    switch (categoryNum) {
+      case 0:
+        mutationCategory = 'FRUITS_AND_VEGETABLES'
+        break;
+      case 1:
+        mutationCategory = 'FISH_AND_SEAFOOD'
+        break;
+      case 2:
+        mutationCategory = 'HEALTHY'  
+        break;
+      case 3:
+        mutationCategory = 'KETO'
+        break;
+      case 4:
+        mutationCategory = 'BAKERY'
+        break;
+      case 5:
+        mutationCategory = 'WORLD_PRODUCTS'
+        break;
+      case 6:
+        mutationCategory = 'BUTCHER'  
+        break;
+      case 7:
+        mutationCategory = 'OTHER'
+        break;
+      default:
+        break;
+    }
+    return mutationCategory
+  }
+
+  const filterShopsByCategory = (nearbyShops: any) => {
+    if (route?.params?.shopCategory) {
+      const currCategory = handleCategoryIndex(route.params.index)
+      return nearbyShops.filter((shop: any) => {
+        if(shop.shopCategory) return shop.shopCategory === currCategory
+      })
+    }
+    return nearbyShops
+  }
+
+
   const {loading, error, refetch} = useQuery(GET_CLIENT_ACCOUNT_BY_ID, {
     variables: {
       idClient: clientId,
@@ -69,7 +113,7 @@ const Stores = () => {
         console.log("disponibilities", disponibilities)
         return {...store, disponibilities: disponibilities}
       })
-      setStores(formattedStores)
+      setStores(filterShopsByCategory(formattedStores))
       console.log("formattedStores", formattedStores)
     },
   });

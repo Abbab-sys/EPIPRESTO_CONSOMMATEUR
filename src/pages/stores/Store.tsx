@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, SafeAreaView, View} from "react-native";
 import {Button, IconButton, Searchbar, Snackbar, Text} from 'react-native-paper';
-import {useQuery} from "@apollo/client";
+import {useLazyQuery, useQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
 import {GET_STORE_VARIANTS_BY_ID} from "../../graphql/queries/GetStoreVariantsById";
 import Product, {VariantProps} from "./subsections/Product";
 import {Float} from "react-native/Libraries/Types/CodegenTypes";
 import {useTranslation} from "react-i18next";
 import {useCartManager} from "../../hooks/management/useCartManager";
+import { useIsFocused } from "@react-navigation/native";
 
 export interface StoreProps {
   _id: string;
@@ -32,8 +33,6 @@ const Store = ({idStore, goBack,route}: any) => {
 
   const {t} = useTranslation('translation')
 
-  console.log("route", finalStoreId)
-
   const [visible, setVisible] = React.useState(false);
 
   const onToggleSnackBar = () => setVisible(true);
@@ -52,36 +51,30 @@ const Store = ({idStore, goBack,route}: any) => {
 
   const handleSearch = (text: React.SetStateAction<string>) => {
     setSearchQuery(text)
-    if (text.toString() === "") {
-      setVariants([])
-      if (data) {
-        const products = data.getStoreById.store.products
-        // get all variants of all products
-        const variants = products.map((product: any) => {
-          return product.variants
-        })
-        // flatten array of arrays
-        const flattened = [].concat.apply([], variants)
-        setVariants(flattened)
-      }
-    } else {
-      const data = variants.filter(variant => {
-        return variant.displayName.toLowerCase().includes(text.toString().toLowerCase())
-      })
-      setVariants(data)
-    }
+    getItems()
   }
 
-  const {data, loading, error, fetchMore} = useQuery(GET_STORE_VARIANTS_BY_ID, {
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if(!isFocused) return
+    getItems()
+  }, [isFocused])
+
+  
+  const [getItems, { loading, error, data, fetchMore }] = useLazyQuery(GET_STORE_VARIANTS_BY_ID, {
     variables: {
-      idStore: storeId, offset: 0, first: 20
+      idStore: storeId,
+      offset: 0,
+      first: 20,
+      searchText: searchQuery
     },
-    fetchPolicy: 'network-only',
-    onCompleted(data) {
-      // set store for only storeProps
+  });
+
+  useEffect(() => {
+    if(data && data.getStoreById) {
       setStore(data.getStoreById.store)
       const products = data.getStoreById.store.products
-      console.log("products", products)
       // consider only products that are published
       const publishedProducts = products.filter((product: any) => {
         return product.published
@@ -97,9 +90,8 @@ const Store = ({idStore, goBack,route}: any) => {
         return variant.availableForSale
       })
       setVariants(availableVariants)
-      console.log("variants", availableVariants.length)
-    },
-  });
+    }
+  }, [data])
 
   const searchPlaceholder = t('store.search.placeholder')
 
@@ -137,7 +129,7 @@ const Store = ({idStore, goBack,route}: any) => {
           </Text>
         </View>
         <Text variant="labelLarge"
-              style={store ? (!data.getStoreById.store.isOpen || store.isPaused) ? 
+              style={data ? (!data.getStoreById.store.isOpen || data.getStoreById.store.isPaused) ? 
               {color: "red"} : {color: "green"} : {}}>
           {store ? (store.isOpen && !store.isPaused) ? t('store.open') : (store.isPaused ? t('store.paused') :t('store.closed')) : ""}
         </Text>
@@ -193,7 +185,6 @@ const Store = ({idStore, goBack,route}: any) => {
                           taxable: item.taxable,
 
                         }, quantity)
-                        console.log("nb items", quantity)
                         onToggleSnackBar()
                       }}
                     />
@@ -206,7 +197,6 @@ const Store = ({idStore, goBack,route}: any) => {
                         offset: variants.length
                       },
                       updateQuery(previousQueryResult, {fetchMoreResult}) {
-                        console.log("fetchMoreResult", fetchMoreResult)
                         const products = fetchMoreResult.getStoreById.store.products
                         // get all variants of all products
                         const newEntries = products.map((product: any) => {

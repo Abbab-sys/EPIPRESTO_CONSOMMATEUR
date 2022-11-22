@@ -383,6 +383,7 @@ const Account = ({navigation}: any) => {
           <Text style={styles.buttonText}>{translation('settings.account.modify')}</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.buttonMargin} />
       {modificationErrorSnackbar}
       {confirmModificationSnackbar}
       {serverErrorSnackbar}
@@ -433,13 +434,16 @@ export const styles = StyleSheet.create({
     color: '#000000',
   },
   scrollView: {
-    flex: 594,
+    flex: 584,
     marginLeft: 20,
     marginRight: 20,
   },
   buttonView: {
     flex: 40,
     alignItems: 'center',
+  },
+  buttonMargin: {
+    marginTop: 10,
   },
   root: {
     height: '100%',

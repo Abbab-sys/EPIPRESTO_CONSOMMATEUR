@@ -80,7 +80,7 @@ type Mutation {
     removeVariantById(productVariantId: ID!): HttpResponse!
     removeVariantsByIds(productVariantsIds: [ID!]!): HttpResponse!
     sendMessageToChat(message: MessageInput!): HttpResponse!
-    submitOrder(clientId: ID!, paymentMethod: PaymentMethod!, productsVariantsToOrder: [ProductOrderedInput!]!): HttpResponse!
+    submitOrder(clientId: ID!, paymentMethod: PaymentMethod!, productsVariantsToOrder: [ProductOrderedInput!]!): OrderResponse!
     synchronizeShopifyStore(shopifyCreds: ShopifyCredentials!): HttpResponse!
     synchronizeWoocommerceStore(woocommerceCreds: WoocommerceCredentials!): HttpResponse!
     updateClientAccount(clientId: ID!, fieldsToUpdate: UpdateClientAccount!): ClientAccountResponse!
@@ -128,7 +128,7 @@ type Product {
     relatedStore: Store!
     tags: [String!]!
     title: String!
-    variants: [ProductVariant!]!
+    variants(first: Int, offset: Int!, searchText: String): [ProductVariant!]!
 }
 
 type ProductResponse implements HttpResponseInterface {
@@ -147,6 +147,7 @@ type ProductVariant {
     relatedProduct: Product!
     relatedStore: Store!
     sku: String
+    stock: Float!
     taxable: Boolean!
     variantTitle: String!
 }
@@ -190,6 +191,7 @@ type Store {
     chats: [Chat!]!
     disponibilities: [Disponibility!]!
     isOpen: Boolean!
+    isPaused: Boolean!
     name: String!
     orders(idOrder: ID): [Order!]!
     products(first: Int, offset: Int!, searchText: String): [Product!]!
@@ -394,7 +396,7 @@ input UpdateProductVariant {
 input UpdateStore {
     address: String
     disponibilities: [DisponibilityInput!]
-    isOpen: Boolean
+    isPaused: Boolean
     name: String
 }
 

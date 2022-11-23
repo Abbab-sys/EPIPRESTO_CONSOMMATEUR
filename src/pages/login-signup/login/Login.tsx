@@ -6,11 +6,12 @@ import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../../navigation/Navigation";
 import {ClientAuthenticationContext} from "../../../context/ClientAuthenticationContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LinearGradient from 'react-native-linear-gradient'
+import {LinearGradient} from 'expo-linear-gradient';
 import LoginInput from "../../../atoms/LoginInput";
 import {useNavigation} from "@react-navigation/native";
 import { useTranslation } from 'react-i18next';
 import LanguageSelector from '../../../common/language-selection/LanguageSelector';
+
 
 
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;

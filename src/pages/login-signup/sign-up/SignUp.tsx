@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../../navigation/Navigation";
-import LinearGradient from 'react-native-linear-gradient'
+import {LinearGradient} from 'expo-linear-gradient';
 import {useNavigation} from "@react-navigation/native";
 import {SignupStepper} from "./sign-up-stepper/SignupStepper";
 import { useTranslation } from 'react-i18next';

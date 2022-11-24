@@ -58,31 +58,31 @@ const Dashboard = () => {
   const categories: CategoryProps[] = [
     {
       color: '#86FFA8',
-      categoryName: t('dashboard.categories.fruits')
+      categoryName: t('shopCategories.FRUITS_AND_VEGETABLES')
     },
     {
       color: '#FDB8B8',
-      categoryName: t('dashboard.categories.fish')
+      categoryName: t('shopCategories.FISH_AND_SEAFOOD')
     },
     {
       color: '#B9C7E2',
-      categoryName: t('dashboard.categories.healthy')
+      categoryName: t('shopCategories.HEALTHY')
     },
     {
       color: '#40B03C',
-      categoryName: t('dashboard.categories.keto')
+      categoryName: t('shopCategories.KETO')
     },
     {
       color: '#D47828',
-      categoryName: t('dashboard.categories.bakery')
+      categoryName: t('shopCategories.BAKERY')
     },
     {
       color: '#3459C7',
-      categoryName: t('dashboard.categories.worldProducts')
+      categoryName: t('shopCategories.WORLD_PRODUCTS')
     },
     {
       color: '#B5191C',
-      categoryName: t('dashboard.categories.butcherShop')
+      categoryName: t('shopCategories.BUTCHER')
     }
   ]
 
@@ -121,7 +121,7 @@ const Dashboard = () => {
         {/*</View>*/}
         <View style={styles.categoriesContainer}>
           <Text style={styles.categoriesTitle}>
-            {t('dashboard.categories.title')}
+            {t('shopCategories.title')}
           </Text>
           <View style={{flex: 6}}>
             <ScrollView horizontal>

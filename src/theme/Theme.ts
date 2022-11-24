@@ -27,7 +27,6 @@ export const theme = {
     // main texte de l'app
     "onSurface": "rgb(32, 27, 23)",
     "surfaceVariant": "rgb(81, 68, 58)",
-    "onSurfaceVariant": "#FFFFFF",
     "outline": "rgb(158, 142, 129)",
     "outlineVariant": "rgb(81, 68, 58)",
     "shadow": "rgb(0, 0, 0)",

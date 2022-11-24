@@ -1,7 +1,8 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {Store} from "../interfaces/OrderInterface";
 import {useLazyQuery} from "@apollo/client";
 import {SEARCH_PRODUCTS, SearchProductsData} from "../graphql/queries/SearchProducts";
+import {SearchContext} from "../context/SearchContext";
 
 interface SearchProductResult {
   _id: string,
@@ -18,15 +19,17 @@ export interface SearchResult {
 
 export const useSearch = () => {
 
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [searchProducts, {data,loading}] = useLazyQuery(SEARCH_PRODUCTS, {onError: (e) => console.log(e)});
+  const {searchText, setSearchText, setResults, results} = useContext(SearchContext)
+
+  const [searchProducts, {data, loading}] = useLazyQuery(SEARCH_PRODUCTS, {onError: (e) => console.log(e)});
   console.log(data)
   const unwrappedData: SearchProductsData = data || null;
   const search = async (search: string) => {
     console.log("searching for " + search);
+    setSearchText(search)
     await searchProducts({
       variables: {
-        search:search
+        search: search
       }
     })
   }
@@ -65,5 +68,5 @@ export const useSearch = () => {
     setResults(newResults)
     console.log("results", results)
   }, [unwrappedData])
-  return {search, results,loading}
+  return {search, results, loading, searchText, setSearchText}
 }

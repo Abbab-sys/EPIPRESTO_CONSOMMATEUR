@@ -1,17 +1,20 @@
-import { useNavigation } from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import {useQuery} from "@apollo/client";
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {useTranslation} from "react-i18next";
 import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View} from "react-native";
 import {ActivityIndicator, Searchbar} from "react-native-paper";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {useIconButton} from "../../atoms/IconButton";
-import { SettingsItemInfo } from "../settings/SettingsItem";
+import {SettingsItemInfo} from "../settings/SettingsItem";
 import {ClientAuthenticationContext} from "../../context/ClientAuthenticationContext";
 import {GET_CLIENT_ACCOUNT_BY_ID, OrderStatus} from "../../graphql/queries/GetClientAccountById";
 import Category, {CategoryProps} from "./subsections/Category";
 import Order from "./subsections/Order";
 import Shop from "./subsections/Shop";
+import {STACK_KEY} from "../stacks/StacksKeys";
+import {BottomNavigationContext} from "../../context/BottomNavigationContext";
+import {useSearch} from "../../hooks/useSearch";
 
 type Shop = {
   _id: string;
@@ -30,22 +33,19 @@ export type OrderData = {
 }
 
 const Dashboard = () => {
+  const {switchToTab} = useContext(BottomNavigationContext);
+  console.log("Dashboard props", switchToTab);
 
   const navigation = useNavigation();
 
   const {t} = useTranslation('translation')
 
-  const [searchQuery, setSearchQuery] = useState('');
 
   const {clientId} = useContext(ClientAuthenticationContext)
 
   const {data, loading, error} = useQuery(GET_CLIENT_ACCOUNT_BY_ID, {
     variables: {idClient: clientId, distance: 15},
   })
-
-  const handleSearch = (text: React.SetStateAction<string>) => {
-    setSearchQuery(text)
-  }
 
   const searchButton = useIconButton('cog', () => {
     navigation.navigate('Settings' as never, {items: SettingsItemInfo, title: "settings.title"} as never);
@@ -90,7 +90,7 @@ const Dashboard = () => {
   console.log("LOADING: ", loading)
   console.log("ERROR: ", error)
 
-
+  const {search,searchText,setSearchText} = useSearch()
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>
@@ -113,9 +113,12 @@ const Dashboard = () => {
             {accountButton.iconButton}
           </View>
         </View>
-        <View style={styles.searchBar}>
-          <Searchbar elevation={0} placeholder={t('dashboard.search')} onChangeText={handleSearch} value={searchQuery} />
-        </View>
+        {/*<View style={styles.searchBar}>*/}
+        <Searchbar onIconPress={() => {
+          search(searchText)
+          switchToTab(STACK_KEY.SEARCH_STACK_KEY)
+        }} elevation={0} placeholder={t('dashboard.search')} onChangeText={setSearchText} value={searchText}/>
+        {/*</View>*/}
         <View style={styles.categoriesContainer}>
           <Text style={styles.categoriesTitle}>
             {t('dashboard.categories.title')}
@@ -123,7 +126,8 @@ const Dashboard = () => {
           <View style={{flex: 6}}>
             <ScrollView horizontal>
               {categories.map((category, index) => (
-                <Category key={index} categoryIndex={index} color={category.color} categoryName={category.categoryName}/>
+                <Category key={index} categoryIndex={index} color={category.color}
+                          categoryName={category.categoryName}/>
               ))}
             </ScrollView>
           </View>
@@ -134,8 +138,8 @@ const Dashboard = () => {
               {t('dashboard.nearbyShops.title')}
             </Text>
             <View style={{marginTop: '1%'}}>
-              <Text style={styles.seeAll} onPress={()=>{
-                //TODO
+              <Text style={styles.seeAll} onPress={() => {
+                switchToTab(STACK_KEY.STORES_STACK_KEY)
               }}>
                 {t('dashboard.seeAll')}
               </Text>
@@ -173,7 +177,9 @@ const Dashboard = () => {
               {t('dashboard.latestOrders.title')}
             </Text>
             <View style={{marginTop: '1%'}}>
-              <Text style={styles.seeAll}>
+              <Text style={styles.seeAll} onPress={() => {
+                switchToTab(STACK_KEY.ORDERS_STACK_KEY)
+              }}>
                 {t('dashboard.seeAll')}
               </Text>
             </View>
@@ -227,6 +233,7 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     flex: 50,
+    width: '100%',
     marginBottom: '2%',
     marginTop: '1%',
     borderRadius: 20,

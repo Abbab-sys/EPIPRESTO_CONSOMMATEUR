@@ -88,11 +88,13 @@ export const storeStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   back_button: {
-    justifyContent: 'center',
-    alignItems: 'center',
     width: 50,
+    zIndex: 1,
     height: 50,
-    marginLeft: 10,
+    marginLeft: '2%',
+    position: 'absolute',
+    left: 0,
+    alignSelf: 'flex-start'
   },
   back_button_icon: {
     width: 35,

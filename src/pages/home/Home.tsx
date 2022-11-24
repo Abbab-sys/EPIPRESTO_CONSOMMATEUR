@@ -1,60 +1,52 @@
-import React, {useContext} from "react";
-import {SafeAreaView, Text} from "react-native";
-import {ClientAuthenticationContext} from "../../context/ClientAuthenticationContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
 import {BottomNavigation} from "react-native-paper";
-import {useIconButton} from "../../atoms/IconButton";
-import Dashboard from "../dashboard/Dashboard";
-import ShoppingCart from "../shoppingCart/ShoppingCart";
-import AllChats from "../chat/AllChats";
-import OrdersHistory from "../ordersHistory/OrdersHistory";
-import Stores from "../stores/Stores";
-import Search from "../search/Search";
-
-
-const NotificationsRoute = () => {
-  const {setClientId} = useContext(ClientAuthenticationContext);
-  const handleLogout = async () => {
-    setClientId('');
-    AsyncStorage.setItem('@clientId', '').then(r =>
-      console.log("client id cleared", r)
-    );
-  }
-  const bellButton = useIconButton('logout', () => {
-    handleLogout();
-  });
-  return (
-    <SafeAreaView>
-      <Text>Notifications {bellButton.iconButton}</Text>
-    </SafeAreaView>
-
-  )
-}
+import {STACK_KEY} from "../stacks/StacksKeys";
+import {DashboardStack} from "../stacks/DashboardStack";
+import {SearchPageStack} from "../stacks/SearchPageStack";
+import {StoresPageStack} from "../stacks/StoresPageStack";
+import {OrdersPageStack} from "../stacks/OrdersPageStack";
+import {ChatsPageStack} from "../stacks/ChatsPageStack";
+import {CartsPageStack} from "../stacks/CartPageStack";
 
 export const Home = () => {
 
   const [index, setIndex] = React.useState(0);
 
   const [routes] = React.useState([
-    {key: 'home', epiprestoTitle: 'Home', focusedIcon: 'home'},
-    {key: 'search', epiprestoTitle: 'Search', focusedIcon: 'magnify'},
-    {key: 'stores', epiprestoTitle: 'Albums', focusedIcon: 'hamburger'},
-    {key: 'cart', epiprestoTitle: 'Favorites', focusedIcon: 'cart', unfocusedIcon: 'cart-outline'},
-    {key: 'orders', epiprestoTitle: 'Notifications', focusedIcon: 'basket'},
-    {key: 'chats', epiprestoTitle: 'Chats', focusedIcon: 'message'},
+    {key: STACK_KEY.DASHBOARD_STACK_KEY, focusedIcon: 'home'},
+    {key: STACK_KEY.SEARCH_STACK_KEY, focusedIcon: 'magnify'},
+    {key: STACK_KEY.STORES_STACK_KEY, focusedIcon: 'hamburger'},
+    {key: STACK_KEY.CART_STACK_KEY, focusedIcon: 'cart', unfocusedIcon: 'cart-outline'},
+    {key: STACK_KEY.ORDERS_STACK_KEY, focusedIcon: 'basket'},
+    {key: STACK_KEY.CHATS_STACK_KEY, focusedIcon: 'message'},
   ]);
-  const renderScene = BottomNavigation.SceneMap({
-    cart: ShoppingCart,
-    search: Search,
-    stores: Stores,
-    home: Dashboard,
-    orders: OrdersHistory,
-    chats: AllChats,
-  });
+
+  const renderScene = ({route, jumpTo}: any) => {
+    const switchToTab = (key: STACK_KEY, params?: any) => {
+      // const index = routes.findIndex((route) => route.key === key);
+      jumpTo(key, params);
+      // setIndex(index);
+    }
+    switch (route.key) {
+      case STACK_KEY.DASHBOARD_STACK_KEY:
+        return <DashboardStack switchToTab={switchToTab}/>;
+      case STACK_KEY.SEARCH_STACK_KEY:
+        return <SearchPageStack switchToTab={switchToTab}/>;
+      case STACK_KEY.STORES_STACK_KEY:
+        return <StoresPageStack switchToTab={switchToTab}/>;
+      case STACK_KEY.CART_STACK_KEY:
+        return <CartsPageStack switchToTab={switchToTab}/>; // TODO we could add in this stack access to produt details
+      case STACK_KEY.ORDERS_STACK_KEY:
+        return <OrdersPageStack switchToTab={switchToTab}/>;
+      case STACK_KEY.CHATS_STACK_KEY:
+        return <ChatsPageStack  switchToTab={switchToTab}/>;
+    }
+  }
 
   return (
+
     <BottomNavigation
-      barStyle={{ backgroundColor: '#FFAA55' }}
+      barStyle={{backgroundColor: '#FFAA55'}}
       navigationState={{index, routes}}
       onIndexChange={setIndex}
       renderScene={renderScene}

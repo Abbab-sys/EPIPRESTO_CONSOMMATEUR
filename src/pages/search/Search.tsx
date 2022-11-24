@@ -1,22 +1,13 @@
-import React, {useState} from 'react';
-import {
-  FlatList,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {ActivityIndicator, TextInput} from 'react-native-paper';
+import React from 'react';
+import {FlatList, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View,} from 'react-native';
+import {ActivityIndicator, Searchbar} from 'react-native-paper';
 import {useSearch} from '../../hooks/useSearch';
 import SearchItem from './SearchItem';
+import {useTranslation} from "react-i18next";
 
 const Search = () => {
-  const [searchText, setSearchText] = useState('');
-  const {search, results,loading} = useSearch();
-
+  const {search, results, loading, searchText, setSearchText} = useSearch();
+  const {t} = useTranslation('translation')
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView
@@ -27,29 +18,17 @@ const Search = () => {
             <Text style={styles.headerText}>Search</Text>
           </View>
           <View style={styles.headerSearchBar}>
-            <TextInput
-              theme={{colors: {primary: '#FFAA55'}}}
-              value={searchText}
-              onChangeText={setSearchText}
-              label="Search ....."
-              right={
-                <TextInput.Icon
-                  icon="magnify"
-                  onPress={async () => {
-                    Keyboard.dismiss()
-                    await search(searchText);
-                  }}
-                />
-              }
-            />
+            <Searchbar onIconPress={() => {
+              search(searchText)
+            }} elevation={0} placeholder={t('dashboard.search')} onChangeText={setSearchText} value={searchText}/>
           </View>
         </View>
         <View style={styles.searchResults}>
           {loading ? (
-              <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
-                <ActivityIndicator size="large" color="#FFAA55" />
-              </View>
-            ): (
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size="large" color="#FFAA55"/>
+            </View>
+          ) : (
             <FlatList
               data={results}
               renderItem={({item}) => (

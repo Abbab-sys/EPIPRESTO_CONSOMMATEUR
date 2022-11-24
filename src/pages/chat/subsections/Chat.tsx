@@ -5,6 +5,7 @@ import {Button} from 'react-native-paper';
 import {Message, MessageStatus, Role} from '../../../hooks/ChatManagerHook';
 import {ChatContext} from '../../../context/ChatContext';
 import {ClientAuthenticationContext} from '../../../context/ClientAuthenticationContext';
+import {useNavigation} from "@react-navigation/native";
 
 interface message {
   _id: string;
@@ -19,8 +20,8 @@ interface message {
   };
 }
 
-const Chat = ({navigation,chatId,goBack,route }: any) => {
- let finalChatId = chatId;
+const Chat = ({chatId, goBack, route}: any) => {
+  let finalChatId = chatId;
   if (route?.params?.chatId) {
     finalChatId = route.params.chatId;
   }
@@ -28,7 +29,7 @@ const Chat = ({navigation,chatId,goBack,route }: any) => {
   if (route?.params?.goBack) {
     finalGoBack = route.params.goBack;
   }
-  const [_,{sendMessage, getChatById}] = useContext(ChatContext);
+  const [_, {sendMessage, getChatById}] = useContext(ChatContext);
 
   const {clientId} = useContext(ClientAuthenticationContext);
 
@@ -39,10 +40,11 @@ const Chat = ({navigation,chatId,goBack,route }: any) => {
     [finalChatId, sendMessage],
   );
 
+  const navigation = useNavigation()
   const chat = getChatById(finalChatId);
   const navigateToOrder = () => {
     console.log("chat orderId : ", chat?.relatedOrderId)
-    navigation.navigate('Order', {orderId: chat?.relatedOrderId,goBack:navigation.goBack})
+    navigation.navigate('Order' as never, {orderId: chat?.relatedOrderId, goBack: navigation.goBack} as never)
   };
   const messages = chat?.messages.map((message: Message) => {
     return {
@@ -54,7 +56,7 @@ const Chat = ({navigation,chatId,goBack,route }: any) => {
       user: {
         _id: message.role === Role.VENDOR ? chat.relatedVendorId : clientId,
         name: message.role === Role.VENDOR ? chat.relatedStoreName : 'Me',
-        avatar:''
+        avatar: ''
       },
     };
   });

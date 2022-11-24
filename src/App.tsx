@@ -12,6 +12,7 @@ import '../i18n'
 import {CartProvider} from './context/CartContext';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import {ChatProvider} from './context/ChatContext';
+import {SearchProvider} from "./context/SearchContext";
 
 const App: () => JSX.Element = () => {
 
@@ -52,11 +53,13 @@ const App: () => JSX.Element = () => {
         <ClientAuthenticationProvider>
           <ApolloProvider client={client}>
             <ChatProvider>
-              <PaperProvider theme={theme}>
-                <NavigationContainer>
-                  <Navigation/>
-                </NavigationContainer>
-              </PaperProvider>
+              <SearchProvider>
+                <PaperProvider theme={theme}>
+                  <NavigationContainer>
+                    <Navigation/>
+                  </NavigationContainer>
+                </PaperProvider>
+              </SearchProvider>
             </ChatProvider>
           </ApolloProvider>
         </ClientAuthenticationProvider>

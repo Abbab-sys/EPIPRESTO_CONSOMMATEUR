@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {ActivityIndicator, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
-import {Button, Searchbar, Snackbar, Text} from 'react-native-paper';
-import {useLazyQuery, useQuery} from "@apollo/client";
+import {Searchbar, Snackbar, Text} from 'react-native-paper';
+import {useLazyQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
 import {GET_STORE_VARIANTS_BY_ID} from "../../graphql/queries/GetStoreVariantsById";
 import Product, {VariantProps} from "./subsections/Product";
 import {Float} from "react-native/Libraries/Types/CodegenTypes";
 import {useTranslation} from "react-i18next";
 import {useCartManager} from "../../hooks/management/useCartManager";
-import { useIsFocused } from "@react-navigation/native";
+import {useIsFocused} from "@react-navigation/native";
 
 export interface StoreProps {
   _id: string;
@@ -20,16 +20,10 @@ export interface StoreProps {
   disponibilities: string[];
 }
 
-const Store = ({idStore, goBack,route}: any) => {
+const Store = ({route}: any) => {
 
-  let finalStoreId = idStore;
-  if (route?.params?.idStore) {
-    finalStoreId = route.params.idStore;
-  }
-  let finalGoBack = goBack;
-  if (route?.params?.goBack) {
-    finalGoBack = route.params.goBack;
-  }
+  const finalStoreId = route.params.idStore;
+  const finalGoBack = route.params.goBack;
 
   const {t} = useTranslation('translation')
 
@@ -57,12 +51,12 @@ const Store = ({idStore, goBack,route}: any) => {
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    if(!isFocused) return
+    if (!isFocused) return
     getItems()
   }, [isFocused])
 
-  
-  const [getItems, { loading, error, data, fetchMore }] = useLazyQuery(GET_STORE_VARIANTS_BY_ID, {
+
+  const [getItems, {loading, error, data, fetchMore}] = useLazyQuery(GET_STORE_VARIANTS_BY_ID, {
     variables: {
       idStore: storeId,
       offset: 0,
@@ -72,7 +66,7 @@ const Store = ({idStore, goBack,route}: any) => {
   });
 
   useEffect(() => {
-    if(data && data.getStoreById) {
+    if (data && data.getStoreById) {
       setStore(data.getStoreById.store)
       const products = data.getStoreById.store.products
       // consider only products that are published
@@ -111,22 +105,25 @@ const Store = ({idStore, goBack,route}: any) => {
 
   return (
     <SafeAreaView style={storeStyles.root}>
-        <View style={storeStyles.titleWrapper}>
-        <TouchableOpacity style={storeStyles.back_button} onPress={finalGoBack}>
+      <View style={storeStyles.titleWrapper}>
+        <TouchableOpacity  disabled={false} style={storeStyles.back_button} onPress={() => {
+          console.log("go back")
+          finalGoBack()
+        }}>
           <Image
             style={storeStyles.back_button_icon}
             source={require('../../assets/images/back.png')}
           />
         </TouchableOpacity>
         <Text style={storeStyles.title}>
-        {store ? store.name : t('store.data.loading')}
+          {store ? store.name : t('store.data.loading')}
         </Text>
       </View>
       <View style={storeStyles.view}>
         <Text variant="labelLarge"
-              style={data ? (!data.getStoreById.store.isOpen || data.getStoreById.store.isPaused) ? 
-              {color: "red"} : {color: "green"} : {}}>
-          {store ? (store.isOpen && !store.isPaused) ? t('store.open') : (store.isPaused ? t('store.paused') :t('store.closed')) : ""}
+              style={data ? (!data.getStoreById.store.isOpen || data.getStoreById.store.isPaused) ?
+                {color: "red"} : {color: "green"} : {}}>
+          {store ? (store.isOpen && !store.isPaused) ? t('store.open') : (store.isPaused ? t('store.paused') : t('store.closed')) : ""}
         </Text>
         <Text variant="labelSmall">
           {store ? store.address : ""}

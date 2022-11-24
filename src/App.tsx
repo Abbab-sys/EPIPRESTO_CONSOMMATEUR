@@ -13,6 +13,7 @@ import {CartProvider} from './context/CartContext';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import {ChatProvider} from './context/ChatContext';
 import {SearchProvider} from "./context/SearchContext";
+import { registerRootComponent } from 'expo';
 
 const App: () => JSX.Element = () => {
 
@@ -69,4 +70,5 @@ const App: () => JSX.Element = () => {
   );
 };
 
+registerRootComponent(App)
 export default App;

@@ -14,8 +14,13 @@ import {StripeProvider} from '@stripe/stripe-react-native';
 import {ChatProvider} from './context/ChatContext';
 import {SearchProvider} from "./context/SearchContext";
 import { registerRootComponent } from 'expo';
+import { useFonts } from 'expo-font';
 
 const App: () => JSX.Element = () => {
+
+  let [fontsLoaded] = useFonts({
+    'Lato': require('./assets/fonts/Lato-Black.ttf')
+  })
 
   const wsLink = new GraphQLWsLink(
     createClient({
@@ -43,6 +48,10 @@ const App: () => JSX.Element = () => {
     link: splitLink,
     cache: new InMemoryCache(),
   });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   return (
     <StripeProvider

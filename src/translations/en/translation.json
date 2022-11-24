@@ -175,16 +175,6 @@
     "hello": "Hello,",
     "search": "Search",
     "seeAll": "See All",
-    "categories": {
-      "title": "Categories",
-      "fruits": "Fruits and vegetables",
-      "fish": "Fish and seafood",
-      "healthy": "Healthy food",
-      "keto": "Keto",
-      "bakery": "Bakery",
-      "worldProducts": "Products of the world",
-      "butcherShop": "Butcher shop"
-    },
     "nearbyShops": {
       "title": "Nearby Shops",
       "errors": {
@@ -204,6 +194,17 @@
         "noOrders": "You have not made any orders yet"
       }
     }
+  },
+  "shopCategories": {
+    "title": "Categories",
+    "FRUITS_AND_VEGETABLES": "Fruits and vegetables",
+    "FISH_AND_SEAFOOD": "Fish and seafood",
+    "HEALTHY": "Healthy food",
+    "KETO": "Keto",
+    "BAKERY": "Bakery",
+    "WORLD_PRODUCTS": "Products of the world",
+    "BUTCHER": "Butcher shop",
+    "OTHER": "Autre"
   },
   "settings":{
     "title": "Settings",

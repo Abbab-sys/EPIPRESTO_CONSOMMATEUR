@@ -24,15 +24,12 @@ const Stores = ({route, goBack, navigation}: any) => {
   // get client id from context
   const {clientId} = useContext(ClientAuthenticationContext);
 
-  console.log("goBa", goBack)
-
   const [visible, setVisible] = React.useState(false);
 
   const [disponibilities, setDisponibilities] = useState<string[]>([]);
 
   const showModal = (dispo: string[]) => {
     setVisible(true)
-    console.log("showModal")
     setDisponibilities(dispo)
   };
   const hideModal = () => {
@@ -99,13 +96,16 @@ const Stores = ({route, goBack, navigation}: any) => {
       const stores = data.getClientAccountById.clientAccount.nearbyShops
       const formattedStores = stores.map((store: any) => {
         const disponibilities = store.disponibilities.map((disponibility: any) => {
-          return disponibility.day + " " + disponibility.activesHours[0].openingHour + "-" + disponibility.activesHours[0].endingHour
+          if(disponibility.activesHours.length <1) return null
+          // consider multiple actives hours
+          const activesHours = disponibility.activesHours.map((activeHour: any) => {
+            return `${activeHour.openingHour}-${activeHour.endingHour}`
+          })
+          return `${disponibility.day}~ ${activesHours.join(" , ")}`
         })
-        console.log("disponibilities", disponibilities)
         return {...store, disponibilities: disponibilities}
       })
       setStores(filterShopsByCategory(formattedStores))
-      console.log("formattedStores", formattedStores)
     },
   });
 
@@ -159,7 +159,6 @@ const Stores = ({route, goBack, navigation}: any) => {
                   iconColor="orange"
                   size={30}
                   onPress={() => {
-                    console.log("refetching")
                     refetch({idClient: clientId, distance: 15});
                   }}
                 />
@@ -214,17 +213,15 @@ const Stores = ({route, goBack, navigation}: any) => {
                           type='info'
                           style={{textAlign: 'center'}}>{item.address.slice(0, item.address.indexOf(','))}</HelperText>
                       </View>
-                      <Text variant="labelMedium" style={{textAlign: 'center'}}>{item.shopCategory}</Text>
+                      <Text variant="labelMedium" style={{textAlign: 'center'}}>{t("shopCategories." + item.shopCategory)}</Text>
                       <View
                         style={{flexDirection: 'row', justifyContent: 'center', marginTop: '4%'}}
                       >
                         <Button
                           style={{backgroundColor: '#FFAA55', marginHorizontal: '2%'}}
                           onPress={() => {
-                            console.log("item", item)
                             navigation.navigate('Store', {
                               idStore: item._id, goBack: () => {
-                                console.log("comme back")
                                 navigation.goBack()
                               }
                             })
@@ -244,19 +241,19 @@ const Stores = ({route, goBack, navigation}: any) => {
 
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} contentContainerStyle={containerStyle}>
-          <SafeAreaView>
-            <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
-              <View style={{flex: 1}}>
-                <Text variant="titleMedium" style={{textAlign: 'center', marginBottom: '4%'}}>
-                  {t('disponibility.title')}
-                </Text>
-                {disponibilities.map((disponibility: string, index: number) => {
-                  return (
-                    <Text variant="labelMedium" style={{textAlign: 'center', margin: '0.5%'}} key={index}>
-                      {daysOfWeek[index]} : {disponibility.split(" ")[1]}
-                    </Text>
-                  )
-                })}
+      <SafeAreaView>
+      <View style={{flexDirection: 'row', justifyContent: 'flex-start'}}>
+        <View style={{flex: 1}}>
+          <Text variant="titleMedium" style={{textAlign:'center', marginBottom:'4%'}}>
+            {t('disponibility.title')}
+          </Text>
+          {disponibilities.map((disponibility: string, index: number) => {
+            return (
+              <Text variant="labelMedium" style={{textAlign: 'center', margin:'0.5%'}} key={index}>
+                {daysOfWeek[index]} : {disponibility !== null ? disponibility.split("~")[1] : t('stores.store.closed')}
+              </Text>
+            )
+          })}
 
 
               </View>

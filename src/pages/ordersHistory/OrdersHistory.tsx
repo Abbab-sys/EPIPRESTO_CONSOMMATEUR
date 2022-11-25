@@ -38,6 +38,7 @@ const OrdersHistory = () => {
     ordersData.sort((a, b) => {
       return b.time.getTime() - a.time.getTime();
     });
+    console.log(ordersData);
     setOrders(ordersData);
   };
 
@@ -124,8 +125,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginLeft: 20,
-    marginRight: 20,
-    backgroundColor: 'white',
+    marginRight: 20
   },
   titleView: {
     flex: 118,

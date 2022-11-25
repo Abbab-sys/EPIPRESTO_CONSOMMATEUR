@@ -92,7 +92,7 @@
     "store": {
       "open": "Ouvert",
       "closed": "Fermé",
-      "paused": "Boutique fermée par le propriétaire",
+      "paused": "Boutique fermée par propriétaire",
       "viewButton": "Voir le magasin",
       "category": "Catégorie"
     }   

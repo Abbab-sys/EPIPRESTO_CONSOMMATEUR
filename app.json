@@ -1,3 +1,40 @@
 {
-  "name": "Consommateur"
+  "name": "Consommateur",
+  "expo": {
+    "plugins": [
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.identifier",
+          "enableGooglePay": true
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "63b52229-c5ee-4b40-8631-07a9ef0de976"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/63b52229-c5ee-4b40-8631-07a9ef0de976"
+    },
+    "android": {},
+    "ios": {}
+  },
+  "extra": {
+    "eas": {
+      "projectId": "63b52229-c5ee-4b40-8631-07a9ef0de976"
+    }
+  },
+  "runtimeVersion": {
+    "policy": "sdkVersion"
+  },
+  "updates": {
+    "url": "https://u.expo.dev/63b52229-c5ee-4b40-8631-07a9ef0de976"
+  },
+  "android": {},
+  "ios": {}
 }

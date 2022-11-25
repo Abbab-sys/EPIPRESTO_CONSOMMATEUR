@@ -40,16 +40,16 @@ export const useCheckoutManager = () => {
     if (!unwrappedData) return;
     console.log("unwrappedData", unwrappedData);
     initPaymentSheet({
-      appearance: {
-        colors: {
-          primary: '#FFAA55',
-          background: '#FDFDFD',
-          componentBackground: '#FDFDFD',
-          primaryText: '#FFAA55',
-          placeholderText: '#73757b',
-          icon: "#FFAA55",
-        },
-      },
+      // appearance: {
+      //   colors: {
+      //     primary: '#FFAA55',
+      //     background: '#FDFDFD',
+      //     componentBackground: '#FDFDFD',
+      //     primaryText: '#000000',
+      //     placeholderText: '#73757b',
+      //     icon: "#FFAA55",
+      //   },
+      // },
       customFlow: false,
       defaultBillingDetails: undefined,
       googlePay: undefined,

@@ -8,6 +8,7 @@
     "epip": "EPIP",
     "resto": "RESTO",
     "subtitle": "An online grocery marketplace like no other",
+    "error": "Invalid email or password",
     "usernameOrEmail": {
       "placeholder": "Email or Username",
       "label": "Email or Username"
@@ -146,7 +147,10 @@
     "title": "Orders",
     "orderHistoryError": "An error occured while fetching your orders",
     "WAITING_CONFIRMATION": "PENDING",
-    "CONFIRMED": "DELIVERED",
+    "IN_DELIVERY":"IN DELIVERY",
+    "DELIVERED": "DELIVERED",
+    "CONFIRMED": "CONFIRMED",
+    "CLOSED": "CANCELLED",
     "cancelled": "Cancelled",
     "order": "Order",
     "orderError": "An error occured while fetching your order",

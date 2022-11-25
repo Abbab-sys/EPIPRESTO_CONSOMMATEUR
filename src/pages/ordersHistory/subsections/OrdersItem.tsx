@@ -18,8 +18,14 @@ const OrdersItem = ({order, goToOrder}:any) => {
               {
                 color:
                   order.status === 'WAITING_CONFIRMATION'
-                    ? '#FFAA55'
-                    : 'green',
+                    ? 'orange'
+                    : order.status === 'CONFIRMED'
+                    ? 'violet'
+                    : order.status === 'DELIVERED'
+                    ? 'green'
+                    : order.status === 'IN_DELIVERY'
+                    ? 'blue'
+                    : 'red',
               },
             ]}>
             {t('OrdersHistory.' + order.status)}
@@ -65,7 +71,7 @@ const orderStyles = StyleSheet.create({
   orderView: {
     flex: 95,
     flexDirection: 'row',
-    backgroundColor: '#F2F4F8',
+    backgroundColor: 'white',
     padding: 10,
     borderRadius: 10,
   },

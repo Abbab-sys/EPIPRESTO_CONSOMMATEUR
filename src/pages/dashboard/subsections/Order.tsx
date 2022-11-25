@@ -17,23 +17,23 @@ const Order = (props: OrderProps) => {
     i18n.language === 'fr' ?
       (
         orderStatus === 'ATTENTE DE CONFIRMATION'
-          ? 'gold'
+          ? 'orange'
           : orderStatus === 'CONFIRMÉ'
-            ? 'green'
+            ? 'violet'
             : orderStatus === 'EN LIVRAISON'
               ? 'blue'
               : orderStatus === 'DÉLIVERÉ'
-                ? '#86FFA8'
+                ? 'green'
                 : 'red'
       ) : (
         orderStatus === 'WAITING CONFIRMATION'
-          ? 'gold'
+          ? 'orange'
           : orderStatus === 'CONFIRMED'
-            ? 'green'
+            ? 'violet'
             : orderStatus === 'IN DELIVERY'
               ? 'blue'
               : orderStatus === 'DELIVERED'
-                ? '#86FFA8'
+                ? 'green'
                 : 'red'
       )
 
@@ -47,6 +47,7 @@ const Order = (props: OrderProps) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       flexDirection: 'row',
+    
     },
     text: {
       color: '#000000',

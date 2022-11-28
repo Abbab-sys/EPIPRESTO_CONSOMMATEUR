@@ -8,7 +8,7 @@ const OrderedProduct = ({variant}: {variant: ProductVariant}) => {
   const [isWidthSet, setIsWidthSet] = useState<boolean>(false);
     return (
       <View style={styles.cartItem}>
-        <View style={styles.margin}></View>
+        <View style={styles.margin}/>
         <View style={styles.imageWrapper}>
           <View onLayout={(e)=> {
             if (!isWidthSet) {
@@ -59,7 +59,7 @@ const OrderedProduct = ({variant}: {variant: ProductVariant}) => {
   
   const styles = StyleSheet.create({
     cartItem: {
-      backgroundColor: '#F2F4F8',
+      backgroundColor: 'white',
       borderRadius: 10,
       marginTop: 10,
       flexDirection: 'row',

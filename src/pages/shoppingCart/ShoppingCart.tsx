@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     flex: 148,
     paddingLeft: 20,
     paddingRight: 20,
-    backgroundColor: '#F2F4F8',
+    backgroundColor: 'white',
     borderRadius: 10,
   },
   pricesViewMargin: {

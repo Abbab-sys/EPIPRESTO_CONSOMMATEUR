@@ -7,6 +7,7 @@ import {StoresPageStack} from "../stacks/StoresPageStack";
 import {OrdersPageStack} from "../stacks/OrdersPageStack";
 import {ChatsPageStack} from "../stacks/ChatsPageStack";
 import {CartsPageStack} from "../stacks/CartPageStack";
+import {useSearch} from "../../hooks/useSearch";
 
 export const Home = () => {
 
@@ -21,6 +22,16 @@ export const Home = () => {
     {key: STACK_KEY.CHATS_STACK_KEY, focusedIcon: 'message'},
   ]);
 
+  const {setSearchText} = useSearch()
+
+  const onIndexChange = (index: number) => {
+    setIndex(index);
+    //get index of object with key :STACK_KEY.DASHBOARD_STACK_KEY
+    const dashboardStackIndex = routes.findIndex((route) => route.key === STACK_KEY.DASHBOARD_STACK_KEY);
+    if(index === dashboardStackIndex){
+      setSearchText("");
+    }
+  }
   const renderScene = ({route, jumpTo}: any) => {
     const switchToTab = (key: STACK_KEY, params?: any) => {
       // const index = routes.findIndex((route) => route.key === key);
@@ -48,7 +59,7 @@ export const Home = () => {
     <BottomNavigation
       barStyle={{backgroundColor: '#FFAA55'}}
       navigationState={{index, routes}}
-      onIndexChange={setIndex}
+      onIndexChange={onIndexChange}
       renderScene={renderScene}
     />
   )

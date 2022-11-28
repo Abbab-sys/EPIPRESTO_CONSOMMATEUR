@@ -88,6 +88,7 @@ const Dashboard = () => {
 
 
   const {search,searchText,setSearchText} = useSearch()
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.root}>

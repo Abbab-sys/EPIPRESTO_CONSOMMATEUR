@@ -220,5 +220,11 @@
     },
     "language": "Langue",
     "logout": "Déconnexion"
+  },
+  "searchPage": {
+    "title": "Recherche",
+    "noResults": "Aucun résultat trouvé",
+    "error": "Une erreur est survenue lors de la récupération des résultats",
+    "seeAll":"Voir Tout"
   }
 }

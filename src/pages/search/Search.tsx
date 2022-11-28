@@ -1,38 +1,40 @@
 import React from 'react';
-import {FlatList, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View,} from 'react-native';
-import {ActivityIndicator, Searchbar} from 'react-native-paper';
-import {useSearch} from '../../hooks/useSearch';
+import { FlatList, KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View, } from 'react-native';
+import { ActivityIndicator, Searchbar } from 'react-native-paper';
+import { useSearch } from '../../hooks/useSearch';
 import SearchItem from './SearchItem';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const Search = () => {
-  const {search, results, loading, searchText, setSearchText} = useSearch();
-  const {t} = useTranslation('translation')
+  const { search, results, loading, searchText, setSearchText } = useSearch();
+  const { t } = useTranslation('translation')
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.root}>
         <View style={styles.header}>
           <View style={styles.headerTextWrapper}>
-            <Text style={styles.headerText}>Search</Text>
+            <Text style={styles.headerText}>{t("searchPage.title")}</Text>
           </View>
           <View style={styles.headerSearchBar}>
-            <Searchbar onIconPress={() => {
+            <Searchbar onSubmitEditing={() => {
               search(searchText)
-            }} elevation={0} placeholder={t('dashboard.search')} onChangeText={setSearchText} value={searchText}/>
+            }} onIconPress={() => {
+              search(searchText)
+            }} elevation={0} placeholder={t('dashboard.search')} onChangeText={setSearchText} value={searchText} />
           </View>
         </View>
         <View style={styles.searchResults}>
           {loading ? (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator size="large" color="#FFAA55"/>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <ActivityIndicator size="large" color="#FFAA55" />
             </View>
           ) : (
             <FlatList
               data={results}
-              renderItem={({item}) => (
-                <SearchItem item={item}/>
+              renderItem={({ item }) => (
+                <SearchItem item={item} />
               )}
               keyExtractor={item => item.store.id}
             />

@@ -1,6 +1,6 @@
 import {useQuery} from "@apollo/client";
 import React, {useEffect, useState} from "react";
-import {ActivityIndicator, FlatList, SafeAreaView, View} from "react-native";
+import {ActivityIndicator, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
 import {Button, Text} from 'react-native-paper';
 import {Float} from "react-native/Libraries/Types/CodegenTypes";
 import {GET_PRODUCT_VARIANTS_BY_ID} from "../../graphql/queries/GetProductVariantsById";
@@ -63,13 +63,21 @@ const ProductPage = ({idProduct, goBack, route}: any) => {
   return (
     <SafeAreaView>
       <View style={productPageStyles.view}>
-        <Button icon="arrow-left-circle" mode="contained" onPress={finalGoBack}>
-        </Button>
+        {/* <Button icon="arrow-left-circle" mode="contained" onPress={finalGoBack}>
+        </Button> */}
+        <TouchableOpacity  disabled={false} style={productPageStyles.back_button} onPress={() => {
+          finalGoBack()
+        }}>
+          <Image
+            style={productPageStyles.back_button_icon}
+            source={require('../../assets/images/back.png')}
+          />
+        </TouchableOpacity>
         <Text variant="headlineMedium" style={productPageStyles.headline}>
-          {data ? data.getProductById.product.title : "Product"}
+          {data ? data.getProductById.product.title : "Loading"}
         </Text>
         <Text variant="labelLarge">
-          {data ? data.getProductById.product.relatedStore.name : "Name"}
+          {data ? data.getProductById.product.relatedStore.name : ""}
         </Text>
       </View>
       <SafeAreaView>

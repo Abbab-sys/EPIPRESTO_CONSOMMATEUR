@@ -1,4 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FlatList,
   Image, ScrollView,
@@ -11,6 +13,8 @@ import {SearchResult} from '../../hooks/useSearch';
 import ProductsInShopSearch from './subsections/ProductsInShopSearch';
 
 const SearchItem = ({item}: { item: SearchResult }) => {
+  const { t } = useTranslation('translation')
+  const navigation = useNavigation()
   return (
     <View style={styles.root}>
       <View style={styles.productsView}>
@@ -26,8 +30,10 @@ const SearchItem = ({item}: { item: SearchResult }) => {
           <Text style={styles.storeName}>{item.store.name}</Text>
         </View>
         <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>See All</Text>
+          <TouchableOpacity style={styles.button} onPress={()=>{
+            navigation.navigate('Store' as never, {idStore: item.store.id,goBack:navigation.goBack} as never);
+          }}>
+            <Text style={styles.buttonText}>{t("searchPage.seeAll")}</Text>
           </TouchableOpacity>
         </View>
       </View>

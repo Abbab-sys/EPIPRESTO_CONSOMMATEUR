@@ -89,6 +89,7 @@ export const productPageStyles = StyleSheet.create({
     back_button_icon: {
         width: 35,
         height: 35,
+        tintColor: '#FFA500',
     },
     searchBar: {
     marginBottom: '2%',

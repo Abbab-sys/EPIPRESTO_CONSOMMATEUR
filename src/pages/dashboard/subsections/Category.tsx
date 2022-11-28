@@ -27,7 +27,9 @@ const Category = (props: CategoryProps) => {
       color: '#000000',
       fontFamily: 'Lato',
       fontStyle: 'normal',
-    }
+    },
+   
+   
   })
 
   const navigation = useNavigation()
@@ -42,8 +44,8 @@ const Category = (props: CategoryProps) => {
   };
 
   return (
-    <SafeAreaView style={categoryStyles.root}>
-      <TouchableOpacity onPress={navigateToShopList}>
+    <SafeAreaView style={categoryStyles.root} >
+      <TouchableOpacity onPress={navigateToShopList} style={{flex:1,flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
         <Text numberOfLines={2} style={categoryStyles.text}>
           {props.categoryName}
         </Text>

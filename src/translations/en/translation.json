@@ -221,5 +221,11 @@
     },
     "language": "Language",
     "logout": "Logout"
+  },
+  "searchPage": {
+    "title": "Search",
+    "noResults": "No results found",
+    "error": "OUPS! Something went wrong",
+    "seeAll":"See All"
   }
 }

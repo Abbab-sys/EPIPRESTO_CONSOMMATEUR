@@ -34,7 +34,6 @@ export type OrderData = {
 
 const Dashboard = () => {
   const {switchToTab} = useContext(BottomNavigationContext);
-  console.log("Dashboard props", switchToTab);
 
   const navigation = useNavigation();
 
@@ -86,9 +85,7 @@ const Dashboard = () => {
     }
   ]
 
-  console.log("DATA: ", data)
-  console.log("LOADING: ", loading)
-  console.log("ERROR: ", error)
+
 
   const {search,searchText,setSearchText} = useSearch()
   return (
@@ -114,7 +111,10 @@ const Dashboard = () => {
           </View>
         </View>
         {/*<View style={styles.searchBar}>*/}
-        <Searchbar onIconPress={() => {
+        <Searchbar onSubmitEditing={()=>{
+          search(searchText)
+          switchToTab(STACK_KEY.SEARCH_STACK_KEY)
+        }} onIconPress={() => {
           search(searchText)
           switchToTab(STACK_KEY.SEARCH_STACK_KEY)
         }} elevation={0} placeholder={t('dashboard.search')} onChangeText={setSearchText} value={searchText}/>

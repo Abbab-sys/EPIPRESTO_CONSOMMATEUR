@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {ActivityIndicator, FlatList, Image, SafeAreaView, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, FlatList, Image, RefreshControl, SafeAreaView, TouchableOpacity, View} from "react-native";
 import {Searchbar, Snackbar, Text} from 'react-native-paper';
 import {useLazyQuery} from "@apollo/client";
 import {storeStyles} from "./StoreStyles";
@@ -200,6 +200,15 @@ const Store = ({route}: any) => {
                       },
                     })
                   }
+                  }
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={loading}
+                      onRefresh={() => {
+                        getItems()
+                      }}
+                    />
+                    
                   }
                 />
 

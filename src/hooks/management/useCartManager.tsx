@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   cartItem: {
-    backgroundColor: '#F2F4F8',
+    backgroundColor: 'white',
     borderRadius: 10,
     marginTop: 10,
     flexDirection: 'row',

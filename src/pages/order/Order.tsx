@@ -110,7 +110,7 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
     messageTranslationKey: t('OrdersHistory.orderError'),
   });
 
-  const {data, loading, error} = useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
+  const {error} = useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
     variables: {idOrder: finalOrderId},
     onCompleted: handleData,
     onError: openErrorSnackbar,
@@ -225,7 +225,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 20,
     marginRight: 20,
-    backgroundColor: 'white',
   },
   margin20: {
     flex: 20,
@@ -290,7 +289,7 @@ const styles = StyleSheet.create({
     flex: 148,
     paddingLeft: 20,
     paddingRight: 20,
-    backgroundColor: '#F2F4F8',
+    backgroundColor: 'white',
     borderRadius: 10,
   },
   pricesViewMargin: {
@@ -343,7 +342,6 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     marginTop: 10,
-    backgroundColor: '#fff',
     color: '#000000',
     includeFontPadding: false,
   },

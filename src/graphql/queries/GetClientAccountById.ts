@@ -1,7 +1,7 @@
 import {gql} from "@apollo/client";
 
 export const GET_CLIENT_ACCOUNT_BY_ID = gql`
-  query Query($idClient: ID!, $distance: Int!) {
+  query Query($idClient: ID!, $distance: Float!) {
     getClientAccountById(idClient: $idClient) {
       code
       message

@@ -56,6 +56,10 @@ export const storeStyles = StyleSheet.create({
     fontFamily: text_font_family,
     fontStyle: text_font_style,
   },
+  category: {
+    fontFamily: text_font_family,
+    fontStyle: text_font_style,
+  },
   cardTitle: {},
   innerCardTitle: {},
   data: {},

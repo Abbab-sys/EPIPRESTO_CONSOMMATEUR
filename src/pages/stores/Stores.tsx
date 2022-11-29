@@ -75,6 +75,7 @@ const Stores = ({route, goBack, navigation}: any) => {
 
   const filterShopsByCategory = (nearbyShops: any) => {
     if (route?.params?.shopCategory) {
+      console.log("CATEGORY")
       const currCategory = handleCategoryIndex(route.params.index)
       return nearbyShops.filter((shop: any) => {
         if (shop.shopCategory) return shop.shopCategory === currCategory
@@ -129,6 +130,10 @@ const Stores = ({route, goBack, navigation}: any) => {
           {t('stores.titlePart1')}
           <Text style={{color: '#FFAA55'}}>{t('stores.titlePart2')}</Text>
         </Text>
+
+        {route?.params?.shopCategory? 
+          (<Text style={storeStyles.category} >{route.params.shopCategory}</Text>)
+          : null}
 
         <HelperText type="info">{t('stores.shownRadius')}</HelperText>
       </View>

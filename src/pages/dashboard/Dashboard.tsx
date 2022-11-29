@@ -111,15 +111,15 @@ const Dashboard = () => {
             {accountButton.iconButton}
           </View>
         </View>
-        {/*<View style={styles.searchBar}>*/}
-        <Searchbar onSubmitEditing={()=>{
-          search(searchText)
-          switchToTab(STACK_KEY.SEARCH_STACK_KEY)
-        }} onIconPress={() => {
-          search(searchText)
-          switchToTab(STACK_KEY.SEARCH_STACK_KEY)
-        }} elevation={0} placeholder={t('dashboard.search')} onChangeText={setSearchText} value={searchText}/>
-        {/*</View>*/}
+        <View style={styles.searchBar}>
+          <Searchbar onSubmitEditing={()=>{
+            search(searchText)
+            switchToTab(STACK_KEY.SEARCH_STACK_KEY)
+          }} onIconPress={() => {
+            search(searchText)
+            switchToTab(STACK_KEY.SEARCH_STACK_KEY)
+          }} elevation={0} placeholder={t('dashboard.search')} onChangeText={setSearchText} value={searchText}/>
+        </View>
         <View style={styles.categoriesContainer}>
           <Text style={styles.categoriesTitle}>
             {t('shopCategories.title')}
@@ -235,6 +235,7 @@ const styles = StyleSheet.create({
   searchBar: {
     flex: 50,
     width: '100%',
+    height: '100%',
     marginBottom: '2%',
     marginTop: '1%',
     borderRadius: 20,

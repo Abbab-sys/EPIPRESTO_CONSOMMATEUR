@@ -33,6 +33,7 @@ export const productStyles = StyleSheet.create({
     resizeMode:'contain',
     height: 100,
     width: '100%',
+    marginTop: '3%',
   },
   buttonText: {
     color: 'white'

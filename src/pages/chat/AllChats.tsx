@@ -15,7 +15,7 @@ const AllChats = () => {
 
   const [chats, {loading, refreshChats, error}] = useContext(ChatContext);
 
-
+  
   const [currChatId, setCurrChatId] = useState('')
   if (currChatId)
     return <Chat navigation={navigation} chatId={currChatId} goBack={() => setCurrChatId('')}
@@ -58,6 +58,7 @@ const AllChats = () => {
                 <ChatSection
                   key={index}
                   orderNum={item.relatedOrderNumber}
+                  relatedStoreName={item.relatedStoreName}
                   lastMessage={
                     item.messages.length > 0 ? item.messages[0].message : ''
                   }

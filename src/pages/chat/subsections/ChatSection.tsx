@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 export interface ChatSectionProps {
   imageSrc?: any;
   orderNum: string;
+  relatedStoreName: string;
   lastMessage: string;
   date: string | null;
   goToChat: any
@@ -22,7 +23,7 @@ const ChatSection = (props: ChatSectionProps) => {
             :
             (<Icon style={ChatSectionStyles.icon} name="user" size={30} color='black'></Icon>)}
           <View style={ChatSectionStyles.innerView}>
-            <Text style={ChatSectionStyles.contactNameText}>{props.orderNum}</Text>
+            <Text style={ChatSectionStyles.contactNameText}>{props.orderNum} - {props.relatedStoreName}</Text>
             <View style={ChatSectionStyles.bottomTextContainer}>
               <Text style={ChatSectionStyles.lastMessageText}>{props.lastMessage}</Text>
             </View>

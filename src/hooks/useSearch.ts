@@ -9,6 +9,7 @@ interface SearchProductResult {
   title: string,
   published: boolean,
   imgSrc: string,
+  tags: string[],
 }
 
 export interface SearchResult {
@@ -39,10 +40,14 @@ export const useSearch = () => {
     console.log(unwrappedData)
     const storeProducts = new Map<string, SearchProductResult[]>()
     const storeNames = new Map<string, string>()
+    const storePaused = new Map<string, boolean>()
+    const storeOpen = new Map<string, boolean>()
     for (const product of unwrappedData.searchProducts) {
       if (!storeProducts.has(product.relatedStore._id)) {
         storeProducts.set(product.relatedStore._id, [])
         storeNames.set(product.relatedStore._id, product.relatedStore.name)
+        storePaused.set(product.relatedStore._id, product.relatedStore.isPaused)
+        storeOpen.set(product.relatedStore._id, product.relatedStore.isOpen)
       }
       if (!storeProducts.has(product.relatedStore._id)) {
         continue
@@ -51,7 +56,8 @@ export const useSearch = () => {
         _id: product._id,
         title: product.title,
         published: product.published,
-        imgSrc: product.imgSrc
+        imgSrc: product.imgSrc,
+        tags: product.tags
       })
     }
 
@@ -60,7 +66,9 @@ export const useSearch = () => {
       newResults.push({
         store: {
           id: storeId,
-          name: storeNames.get(storeId) || ''
+          name: storeNames.get(storeId) || '',
+          isOpen: storeOpen.get(storeId) || false,
+          isPaused: storePaused.get(storeId) || false
         },
         matchingProducts: products
       })

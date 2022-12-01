@@ -20,14 +20,17 @@ const SearchItem = ({item}: { item: SearchResult }) => {
       <View style={styles.productsView}>
         <ScrollView horizontal style={{flex:1}}>
           {item.matchingProducts.map(product => (
-            <ProductsInShopSearch key={product._id} id={product._id} imgSrc={product.imgSrc} title={product.title} />
+            <ProductsInShopSearch key={product._id} id={product._id} imgSrc={product.imgSrc} title={product.title} tags={product.tags} />
           ))}
         </ScrollView>
       </View>
       <View style={styles.verticalMargin}/>
       <View style={styles.storeView}>
         <View style={styles.storeNameView}>
-          <Text style={styles.storeName}>{item.store.name}</Text>
+        <Text style={styles.storeName}>{item.store.name}</Text>
+        <Text style={[(item.store.isOpen && !item.store.isPaused) ? {color: 'green'} : {color: 'red'}]}>
+        {(item.store.isOpen && !item.store.isPaused) ? t('stores.store.open') : (item.store.isPaused ? t('stores.store.paused') : t('stores.store.closed'))}
+          </Text>
         </View>
         <View style={styles.buttonView}>
           <TouchableOpacity style={styles.button} onPress={()=>{

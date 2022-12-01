@@ -9,8 +9,11 @@ export const SEARCH_PRODUCTS = gql`
             relatedStore {
                 _id
                 name
+                isOpen
+                isPaused
             }
             published
+            tags
         }
     }
 `;
@@ -23,7 +26,10 @@ export type SearchProductsData = {
     relatedStore: {
       _id: string;
       name: string;
+      isOpen: boolean;
+      isPaused: boolean;
     }
     published: boolean;
+    tags: string[];
   }[];
 }

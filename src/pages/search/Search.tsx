@@ -67,6 +67,14 @@ const styles = StyleSheet.create({
   },
   headerSearchBar: {
     flex: 32,
+    marginBottom: '2%',
+    marginTop: '1%',
+    marginHorizontal: '2%',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(242, 244, 248, 0.93)',
+    elevation: 5,
   },
   searchResults: {
     flex: 584,

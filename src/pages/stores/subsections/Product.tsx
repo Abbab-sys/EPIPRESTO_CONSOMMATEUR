@@ -41,6 +41,16 @@ const Product = (props: VariantProps) => {
   return(
     <View style={productStyles.root}>
       <Card style={productStyles.cardStyle} onPress={() => {showModal()}}>
+      <View style={{alignItems:'flex-end'}}>
+      <IconButton 
+            onPress={() => {showModal()}}
+            mode="contained"
+            iconColor="grey"
+            icon="information"
+            style={{backgroundColor: 'F2F4F8', margin:0}}
+            />
+
+        </View>
         <Image style={productStyles.image} source={{uri: props.imgSrc}}/>
         <View 
         // put buttons and stock in a row

@@ -6,6 +6,7 @@ interface ShopWithProductsProps {
   id: string;
   imgSrc: any;
   title: string;
+  tags: string[];
   // navigation: () => {}
 }
 
@@ -26,6 +27,7 @@ const ProductsInShopSearch = (props: ShopWithProductsProps) => {
             style={styles.image}
             />
         <Text numberOfLines={2} style={styles.productText}>{props.title}</Text>
+        <Text numberOfLines={2} style={styles.productText}>{props.tags.join(", ")}</Text>
       </TouchableOpacity>
     </SafeAreaView>
   )

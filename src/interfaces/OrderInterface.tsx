@@ -10,6 +10,8 @@ export type ProductVariant = {
   export type Store = {
     id: string;
     name: string;
+    isOpen: boolean;
+    isPaused: boolean;
   };
   
   export type Order = {

@@ -22,6 +22,8 @@ export const productStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
+    height: 310,
+    
   },
   buttonStyle: {
     borderRadius: 30,

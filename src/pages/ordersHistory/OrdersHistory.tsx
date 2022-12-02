@@ -1,17 +1,16 @@
 import {useQuery} from '@apollo/client';
 import React, {useContext, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {FlatList, RefreshControl, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {FlatList, RefreshControl, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Loading from '../../components/cart/Loading';
 import {ClientAuthenticationContext} from '../../context/ClientAuthenticationContext';
 import {GET_ORDERS, GetOrdersData} from '../../graphql/queries/GetOrders';
-import {useSnackbar} from '../../hooks/UiHooks/UiHooks';
 import {OrderHistory} from '../../interfaces/OrderHistoryInterface';
 import OrdersItem from './subsections/OrdersItem';
 import Order from "../order/Order";
 import {useNavigation} from "@react-navigation/native";
-import { IconButton } from 'react-native-paper';
+import {IconButton} from 'react-native-paper';
 
 const OrdersHistory = () => {
   const [orders, setOrders] = useState<OrderHistory[]>([]);
@@ -52,13 +51,14 @@ const OrdersHistory = () => {
   });
 
 
-  
+
   const [currOrderId, setCurrOrderId] = useState('')
+  const navigation = useNavigation()
   const renderItem = ({item}: { item: OrderHistory }) => {
     return <OrdersItem order={item} goToOrder={() => setCurrOrderId(item.id)}/>;
   };
 
-  const navigation = useNavigation()
+
   if (currOrderId) {
     return <Order navigation={navigation} orderId={currOrderId} goBack={() => setCurrOrderId('')}></Order>;
   }

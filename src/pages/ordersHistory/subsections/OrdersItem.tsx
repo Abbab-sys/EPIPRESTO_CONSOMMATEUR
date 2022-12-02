@@ -6,7 +6,7 @@ const OrdersItem = ({order, goToOrder}:any) => {
   const {t} = useTranslation('translation');
 
   return (
-    <View style={orderStyles.order}>
+    <TouchableOpacity  onPress={goToOrder} style={orderStyles.order}>
       <View style={orderStyles.margin}/>
       <View style={orderStyles.orderView}>
         <View style={orderStyles.margin}/>
@@ -43,21 +43,11 @@ const OrdersItem = ({order, goToOrder}:any) => {
             })}
           </Text>
         </View>
-        <View style={orderStyles.buttonView}>
-          <View style={orderStyles.buttonMargin}/>
-          <TouchableOpacity
-            onPress={goToOrder}
-            style={orderStyles.button}>
-            <Text style={orderStyles.buttonText}>
-              {t('OrdersHistory.view')}
-            </Text>
-          </TouchableOpacity>
-          <View style={orderStyles.buttonMargin}/>
-        </View>
+
         <View style={orderStyles.margin}/>
       </View>
       <View style={orderStyles.margin}/>
-    </View>
+    </TouchableOpacity>
   );
 };
 

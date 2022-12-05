@@ -1,11 +1,12 @@
 import {useStripe} from "@stripe/stripe-react-native";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useLazyQuery} from "@apollo/client";
 import {GET_STRIPE, GetStripeData} from "../../graphql/queries/GetStripe";
 import {Alert} from "react-native";
 import {useCartManager} from "./useCartManager";
-import { useTranslation } from "react-i18next";
-import { useNavigation } from "@react-navigation/native";
+import {useTranslation} from "react-i18next";
+import {useNavigation} from "@react-navigation/native";
+import {ClientAuthenticationContext} from "../../context/ClientAuthenticationContext";
 
 export const useCheckoutManager = () => {
   const {t} = useTranslation('translation')
@@ -14,6 +15,7 @@ export const useCheckoutManager = () => {
   const {submitCartOrder} = useCartManager()
   const navigation = useNavigation()
 
+  const {clientId} = useContext(ClientAuthenticationContext)
   const [getStripe, {data}] = useLazyQuery(GET_STRIPE, {
     fetchPolicy: "network-only",
   });
@@ -33,7 +35,7 @@ export const useCheckoutManager = () => {
     }
     console.log("checkout", checkoutParams);
     //TODO add id variant and qty and discount
-    await getStripe({variables: {variantsToOrder: checkoutParams}});
+    await getStripe({variables: {variantsToOrder: checkoutParams, idClient: clientId}});
   }
 
   useEffect(() => {
@@ -70,7 +72,7 @@ export const useCheckoutManager = () => {
         if (!r.error) {
           submitCartOrder().then((orderId) => {
             Alert.alert(t('ShoppingCart.alertMessage'));
-            navigation.navigate('Order' as never, {orderId: orderId, goBack:navigation.goBack} as never)
+            navigation.navigate('Order' as never, {orderId: orderId, goBack: navigation.goBack} as never)
           })
         }
       });

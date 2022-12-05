@@ -11,6 +11,8 @@ interface HttpResponseInterface {
     message: String!
 }
 
+union AccountResponse = ClientAccountResponse | VendorAccountResponse
+
 type ActivesHours {
     endingHour: String!
     openingHour: String!
@@ -39,7 +41,7 @@ type ClientAccount {
     email: String!
     firstName: String!
     lastName: String!
-    nearbyShops(distance: Int!): [Store!]!
+    nearbyShops(distance: Float!): [Store!]!
     orders: [Order!]!
     password: String!
     phone: String!
@@ -84,14 +86,15 @@ type Mutation {
     synchronizeShopifyStore(shopifyCreds: ShopifyCredentials!): HttpResponse!
     synchronizeWoocommerceStore(woocommerceCreds: WoocommerceCredentials!): HttpResponse!
     updateClientAccount(clientId: ID!, fieldsToUpdate: UpdateClientAccount!): ClientAccountResponse!
-    updateOrderStatus(newStatus: OrderStatus!, orderId: ID!): HttpResponse!
+    updateOrderStatus(newStatus: OrderStatus!, orderId: ID!, storeId: ID!): HttpResponse!
     updateProduct(fieldsToUpdate: UpdateProduct!, productId: ID!): ProductResponse!
     updateProductVariant(fieldsToUpdate: UpdateProductVariant!, variantId: ID!): ProductVariantResponse!
     updateProductsVariants(variantsToUpdate: [UpdateProductVariant!]!): HttpResponse!
     updateStore(fieldsToUpdate: UpdateStore!, storeId: ID!): StoreResponse!
     updateVendorAccount(fieldsToUpdate: UpdateVendorAccount!, vendorId: ID!): VendorAccountResponse!
     vendorSignUp(accountInput: VendorAccountInput): HttpResponse!
-    verifyVendorAccount(token: String!): VendorAccountResponse!
+    verifyAccount(token: String!): AccountResponse!
+    verifyClientAccount(token: String!): ClientAccountResponse!
 }
 
 type Order {
@@ -104,6 +107,7 @@ type Order {
     relatedChats: [Chat!]!
     relatedClient: ClientAccount!
     relatedVendors: [Store!]!
+    subOrdersStatus: [SubOrdersLog!]!
     subTotal: Float!
     taxs: Float!
 }
@@ -172,7 +176,7 @@ type Query {
     getProductVariantById(idVariant: ID!): ProductVariantResponse!
     getStoreById(idStore: ID!): StoreResponse!
     getStoresByCategory(category: ShopCategory!, idClient: ID!): StoresResponse!
-    getStripe(variantsToOrder: [VariantToOrder!]!): StripeResponse!
+    getStripe(idClient: ID, variantsToOrder: [VariantToOrder!]!): StripeResponse!
     isClientEmailUsed(email: String!): Boolean!
     isClientUsernameUsed(username: String!): Boolean!
     isVendorEmailUsed(email: String!): Boolean!
@@ -190,6 +194,7 @@ type Store {
     address: String!
     chats: [Chat!]!
     disponibilities: [Disponibility!]!
+    isAdmin: Boolean
     isOpen: Boolean!
     isPaused: Boolean!
     name: String!
@@ -222,6 +227,12 @@ type StripeResponse implements HttpResponseInterface {
     code: Int!
     message: String!
     stripe: Stripe
+}
+
+type SubOrdersLog {
+    relatedStore: Store!
+    status: OrderStatus!
+    time: Date
 }
 
 type Subscription {

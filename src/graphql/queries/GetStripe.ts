@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const GET_STRIPE = gql`
-    query GetStripe($variantsToOrder: [VariantToOrder!]!) {
-        getStripe(variantsToOrder: $variantsToOrder) {
+    query GetStripe($idClient:ID,$variantsToOrder: [VariantToOrder!]!) {
+        getStripe(idClient:$idClient,variantsToOrder: $variantsToOrder) {
             code
             message
             stripe {
@@ -14,11 +14,6 @@ export const GET_STRIPE = gql`
         }
     }
 `;
-
-export type GetStripeVariantToOrder = {
-    variantId: string;
-    quantity: number;
-}
 export type GetStripeData = {
   getStripe: {
     code: number;

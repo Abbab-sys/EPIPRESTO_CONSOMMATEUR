@@ -22,7 +22,7 @@ export const productStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    height: 310,
+    height: 350,
     
   },
   buttonStyle: {

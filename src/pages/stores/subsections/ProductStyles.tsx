@@ -9,7 +9,8 @@ export const productStyles = StyleSheet.create({
   },
   productInfo: {
     textAlign: 'center',
-    marginVertical: '4%'  },
+    height: 40,
+    marginVertical: '2%'  },
   cardStyle: {
     flex: 1,
     elevation: 4,
@@ -22,7 +23,7 @@ export const productStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    height: 350,
+    // height: 350,
     
   },
   buttonStyle: {

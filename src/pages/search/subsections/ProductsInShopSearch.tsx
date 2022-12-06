@@ -1,37 +1,55 @@
-import React from "react";
-import { TouchableOpacity, View, Image, Text, StyleSheet, SafeAreaView } from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import React from 'react';
+import {
+  TouchableOpacity,
+  Image,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+/*
+ * Name: Products In Shop Search
+ * Description: This file is used to display the products in shop search from  one store
+ * Author: Adam Naoui-Busson, Ryma Messedaa, Zouhair Derouich
+ */
 
 interface ShopWithProductsProps {
   id: string;
   imgSrc: any;
   title: string;
   tags: string[];
-  // navigation: () => {}
 }
 
 const ProductsInShopSearch = (props: ShopWithProductsProps) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const navigateToProduct = () => {
-    navigation.navigate('ProductPage' as never, {idProduct: props.id,goBack:navigation.goBack} as never);
+    navigation.navigate(
+      'ProductPage' as never,
+      {idProduct: props.id, goBack: navigation.goBack} as never,
+    );
   };
   return (
     <SafeAreaView>
       <TouchableOpacity onPress={navigateToProduct} style={styles.root}>
-          <Image
-            source={
-              props.imgSrc.length > 0
+        <Image
+          source={
+            props.imgSrc.length > 0
               ? {uri: props.imgSrc}
               : require('../../../assets/images/logo.png')
-            }
-            style={styles.image}
-            />
-        <Text numberOfLines={2} style={styles.productText}>{props.title}</Text>
-        <Text numberOfLines={2} style={styles.productText}>{props.tags.join(", ")}</Text>
+          }
+          style={styles.image}
+        />
+        <Text numberOfLines={2} style={styles.productText}>
+          {props.title}
+        </Text>
+        <Text numberOfLines={2} style={styles.productText}>
+          {props.tags.join(', ')}
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   root: {
@@ -58,7 +76,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     alignSelf: 'center',
     color: 'black',
-  }
-})
+  },
+});
 
 export default ProductsInShopSearch;

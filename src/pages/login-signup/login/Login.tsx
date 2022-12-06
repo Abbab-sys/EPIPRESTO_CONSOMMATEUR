@@ -24,6 +24,12 @@ import {useTranslation} from 'react-i18next';
 import LanguageSelector from '../../../common/language-selection/LanguageSelector';
 import {useSnackbar} from '../../../hooks/UiHooks/UiHooks';
 
+/*
+ * Name: Login
+ * Description: This file is used to display the login page.
+ * Author: Zouhair Derouich, Adam Naoui-Busson, Ryma Messedaa, Alessandro van Reusel
+ */
+
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 const Login: (props: LoginProps) => JSX.Element = () => {
@@ -34,6 +40,7 @@ const Login: (props: LoginProps) => JSX.Element = () => {
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
 
+  // Query to login a client by username
   const [loginByUsername, {data, error}] = useLazyQuery(
     LOGIN_CLIENT_BY_USERNAME,
     {
@@ -44,10 +51,9 @@ const Login: (props: LoginProps) => JSX.Element = () => {
   const unwrappedData: LoginClientByUsernameData | undefined =
     data as LoginClientByUsernameData;
 
+  // Handle login when the user press on the login button and call the loginByUsername query
   const handleLogin = async () => {
     if (!identifier || !password) return;
-    console.log('USERNAME: ', identifier);
-    console.log('PASSWORD: ', password);
     await loginByUsername({
       variables: {
         username: identifier,
@@ -56,6 +62,7 @@ const Login: (props: LoginProps) => JSX.Element = () => {
     });
   };
 
+  // Use effect to check if the login is successful or not and set the client id in the context
   useEffect(() => {
     if (!unwrappedData) return;
     if (unwrappedData.loginClientByUsername.code === 404) {
@@ -66,14 +73,16 @@ const Login: (props: LoginProps) => JSX.Element = () => {
     AsyncStorage.setItem(
       '@clientId',
       unwrappedData.loginClientByUsername.clientAccount._id,
-    ).then(r => console.log('client id saved', r));
+    ).then(r => {});
   }, [unwrappedData?.loginClientByUsername.code]);
 
+  // Snackbar to display an error message when the login is not successful
   const [loginErrorSnackbar, {open: loginErrorSnackbarOpen}] = useSnackbar({
     severity: 'error',
     messageTranslationKey: t('login.error'),
   });
 
+  // Go to the sign up page when the user press on the create account button
   const handleCreateAccount = () => {
     navigation.navigate('SignUp' as never);
   };

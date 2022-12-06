@@ -1,32 +1,48 @@
-import {useNavigation} from "@react-navigation/native";
-import React, {useContext, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {FlatList, RefreshControl, SafeAreaView, StyleSheet, Text, View} from "react-native"
-import {ChatContext} from "../../context/ChatContext";
-import ChatSection from "./subsections/ChatSection";
-import Chat from "./subsections/Chat";
-import {IconButton} from "react-native-paper";
-import Loading from "../../components/cart/Loading";
+import {useNavigation} from '@react-navigation/native';
+import React, {useContext, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {ChatContext} from '../../context/ChatContext';
+import ChatSection from './subsections/ChatSection';
+import Chat from './subsections/Chat';
+import {IconButton} from 'react-native-paper';
+import Loading from '../../components/cart/Loading';
+
+/*
+ * Name: All Chats
+ * Description: This file is used to display all the chats of the user.
+ * Author:  Adam Naoui-Busson, Ryma Messedaa, Alessandro van Reusel, Zouhair Derouich
+ */
 
 const AllChats = () => {
-  const {t} = useTranslation('translation')
+  const {t} = useTranslation('translation');
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const [chats, {loading, refreshChats, error}] = useContext(ChatContext);
 
-  
-  const [currChatId, setCurrChatId] = useState('')
+  const [currChatId, setCurrChatId] = useState('');
   if (currChatId)
-    return <Chat navigation={navigation} chatId={currChatId} goBack={() => setCurrChatId('')}
-    ></Chat>
+    return (
+      <Chat
+        navigation={navigation}
+        chatId={currChatId}
+        goBack={() => setCurrChatId('')}></Chat>
+    );
   return (
     <SafeAreaView style={styles.root}>
       {loading ? (
-        <Loading/>
+        <Loading />
       ) : error ? (
         <View style={styles.innerView}>
-          <Text>{t("chat.error")}</Text>
+          <Text>{t('chat.error')}</Text>
           <IconButton
             icon="reload"
             iconColor="orange"
@@ -36,60 +52,64 @@ const AllChats = () => {
             }}
           />
         </View>
-      ) : chats.length === 0 ?
-        (
-          <View style={styles.innerView}>
-            <Text>{t('chat.noChats')}</Text>
-            <IconButton
-              icon="reload"
-              iconColor="orange"
-              size={30}
-              onPress={() => {
+      ) : chats.length === 0 ? (
+        <View style={styles.innerView}>
+          <Text>{t('chat.noChats')}</Text>
+          <IconButton
+            icon="reload"
+            iconColor="orange"
+            size={30}
+            onPress={() => {
+              refreshChats();
+            }}
+          />
+        </View>
+      ) : (
+        <FlatList
+          data={chats}
+          renderItem={({item, index}) => {
+            if (item.messages.length === 0) return null;
+            return (
+              <ChatSection
+                key={index}
+                orderNum={item.relatedOrderNumber}
+                relatedStoreName={item.relatedStoreName}
+                lastMessage={
+                  item.messages.length > 0 ? item.messages[0].message : ''
+                }
+                date={
+                  item.messages.length > 0
+                    ? item.messages[item.messages.length - 1].date
+                    : null
+                }
+                goToChat={() => setCurrChatId(item.id)}
+              />
+            );
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={() => {
                 refreshChats();
               }}
             />
-          </View>
-        ) : (
-          <FlatList
-            data={chats}
-            renderItem={({item, index}) => {
-              if (item.messages.length === 0) return null
-              return (
-                <ChatSection
-                  key={index}
-                  orderNum={item.relatedOrderNumber}
-                  relatedStoreName={item.relatedStoreName}
-                  lastMessage={
-                    item.messages.length > 0 ? item.messages[0].message : ''
-                  }
-                  date={item.messages.length > 0 ? item.messages[item.messages.length - 1].date : null}
-                  goToChat={() => setCurrChatId(item.id)}/>)
-            }}
-            refreshControl={
-              <RefreshControl
-                refreshing={loading}
-                onRefresh={() => {
-                  refreshChats();
-                }}
-              />
-            }
-            keyExtractor={item => item.id}
-          />
-        )
-      }
+          }
+          keyExtractor={item => item.id}
+        />
+      )}
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    margin: '4%'
+    margin: '4%',
   },
   innerView: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   titleView: {
     flex: 88,
@@ -108,6 +128,6 @@ const styles = StyleSheet.create({
   restMargin: {
     flex: 671,
   },
-})
+});
 
-export default AllChats
+export default AllChats;

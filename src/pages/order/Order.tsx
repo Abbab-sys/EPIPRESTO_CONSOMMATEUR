@@ -1,7 +1,15 @@
 import {useQuery} from '@apollo/client';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, SectionList, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View,} from 'react-native';
+import {
+  Image,
+  SectionList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {Divider} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -10,30 +18,34 @@ import {
   getOrderByIdData,
   GET_ORDER_BY_ID,
 } from '../../graphql/queries/GetOrderById';
-import { useSnackbar } from '../../hooks/UiHooks/UiHooks';
+import {useSnackbar} from '../../hooks/UiHooks/UiHooks';
 import {
   Order as OrderInfo,
   ProductVariant,
 } from '../../interfaces/OrderInterface';
 import OrderProduct from './subsections/OrderedProduct';
 
+/*
+ * Name: Order
+ * Description: This file is used to display the order informations with the products, the price and the status.
+ * Author: Adam Naoui-Busson, Alessandro van Reusel, Zouhair Derouich
+ */
 
-const Order = ({navigation,orderId,goBack,route}: any) => {
-
-  let finalOrderId = orderId
+const Order = ({navigation, orderId, goBack, route}: any) => {
+  let finalOrderId = orderId;
   if (route?.params?.orderId) {
-    finalOrderId= route.params.orderId
+    finalOrderId = route.params.orderId;
   }
-  let finalGoBack = goBack
+  let finalGoBack = goBack;
   if (route?.params?.goBack) {
-    finalGoBack= route.params.goBack
+    finalGoBack = route.params.goBack;
   }
-
 
   const [orderInfo, setOrderInfo] = useState<OrderInfo>();
 
   const {t} = useTranslation('translation');
 
+  // Handle the data from the query and set the order info
   const handleData = (data: getOrderByIdData) => {
     const order = data.getOrderById.order;
     const storeProductsMap = new Map<string, ProductVariant[]>();
@@ -82,10 +94,7 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
     });
     const vendorChatMap = new Map<string, string>();
     order.relatedChats.forEach(currentChat => {
-      vendorChatMap.set(
-        currentChat.relatedVendor._id,
-        currentChat._id,
-      );
+      vendorChatMap.set(currentChat.relatedVendor._id, currentChat._id);
     });
     const newOrder: OrderInfo = {
       id: order._id,
@@ -102,20 +111,20 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
     setOrderInfo(newOrder);
   };
 
-  const [
-    errorSnackbar,
-    {open: openErrorSnackbar},
-  ] = useSnackbar({
+  // Using the useSnackbar hook to display the error snackbar
+  const [errorSnackbar, {open: openErrorSnackbar}] = useSnackbar({
     severity: 'error',
     messageTranslationKey: t('OrdersHistory.orderError'),
   });
 
+  // Query to get the order by id
   const {error} = useQuery<getOrderByIdData>(GET_ORDER_BY_ID, {
     variables: {idOrder: finalOrderId},
     onCompleted: handleData,
     onError: openErrorSnackbar,
   });
 
+  // Order the products by store
   const getOrderArray = () => {
     const cartArray: {storeId: string; data: ProductVariant[]}[] = [];
     orderInfo?.storeProductsMap.forEach((value, key) => {
@@ -123,8 +132,6 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
     });
     return cartArray;
   };
-
-  console.log(error)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -134,9 +141,7 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
         <>
           <View style={styles.margin20} />
           <View style={styles.titleWrapper}>
-            <TouchableOpacity
-              style={styles.back_button}
-              onPress={finalGoBack}>
+            <TouchableOpacity style={styles.back_button} onPress={finalGoBack}>
               <Image
                 style={styles.back_button_icon}
                 source={require('../../assets/images/back.png')}
@@ -160,7 +165,9 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
                         : '#86FFA8',
                   },
                 ]}>
-                <Text style={styles.statusText}>{t('OrdersHistory.' + orderInfo.status)}</Text>
+                <Text style={styles.statusText}>
+                  {t('OrdersHistory.' + orderInfo.status)}
+                </Text>
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -174,12 +181,17 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
               )}
               renderSectionHeader={({section: {storeId: storeId}}) => (
                 <View style={styles.titleSection}>
-                  <Text style={styles.header}>{orderInfo.storeIdNameMap.get(storeId)}</Text>
+                  <Text style={styles.header}>
+                    {orderInfo.storeIdNameMap.get(storeId)}
+                  </Text>
                   <Icon
                     name="md-chatbubbles-outline"
                     color="black"
                     onPress={() => {
-                      navigation.navigate('ChatPage', {goBack:navigation.goBack,chatId: orderInfo.vendorChatMap.get(storeId)});
+                      navigation.navigate('ChatPage', {
+                        goBack: navigation.goBack,
+                        chatId: orderInfo.vendorChatMap.get(storeId),
+                      });
                     }}
                     size={30}></Icon>
                 </View>
@@ -193,22 +205,30 @@ const Order = ({navigation,orderId,goBack,route}: any) => {
             <View style={styles.pricesViewMargin} />
             <View style={styles.priceTextView}>
               <Text style={styles.priceText}>{t('Prices.subTotal')}</Text>
-              <Text style={styles.priceNumber}>${(Math.round(orderInfo?.subTotal*100)/100).toFixed(2)}</Text>
+              <Text style={styles.priceNumber}>
+                ${(Math.round(orderInfo?.subTotal * 100) / 100).toFixed(2)}
+              </Text>
             </View>
             <View style={styles.spaceBetweenPrices} />
             <View style={styles.priceTextView}>
               <Text style={styles.priceText}>{t('Prices.taxes')}</Text>
-              <Text style={styles.priceNumber}>${(Math.round(orderInfo?.tax*100)/100).toFixed(2)}</Text>
+              <Text style={styles.priceNumber}>
+                ${(Math.round(orderInfo?.tax * 100) / 100).toFixed(2)}
+              </Text>
             </View>
             <View style={styles.spaceBetweenPrices} />
             <View style={styles.priceTextView}>
               <Text style={styles.priceText}>{t('Prices.delivery')}</Text>
-              <Text style={styles.priceNumber}>${(Math.round(orderInfo?.deliveryFee*100)/100).toFixed(2)}</Text>
+              <Text style={styles.priceNumber}>
+                ${(Math.round(orderInfo?.deliveryFee * 100) / 100).toFixed(2)}
+              </Text>
             </View>
             <View style={styles.spaceBetweenDeliveryAndTotal} />
             <View style={styles.priceTextView}>
               <Text style={styles.totalText}>{t('Prices.total')}</Text>
-              <Text style={styles.totalNumber}>${(Math.round(orderInfo?.total*100)/100).toFixed(2)}</Text>
+              <Text style={styles.totalNumber}>
+                ${(Math.round(orderInfo?.total * 100) / 100).toFixed(2)}
+              </Text>
             </View>
             <View style={styles.pricesViewMargin} />
           </View>
@@ -236,7 +256,6 @@ const styles = StyleSheet.create({
     flex: 35,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   back_button: {
     position: 'absolute',

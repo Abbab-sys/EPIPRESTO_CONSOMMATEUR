@@ -1,6 +1,12 @@
 import React from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+/*
+ * Name: Client Authentication Context
+ * Description: This context is used to store the client id of the user 
+ * Author: Adam Naoui-Busson
+ */
+
 type ClientAuth = {
   clientId: string;
   setClientId: (clientId: string) => void;
@@ -8,7 +14,6 @@ type ClientAuth = {
 const defaultContext: ClientAuth = {
   clientId: '',
   setClientId: (clientId) => {
-    console.log('Stub for setClientId with : ', clientId);
   },
 };
 export const ClientAuthenticationContext = React.createContext<ClientAuth>(defaultContext);

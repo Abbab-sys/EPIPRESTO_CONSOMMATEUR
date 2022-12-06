@@ -1,24 +1,35 @@
 import React from 'react';
-import {NavigationContainer} from "@react-navigation/native";
-import {GraphQLWsLink} from "@apollo/client/link/subscriptions";
-import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, split} from "@apollo/client";
-import {getMainDefinition} from "@apollo/client/utilities";
-import {createClient} from "graphql-ws";
-import {Navigation} from "./navigation/Navigation";
-import {ClientAuthenticationProvider} from "./context/ClientAuthenticationContext";
+import {NavigationContainer} from '@react-navigation/native';
+import {GraphQLWsLink} from '@apollo/client/link/subscriptions';
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+  split,
+} from '@apollo/client';
+import {getMainDefinition} from '@apollo/client/utilities';
+import {createClient} from 'graphql-ws';
+import {Navigation} from './navigation/Navigation';
+import {ClientAuthenticationProvider} from './context/ClientAuthenticationContext';
 import {Provider as PaperProvider} from 'react-native-paper';
-import {theme} from "./theme/Theme";
-import '../i18n'
+import {theme} from './theme/Theme';
+import '../i18n';
 import {CartProvider} from './context/CartContext';
 import {StripeProvider} from '@stripe/stripe-react-native';
 import {ChatProvider} from './context/ChatContext';
-import {SearchProvider} from "./context/SearchContext";
+import {SearchProvider} from './context/SearchContext';
+
+/*
+ * Name: App
+ * Description: This is the main component of the application
+ * Author: Adam Naoui-Busson, Zouhair Derouich, Ryma Messedaa, Khalil Zriba, Alessandro van Reusel
+ */
 
 const App: () => JSX.Element = () => {
-
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: 'ws://52.90.77.253:4000/graphql'
+      url: 'ws://52.90.77.253:4000/graphql',
     }),
   );
 
@@ -56,7 +67,7 @@ const App: () => JSX.Element = () => {
               <SearchProvider>
                 <PaperProvider theme={theme}>
                   <NavigationContainer>
-                    <Navigation/>
+                    <Navigation />
                   </NavigationContainer>
                 </PaperProvider>
               </SearchProvider>
@@ -65,7 +76,6 @@ const App: () => JSX.Element = () => {
         </ClientAuthenticationProvider>
       </CartProvider>
     </StripeProvider>
-
   );
 };
 

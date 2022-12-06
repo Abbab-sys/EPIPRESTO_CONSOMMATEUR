@@ -2,8 +2,13 @@ import {SnackbarKind} from './UiHooksInterfaces';
 import React, {useState} from 'react';
 import {Snackbar} from 'react-native-paper';
 import {SnackbarStyles} from './UiHooksStyles';
-import {Text, View} from 'react-native';
-import { theme } from '../../theme/Theme';
+import {Text} from 'react-native';
+
+/*
+ * Name: Use Snackbar
+ * Description: Hook for snackbar
+ * Author: Adam Naoui-Busson, Alessandro van Reusel
+ */
 
 export const useSnackbar = (init: SnackbarKind) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +49,7 @@ export const useSnackbar = (init: SnackbarKind) => {
   const snackbar = (
     <Snackbar
       visible={isOpen}
-      theme={{colors: {inversePrimary: 'white' }}}
+      theme={{colors: {inversePrimary: 'white'}}}
       style={
         snackbarKind.severity === 'success'
           ? SnackbarStyles.successSnackbar
@@ -58,7 +63,7 @@ export const useSnackbar = (init: SnackbarKind) => {
           handleSnackbarClosing();
         },
       }}>
-      <Text style={{color:'white'}}>{snackbarKind.messageTranslationKey}</Text>
+      <Text style={{color: 'white'}}>{snackbarKind.messageTranslationKey}</Text>
     </Snackbar>
   );
   return [

@@ -1,4 +1,10 @@
-import { gql } from "@apollo/client";
+import {gql} from '@apollo/client';
+
+/*
+ * Name: Send Message
+ * Description: This is a GraphQL mutation that is used to send a message to a chat.
+ * Author: Zouhair Derouich
+ */
 
 export const SEND_MESSAGE = gql`
   mutation Mutation($message: MessageInput!) {
@@ -14,4 +20,4 @@ export type SendMessageData = {
     code: number;
     message: string;
   };
-}
+};

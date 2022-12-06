@@ -3,10 +3,15 @@ import {useTabIndex, useTabNavigation} from "react-native-paper-tabs";
 import React, {forwardRef, Ref, useImperativeHandle, useMemo, useState} from "react";
 import LoginInput from "../../../../atoms/LoginInput";
 import {useUsernameValidator} from "../../../../hooks/validators/useUsernameValidator";
-import {useMandatoryFieldValidator} from "../../../../hooks/validators/useMandatoryFieldValidator";
 import {useConfirmPasswordValidator} from "../../../../hooks/validators/useConfirmPasswordValidator";
 import {Error} from "../../../../types/errors/Error";
 import { useTranslation } from "react-i18next";
+
+/*
+ * Name: Account Step
+ * Description: This file is used to display the fourth step of the signup process (username, password and confirm password).
+ * Author: Zouhair Derouich, Adam Naoui-Busson
+ */
 
 type AccountStepProps = {
   signUp: () => void
@@ -32,11 +37,12 @@ const AccountStep = (props: AccountStepProps, ref: Ref<AccountStepRef>) => {
   const passwordErrors: Error[] = []
   const confirmPasswordErrors = useConfirmPasswordValidator(password, confirmPassword)
 
-
+  // Memo to check if the info are valid
   const stepCompleted = useMemo(() => {
     return !!username && !!password && !!confirmPassword && usernameErrors.length === 0 && passwordErrors.length === 0 && confirmPasswordErrors.length === 0
   }, [username, password, confirmPassword, usernameErrors.length, passwordErrors.length, confirmPasswordErrors.length])
 
+  // Imperative handle to get the username and password
   useImperativeHandle(ref, () => ({
     username,
     password

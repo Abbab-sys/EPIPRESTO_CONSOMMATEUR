@@ -1,21 +1,27 @@
-import React from "react";
-import {HelperText, Text, TextInput} from "react-native-paper";
-import {StyleSheet, View} from "react-native";
-import {Error} from "../types/errors/Error";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import {HelperText, Text, TextInput} from 'react-native-paper';
+import {StyleSheet, View} from 'react-native';
+import {Error} from '../types/errors/Error';
+import {useTranslation} from 'react-i18next';
+
+/*
+ * Name: Login Input
+ * Description: This component is used to display a login input field
+ * Author: Khalil Zriba, Zouhair Derouich, Adam Naoui-Busson
+ */
 
 export type LoginInputProps = {
-  value: string,
-  setValue: (value: string) => void,
-  errors?: Error[],
+  value: string;
+  setValue: (value: string) => void;
+  errors?: Error[];
   label?: string;
   placeholder?: string;
-  type?:string
-}
+  type?: string;
+};
 const LoginInput = (props: LoginInputProps) => {
   const [passwordVisible, setPasswordVisible] = React.useState(true);
 
-  const {t} = useTranslation('translation')
+  const {t} = useTranslation('translation');
 
   const errors = props.errors || [];
 
@@ -24,38 +30,46 @@ const LoginInput = (props: LoginInputProps) => {
       <View style={styles.leftBlank}></View>
       <View style={styles.textInputContainer}>
         <View style={styles.loginTextWrapper}>
-          <Text numberOfLines={1} style={styles.nextButtonText}>{props.placeholder ? props.placeholder : ""}</Text>
+          <Text numberOfLines={1} style={styles.nextButtonText}>
+            {props.placeholder ? props.placeholder : ''}
+          </Text>
         </View>
         <View style={styles.inputContainer}>
           <View style={styles.textInputWrapper}>
-            <TextInput style={styles.textInput} theme={{roundness: 12}}
-                       mode={"outlined"} value={props.value} onChangeText={props.setValue}
-                        secureTextEntry={props.type === "password" ? passwordVisible : false}
-                       right={
-                        props.type === "password"  ? (
-                          <TextInput.Icon
-                            icon={passwordVisible ? 'eye' : 'eye-off'}
-                            iconColor={'black'}
-                            forceTextInputFocus={false}
-                            onPress={() => {
-                              setPasswordVisible(!passwordVisible);
-                            }}
-                          />
-                        ):null}
-                       >
-            </TextInput>
-            {errors.length>0? <HelperText type="error" visible={errors.length > 0}>
-              {errors.length > 0 && t(errors[0].messageKey)}
-            </HelperText> : null}
+            <TextInput
+              style={styles.textInput}
+              theme={{roundness: 12}}
+              mode={'outlined'}
+              value={props.value}
+              onChangeText={props.setValue}
+              secureTextEntry={
+                props.type === 'password' ? passwordVisible : false
+              }
+              right={
+                props.type === 'password' ? (
+                  <TextInput.Icon
+                    icon={passwordVisible ? 'eye' : 'eye-off'}
+                    iconColor={'black'}
+                    forceTextInputFocus={false}
+                    onPress={() => {
+                      setPasswordVisible(!passwordVisible);
+                    }}
+                  />
+                ) : null
+              }></TextInput>
+            {errors.length > 0 ? (
+              <HelperText type="error" visible={errors.length > 0}>
+                {errors.length > 0 && t(errors[0].messageKey)}
+              </HelperText>
+            ) : null}
           </View>
         </View>
       </View>
 
       <View style={styles.rightBlank}></View>
     </View>
-
-  )
-}
+  );
+};
 const styles = StyleSheet.create({
   root: {
     flex: 1,
@@ -76,15 +90,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   nextButtonText: {
-    fontFamily: "Lato",
+    fontFamily: 'Lato',
     fontSize: 22,
-    fontWeight: "600",
-    fontStyle: "normal",
+    fontWeight: '600',
+    fontStyle: 'normal',
     lineHeight: 26,
     letterSpacing: -0.02,
-    color: "#000000",
-
-
+    color: '#000000',
   },
   inputContainer: {
     flex: 40,
@@ -93,6 +105,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textInput: {},
-
-})
+});
 export default LoginInput;

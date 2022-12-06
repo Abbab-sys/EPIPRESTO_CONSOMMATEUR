@@ -8,13 +8,21 @@ import {ClientAuthenticationContext} from '../../context/ClientAuthenticationCon
 import {GET_ORDERS, GetOrdersData} from '../../graphql/queries/GetOrders';
 import {OrderHistory} from '../../interfaces/OrderHistoryInterface';
 import OrdersItem from './subsections/OrdersItem';
-import Order from "../order/Order";
-import {useNavigation} from "@react-navigation/native";
+import Order from '../order/Order';
+import {useNavigation} from '@react-navigation/native';
 import {IconButton} from 'react-native-paper';
+
+/*
+ * Name: Orders History
+ * Description: This file is used to display the orders history.
+ * Author: Adam Naoui-Busson, Alessandro van Reusel, Khalil Zriba, Zouhair Derouich
+ */
 
 const OrdersHistory = () => {
   const [orders, setOrders] = useState<OrderHistory[]>([]);
   const {t} = useTranslation('translation');
+
+  // Handle order's data from the query and set the orders
   const handleData = async (data: GetOrdersData) => {
     const ordersDatabase = data.getClientAccountById.clientAccount.orders;
     const ordersData: OrderHistory[] = [];
@@ -37,30 +45,35 @@ const OrdersHistory = () => {
     ordersData.sort((a, b) => {
       return b.time.getTime() - a.time.getTime();
     });
-    console.log(ordersData);
     setOrders(ordersData);
   };
 
   const {clientId} = useContext(ClientAuthenticationContext);
 
-
+  // Query to get the orders
   const {error, loading, refetch} = useQuery<GetOrdersData>(GET_ORDERS, {
     variables: {idClient: clientId},
     onCompleted: handleData,
     fetchPolicy: 'network-only',
   });
 
+  const [currOrderId, setCurrOrderId] = useState('');
+  const navigation = useNavigation();
 
-
-  const [currOrderId, setCurrOrderId] = useState('')
-  const navigation = useNavigation()
-  const renderItem = ({item}: { item: OrderHistory }) => {
-    return <OrdersItem order={item} goToOrder={() => setCurrOrderId(item.id)}/>;
+  // Render the orders for the flatlist
+  const renderItem = ({item}: {item: OrderHistory}) => {
+    return (
+      <OrdersItem order={item} goToOrder={() => setCurrOrderId(item.id)} />
+    );
   };
 
-
   if (currOrderId) {
-    return <Order navigation={navigation} orderId={currOrderId} goBack={() => setCurrOrderId('')}></Order>;
+    return (
+      <Order
+        navigation={navigation}
+        orderId={currOrderId}
+        goBack={() => setCurrOrderId('')}></Order>
+    );
   }
 
   return (
@@ -73,10 +86,12 @@ const OrdersHistory = () => {
 
       <View style={styles.restMargin}>
         {loading ? (
-          <Loading/>
-        ): error ? (
+          <Loading />
+        ) : error ? (
           <View style={styles.innerContainer}>
-            <Text style={styles.errorText}>{t('OrdersHistory.orderHistoryError')}</Text>
+            <Text style={styles.errorText}>
+              {t('OrdersHistory.orderHistoryError')}
+            </Text>
             <IconButton
               icon="reload"
               iconColor="orange"
@@ -86,10 +101,12 @@ const OrdersHistory = () => {
               }}
             />
           </View>
-        ): orders.length === 0 ? (
+        ) : orders.length === 0 ? (
           <View style={styles.innerContainer}>
-          <Text style={styles.errorText}>{t("dashboard.latestOrders.errors.notAvailable")}</Text>
-          <IconButton
+            <Text style={styles.errorText}>
+              {t('dashboard.latestOrders.errors.notAvailable')}
+            </Text>
+            <IconButton
               icon="reload"
               iconColor="orange"
               size={30}
@@ -97,26 +114,24 @@ const OrdersHistory = () => {
                 refetch({idClient: clientId, distance: 15});
               }}
             />
-            </View>
-        )
-          : (
-            <FlatList
-              data={orders}
-              refreshControl={
-                <RefreshControl
-                  refreshing={loading}
-                  onRefresh={() => {
-                    refetch({idClient: clientId, distance: 15});
-                  }}
-                />
-              }
-              keyExtractor={item => item.id}
-              renderItem={renderItem}
-              style={{flex: 1}}></FlatList>
-          )
+          </View>
+        ) : (
+          <FlatList
+            data={orders}
+            refreshControl={
+              <RefreshControl
+                refreshing={loading}
+                onRefresh={() => {
+                  refetch({idClient: clientId, distance: 15});
+                }}
+              />
             }
+            keyExtractor={item => item.id}
+            renderItem={renderItem}
+            style={{flex: 1}}></FlatList>
+        )}
       </View>
-      <View style={styles.marginBottom}/>
+      <View style={styles.marginBottom} />
     </SafeAreaView>
   );
 };
@@ -125,7 +140,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginLeft: 20,
-    marginRight: 20
+    marginRight: 20,
   },
   titleView: {
     flex: 118,
@@ -152,12 +167,12 @@ const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: 'center',
-},
-innerContainer: {
+  },
+  innerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1
-},
+    flex: 1,
+  },
 });
 
 export default OrdersHistory;

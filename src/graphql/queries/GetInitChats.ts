@@ -1,5 +1,11 @@
-import { gql } from "@apollo/client";
-import { Role } from "../../hooks/ChatManagerHook";
+import {gql} from '@apollo/client';
+import {Role} from '../../hooks/ChatManagerHook';
+
+/*
+ * Name: Get Initial Chats
+ * Description: This is a GraphQL query that is used to get the initial chats.
+ * Author: Zouhair Derouich
+ */
 
 export const GET_INITIAL_CHATS = gql`
   query Query($idClient: ID!) {
@@ -47,18 +53,18 @@ export type GetInitialChatsData = {
               date: string;
               role: Role;
               status: string;
-            }
-          ]
+            },
+          ];
           relatedOrder: {
             _id: string;
             orderNumber: string;
-          }
+          };
           relatedVendor: {
             _id: string;
             name: string;
-          }
-        }
-      ]
-    }
-  }
-}
+          };
+        },
+      ];
+    };
+  };
+};

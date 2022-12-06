@@ -1,4 +1,10 @@
-import {gql} from "@apollo/client";
+import {gql} from '@apollo/client';
+
+/*
+ * Name: Get Client Account By Id
+ * Description: This is a GraphQL query that is used to get a client account by id.
+ * Author: Zouhair Derouich, Ryma Messedaa
+ */
 
 export const GET_CLIENT_ACCOUNT_BY_ID = gql`
   query Query($idClient: ID!, $distance: Float!) {
@@ -33,14 +39,14 @@ export const GET_CLIENT_ACCOUNT_BY_ID = gql`
       }
     }
   }
-`
+`;
 
 export enum OrderStatus {
-  CLOSED = "CLOSED",
-  CONFIRMED = "CONFIRMED",
-  DELIVERED = "DELIVERED",
-  IN_DELIVERY = "IN DELIVERY",
-  WAITING_CONFIRMATION = "WAITING CONFIRMATION"
+  CLOSED = 'CLOSED',
+  CONFIRMED = 'CONFIRMED',
+  DELIVERED = 'DELIVERED',
+  IN_DELIVERY = 'IN DELIVERY',
+  WAITING_CONFIRMATION = 'WAITING CONFIRMATION',
 }
 
 export type GetClientAccountData = {
@@ -54,18 +60,16 @@ export type GetClientAccountData = {
         {
           _id: string;
           orderNumber: string;
-          logs: [
-            status: OrderStatus
-          ]
-        }
-      ],
+          logs: [status: OrderStatus];
+        },
+      ];
       nearbyShops: [
         {
           _id: string;
           name: string;
-          isOpen: boolean
-        }
-      ]
-    }
-  }
-}
+          isOpen: boolean;
+        },
+      ];
+    };
+  };
+};

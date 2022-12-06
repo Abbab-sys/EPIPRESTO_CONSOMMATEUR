@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Button, HelperText, TextInput} from 'react-native-paper';
+import {HelperText, TextInput} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {accountCredentialsReducer} from './reducers/AccountCredentialsReducer';
 import {initialStoreCredentialsState} from './reducers/AccountCredentialsReducerState';
@@ -27,53 +27,49 @@ import {
   IS_CLIENT_USERNAME_USED,
 } from '../../graphql/queries/IsClientUsernameUsed';
 
+/*
+ * Name: Account
+ * Description: This file is used to display the account page.
+ * Author: Alessandro van Reusel, Khalil Zriba
+ */
+
 const Account = ({navigation}: any) => {
   const {t: translation} = useTranslation('translation');
   const [{storeInput, storeErrorMessage}, dispatchCredentialsState] =
     useReducer(accountCredentialsReducer, initialStoreCredentialsState);
 
-  const [
-    confirmModificationSnackbar,
-    {
-      open: openConfirmModificationSnackbar,
-      close: closeConfirmModificationSnackbar,
-    },
-  ] = useSnackbar({
-    severity: 'success',
-    messageTranslationKey: translation('settings.account.modifySuccess'),
-  });
+  //Snackbar for successful modification
+  const [confirmModificationSnackbar, {open: openConfirmModificationSnackbar}] =
+    useSnackbar({
+      severity: 'success',
+      messageTranslationKey: translation('settings.account.modifySuccess'),
+    });
   //useState set visibility of password
   const [passwordVisible, setPasswordVisible] = React.useState(true);
-  const [
-    modificationErrorSnackbar,
-    {
-      open: openModificationErrorSnackbar,
-      close: closeModificationErrorSnackbar,
-    },
-  ] = useSnackbar({
-    severity: 'error',
-    messageTranslationKey: translation('settings.account.modifyError'),
-  });
 
-  const [
-    serverErrorSnackbar,
-    {
-      open: openServerErrorSnackbar,
-      close: closeServerErrorSnackbar,
-    },
-  ] = useSnackbar({
+  //Snackbar for unsuccessful modification
+  const [modificationErrorSnackbar, {open: openModificationErrorSnackbar}] =
+    useSnackbar({
+      severity: 'error',
+      messageTranslationKey: translation('settings.account.modifyError'),
+    });
+
+  //Snackbar for server error
+  const [serverErrorSnackbar, {open: openServerErrorSnackbar}] = useSnackbar({
     severity: 'error',
     messageTranslationKey: translation('settings.account.serverError'),
   });
 
   const {clientId} = useContext(ClientAuthenticationContext);
 
+  // Query to check if the username is already used
   const [isClientUsernameUsed, {data}] = useLazyQuery(IS_CLIENT_USERNAME_USED, {
     fetchPolicy: 'network-only',
   });
   const isClientUsernameUsedData: IsClientUsernameUsedData | undefined =
     data as IsClientUsernameUsedData;
 
+  // Handle data from query to get client info
   const handleData = (data: GetClientInfoData) => {
     if (!data) return;
     dispatchCredentialsState({
@@ -82,13 +78,18 @@ const Account = ({navigation}: any) => {
     });
   };
 
-  const {loading, refetch} = useQuery<GetClientInfoData>(GET_CLIENT_INFO_BY_ID, {
-    variables: {idClient: clientId},
-    onCompleted: handleData,
-    onError: openModificationErrorSnackbar,
-    fetchPolicy: 'network-only',
-  });
+  // Query to get client info
+  const {loading, refetch} = useQuery<GetClientInfoData>(
+    GET_CLIENT_INFO_BY_ID,
+    {
+      variables: {idClient: clientId},
+      onCompleted: handleData,
+      onError: openModificationErrorSnackbar,
+      fetchPolicy: 'network-only',
+    },
+  );
 
+  // Check if all fields are valid
   const areAllCredentialsFieldsValid = (): boolean => {
     const currErrorMessages = storeErrorMessage;
     return (
@@ -103,15 +104,16 @@ const Account = ({navigation}: any) => {
     );
   };
 
+  // Use effect to check if the username is already used
   useEffect(() => {
-     isClientUsernameUsed({
-        variables: {
-          username: storeInput.username,
-        },
-      });
-    
+    isClientUsernameUsed({
+      variables: {
+        username: storeInput.username,
+      },
+    });
   }, [storeInput.username]);
 
+  // Use effect to set the error message for the username
   useEffect(() => {
     if (isClientUsernameUsedData) {
       if (isClientUsernameUsedData.isClientUsernameUsed) {
@@ -130,17 +132,18 @@ const Account = ({navigation}: any) => {
     }
   }, [isClientUsernameUsedData]);
 
+  // Mutation to modify the account
   const [modifyAccount] = useMutation(MODIFY_ACCOUNT, {
     onCompleted: () => {
-      refetch({idClient: clientId})
+      refetch({idClient: clientId});
       openConfirmModificationSnackbar();
-      
     },
     onError: error => {
       openServerErrorSnackbar();
     },
   });
 
+  // Handle the modification of the account
   const handleModify = () => {
     Keyboard.dismiss();
     const areCredentialsValid = areAllCredentialsFieldsValid();
@@ -312,7 +315,11 @@ const Account = ({navigation}: any) => {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.titleWrapper}>
-        <TouchableOpacity style={styles.back_button} onPress={() => {navigation.goBack()}}>
+        <TouchableOpacity
+          style={styles.back_button}
+          onPress={() => {
+            navigation.goBack();
+          }}>
           <Image
             style={styles.back_button_icon}
             source={require('../../assets/images/back.png')}
@@ -380,7 +387,9 @@ const Account = ({navigation}: any) => {
       </View>
       <View style={styles.buttonView}>
         <TouchableOpacity style={styles.button} onPress={handleModify}>
-          <Text style={styles.buttonText}>{translation('settings.account.modify')}</Text>
+          <Text style={styles.buttonText}>
+            {translation('settings.account.modify')}
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.buttonMargin} />
@@ -419,7 +428,7 @@ export const styles = StyleSheet.create({
     flex: 95,
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexDirection : "row"
+    flexDirection: 'row',
   },
   title: {
     flex: 1,
@@ -429,7 +438,7 @@ export const styles = StyleSheet.create({
     fontSize: 36,
     includeFontPadding: false,
     textAlignVertical: 'center',
-    textAlign: "center",
+    textAlign: 'center',
     marginRight: 50,
     color: '#000000',
   },
@@ -454,7 +463,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFAA55',
     borderRadius: 40,
     width: '76%',
-    height: "100%",
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },

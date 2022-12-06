@@ -218,7 +218,7 @@
       "modify":"Modify",
       "modifyError":"Error : Some fields are incorrect",
       "serverError":"Error : An error occured while modifying your account",
-      "modifySuccess":"Your store has been successfully modified"
+      "modifySuccess":"Your account has been successfully modified"
     },
     "language": "Language",
     "logout": "Logout"

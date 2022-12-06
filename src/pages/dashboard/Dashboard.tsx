@@ -32,10 +32,11 @@ import {useSearch} from '../../hooks/useSearch';
  * Author: Ryma Messedaa, Adam Naoui-Busson, Zouhair Derouich, Alessandro van Reusel, Ryma Messedaa
  */
 
-type Shop = {
+type ShopAttributes = {
   _id: string;
   name: string;
   isOpen: boolean;
+  isPaused: boolean;
 };
 
 export type OrderData = {
@@ -217,7 +218,8 @@ const Dashboard = () => {
                 {
                   data.getClientAccountById.clientAccount.nearbyShops
                     .slice(0, 5)
-                    .map((shop: Shop) => (
+                    .filter((shop: ShopAttributes) => !shop.isPaused)
+                    .map((shop: ShopAttributes) => (
                       <Shop
                         key={shop._id}
                         shopName={shop.name}
@@ -318,7 +320,7 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
     marginTop: '1%',
     borderRadius: 20,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: 'rgba(242, 244, 248, 0.93)',
     elevation: 5,

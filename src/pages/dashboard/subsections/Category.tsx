@@ -49,20 +49,13 @@ const Category = (props: CategoryProps) => {
   };
 
   return (
-    <SafeAreaView style={categoryStyles.root}>
-      <TouchableOpacity
-        onPress={navigateToShopList}
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+    <TouchableOpacity onPress={navigateToShopList} style={categoryStyles.root}>
+      <SafeAreaView>
         <Text numberOfLines={2} style={categoryStyles.text}>
           {props.categoryName}
         </Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableOpacity>
   );
 };
 

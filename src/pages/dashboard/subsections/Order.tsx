@@ -55,9 +55,6 @@ const Order = (props: OrderProps) => {
       elevation: 4,
       borderRadius: 10,
       margin: 10,
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      flexDirection: 'row',
     },
     text: {
       color: '#000000',
@@ -72,6 +69,12 @@ const Order = (props: OrderProps) => {
       margin: 10,
       padding: 10,
     },
+    safeAreaView: {
+      flex: 1,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flexDirection: 'row',
+    }
   });
   const navigateToOrder = () => {
     navigation.navigate(
@@ -80,20 +83,14 @@ const Order = (props: OrderProps) => {
     );
   };
   return (
-    <SafeAreaView style={orderStyles.root}>
-      <TouchableOpacity
-        onPress={navigateToOrder}
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
+    <TouchableOpacity style={orderStyles.root} onPress={navigateToOrder}>
+      <SafeAreaView style={orderStyles.safeAreaView}>
         <Text style={orderStyles.text}>#{orderNum}</Text>
         <View style={orderStyles.orderStatus}>
           <Text>{orderStatus}</Text>
         </View>
-      </TouchableOpacity>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableOpacity>
   );
 };
 

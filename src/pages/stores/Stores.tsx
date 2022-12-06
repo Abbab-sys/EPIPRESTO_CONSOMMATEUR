@@ -259,6 +259,7 @@ const Stores = ({route, goBack, navigation}: any) => {
                       flexDirection: 'row',
                     }}>
                     <Text
+                      style={{height:40}}
                       ellipsizeMode="tail"
                       numberOfLines={2}
                       variant="titleMedium">

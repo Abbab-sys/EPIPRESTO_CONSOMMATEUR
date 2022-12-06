@@ -73,21 +73,13 @@ const Store = ({route}: any) => {
     if (data && data.getStoreById) {
       setStore(data.getStoreById.store)
       const products = data.getStoreById.store.products
-      // consider only products that are published
-      const publishedProducts = products.filter((product: any) => {
-        return product.published
-      })
       // get all variants of all products
-      const variants = publishedProducts.map((product: any) => {
+      const variants = products.map((product: any) => {
         return product.variants
       })
       // flatten array of arrays
-      const flattened = [].concat.apply([], variants)
-      // consider only variants that are available for sale
-      const availableVariants = flattened.filter((variant: any) => {
-        return variant.availableForSale
-      })
-      setVariants(availableVariants)
+      const variantsArray = [].concat.apply([], variants)
+      setVariants(variantsArray)
     }
   }, [data])
 

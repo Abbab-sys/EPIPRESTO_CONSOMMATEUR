@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 /*
  * Name: Shop
@@ -21,6 +22,7 @@ export interface ShopProps {
 }
 
 const Shop = (props: ShopProps) => {
+  const {t} = useTranslation('translation')
   const categoryStyles = StyleSheet.create({
     root: {
       backgroundColor: '#F2F4F8',
@@ -32,7 +34,6 @@ const Shop = (props: ShopProps) => {
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      opacity: props.isOpen ? 1 : 0.6,
     },
     text: {
       color: '#000000',
@@ -41,8 +42,8 @@ const Shop = (props: ShopProps) => {
       textAlign: 'center',
     },
     image: {
-      height: 60,
-      width: 60,
+      height: 50,
+      width: 50,
       alignSelf: 'center',
     },
   });
@@ -57,16 +58,27 @@ const Shop = (props: ShopProps) => {
   };
 
   return (
-    <SafeAreaView style={categoryStyles.root}>
-      <TouchableOpacity disabled={!props.isOpen} onPress={navigateToShop}>
+    <TouchableOpacity style={categoryStyles.root} onPress={navigateToShop}>
+      <SafeAreaView>
+        <Text
+          style={[
+            {textAlign: 'center'},
+            props.isOpen
+              ? {color: 'green'}
+              : {color: 'red'},
+          ]}>
+          {props.isOpen
+            ? t('stores.store.open')
+            : t('stores.store.closed')}
+        </Text>
         <Image
           source={require('../../../assets/images/shop.png')}
           style={categoryStyles.image}></Image>
         <Text numberOfLines={2} style={categoryStyles.text}>
           {props.shopName}
         </Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableOpacity>
   );
 };
 

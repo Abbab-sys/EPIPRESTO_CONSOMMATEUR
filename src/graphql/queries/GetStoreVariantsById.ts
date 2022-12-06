@@ -21,9 +21,9 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
         address
         isOpen
         isPaused
-        products(offset: $offset, first: $first) {
+        products(first: $first, offset: $offset, filterAvailable: $filterAvailable) {
           published
-          variants(offset: $offset, first: $first, searchText: $searchText) {
+          variants(offset: $variantsOffset2, filterAvailable: $variantsFilterAvailable2, first: $variantsFirst2) {
             _id
             displayName
             imgSrc

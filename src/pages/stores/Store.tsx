@@ -68,45 +68,39 @@ const Store = ({route}: any) => {
     getItems();
   }, [isFocused]);
 
-  // Query to get the store variants by id
-  const [getItems, {loading, error, data, fetchMore}] = useLazyQuery(
-    GET_STORE_VARIANTS_BY_ID,
-    {
-      variables: {
-        idStore: storeId,
-        offset: 0,
-        first: 20,
-        searchText: searchQuery,
-      },
+  // Query to get the store and its variants by id with pagination and search
+  const [getItems, {loading, error, data, fetchMore}] = useLazyQuery(GET_STORE_VARIANTS_BY_ID, {
+    variables: {
+      idStore: storeId,
+      offset: 0,
+      first: 20,
+      searchText: searchQuery,
+      filterAvailable: true,
+      variantsOffset2: 0,
+      variantsFirst2: 20,
+      variantsFilterAvailable2: true
     },
+  }
   );
 
   // Use Effect to set the variants and store when the data is loaded
   useEffect(() => {
     if (data && data.getStoreById) {
-      setStore(data.getStoreById.store);
-      const products = data.getStoreById.store.products;
-      // consider only products that are published
-      const publishedProducts = products.filter((product: any) => {
-        return product.published;
-      });
+      setStore(data.getStoreById.store)
+      const products = data.getStoreById.store.products
       // get all variants of all products
-      const variants = publishedProducts.map((product: any) => {
-        return product.variants;
-      });
+      const variants = products.map((product: any) => {
+        return product.variants
+      })
       // flatten array of arrays
-      const flattened = [].concat.apply([], variants);
-      // consider only variants that are available for sale
-      const availableVariants = flattened.filter((variant: any) => {
-        return variant.availableForSale;
-      });
-      setVariants(availableVariants);
+      const variantsArray = [].concat.apply([], variants)
+      setVariants(variantsArray)
     }
   }, [data]);
 
   const searchPlaceholder = t('store.search.placeholder');
 
-  // close snackbar after 3 seconds
+  // Use Effect to dismiss the snackbar after 3 seconds
   useEffect(() => {
     if (visible) {
       const timeout = setTimeout(() => onDismissSnackBar(), 3000);

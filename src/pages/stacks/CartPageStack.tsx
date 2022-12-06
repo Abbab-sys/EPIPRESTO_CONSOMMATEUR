@@ -4,6 +4,8 @@ import {STACK_KEY} from './StacksKeys';
 import {BottomNavigationContext} from '../../context/BottomNavigationContext';
 import {NavigationContainer} from '@react-navigation/native';
 import ShoppingCart from '../shoppingCart/ShoppingCart';
+import Order from '../order/Order';
+import Chat from '../chat/subsections/Chat';
 
 /*
  * Name: Carts Page Stack
@@ -13,6 +15,8 @@ import ShoppingCart from '../shoppingCart/ShoppingCart';
 
 export type CartsPageParamList = {
   ShoppingCart: undefined;
+  Order: undefined;
+  ChatPage: undefined;
 };
 
 const Stack = createNativeStackNavigator<CartsPageParamList>();
@@ -29,8 +33,12 @@ export const CartsPageStack = (props: CartsPageProps) => {
           initialRouteName={'ShoppingCart'}>
           <>
             <Stack.Screen name="ShoppingCart" component={ShoppingCart} />
+            <Stack.Screen name="Order" component={Order} />
+            <Stack.Screen name="ChatPage" component={Chat} />
+
           </>
         </Stack.Navigator>
+
       </NavigationContainer>
     </BottomNavigationContext.Provider>
   );

@@ -53,18 +53,19 @@ const ShoppingCart = () => {
             {((cartSubTotal * 100) / 100).toFixed(2)}$
           </Text>
         </View>
-        <View style={styles.spaceBetweenPrices} />
-        <View style={styles.priceTextView}>
-          <Text style={styles.priceText}>{t('Prices.taxes')}</Text>
-          <Text style={styles.priceNumber}>
-            {(Math.round(cartTaxedSubTotal * 100) / 100).toFixed(2)}$
-          </Text>
-        </View>
+      
         <View style={styles.spaceBetweenPrices} />
         <View style={styles.priceTextView}>
           <Text style={styles.priceText}>{t('Prices.delivery')}</Text>
           <Text style={styles.priceNumber}>
             {((cartDeliveryCost * 100) / 100).toFixed(2)}$
+          </Text>
+        </View>
+        <View style={styles.spaceBetweenPrices} />
+        <View style={styles.priceTextView}>
+          <Text style={styles.priceText}>{t('Prices.taxes')}</Text>
+          <Text style={styles.priceNumber}>
+            {(Math.round(cartTaxedSubTotal * 100) / 100).toFixed(2)}$
           </Text>
         </View>
         <View style={styles.spaceBetweenDeliveryAndTotal} />

@@ -259,7 +259,6 @@ const Stores = ({route, goBack, navigation}: any) => {
                       flexDirection: 'row',
                     }}>
                     <Text
-                      style={{height:40}}
                       ellipsizeMode="tail"
                       numberOfLines={2}
                       variant="titleMedium">
@@ -267,7 +266,9 @@ const Stores = ({route, goBack, navigation}: any) => {
                     </Text>
                   </View>
                   <View style={{flex: 1, justifyContent: 'center'}}>
-                    <HelperText type="info" style={{textAlign: 'center'}}>
+                    <HelperText type="info" style={{textAlign: 'center'}} 
+                    numberOfLines={2}
+                    >
                       {item.address.slice(0, item.address.indexOf(','))}
                     </HelperText>
                   </View>

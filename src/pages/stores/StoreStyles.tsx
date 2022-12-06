@@ -39,6 +39,7 @@ export const storeStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    height: 250,
   },
   innerView: {
     flexDirection: 'row',

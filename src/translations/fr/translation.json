@@ -10,6 +10,7 @@
     "resto": "RESTO",
     "subtitle": "Une place de marché d'épicerie en ligne pas comme les autres",
     "error": "Email ou mot de passe incorrect",
+    "verificationError": "Votre compte n'est pas vérifié. Veuillez vérifier votre boîte de réception pour le lien de vérification.",
     "usernameOrEmail": {
       "placeholder": "Email ou Pseudonyme",
       "label": "Email ou Pseudonyme"

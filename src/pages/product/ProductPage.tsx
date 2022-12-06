@@ -49,6 +49,7 @@ const ProductPage = ({idProduct, goBack, route}: any) => {
       variables: {
         idProduct: finalIdProduct,
         offset: 0,
+        first:20
       },
       fetchPolicy: 'network-only',
       onCompleted(data) {

@@ -72,7 +72,7 @@ const SearchItem = ({item}: {item: SearchResult}) => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    height: 200,
+    height: 220,
     margin: '2%',
     padding: '2%',
     flexDirection: 'column',

@@ -15,6 +15,7 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
     $variantsOffset2: Int!
     $variantsFilterAvailable2: Boolean
     $variantsFirst2: Int
+    $searchText: String
   ) {
     getStoreById(idStore: $idStore) {
       code
@@ -34,6 +35,7 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
             offset: $variantsOffset2
             filterAvailable: $variantsFilterAvailable2
             first: $variantsFirst2
+            searchText: $searchText
           ) {
             _id
             displayName

@@ -61,7 +61,11 @@ const Store = ({route}: any) => {
       idStore: storeId,
       offset: 0,
       first: 20,
-      searchText: searchQuery
+      searchText: searchQuery,
+      filterAvailable: true,
+      variantsOffset2: 0,
+      variantsFirst2: 20,
+      variantsFilterAvailable2: true
     },
   });
 

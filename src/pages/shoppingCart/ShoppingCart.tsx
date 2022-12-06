@@ -1,14 +1,21 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Divider} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useCartManager} from '../../hooks/management/useCartManager';
-import {useCheckoutManager} from "../../hooks/management/useCheckoutManager";
+import {useCheckoutManager} from '../../hooks/management/useCheckoutManager';
 
+/*
+ * Name: Shopping Cart
+ * Description: This file is used to display the shopping cart page with products.
+ * Author: Adam Naoui-Busson, Alessandro van Reusel, Zouhair Derouich
+ */
 
 const ShoppingCart = () => {
   const {t} = useTranslation('translation');
+
+  //Use the useCartManager hook to get the cart view, sub total, delivery cost, taxed sub total and quantity error snackbar.
   const {
     cartView,
     cartSubTotal,
@@ -17,70 +24,75 @@ const ShoppingCart = () => {
     quantityErrorSnackbar,
   } = useCartManager();
 
-  const {checkout} = useCheckoutManager()
+  const {checkout} = useCheckoutManager();
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleView}>
-          <Text
-            style={styles.title}>
-            {t('ShoppingCart.title')}
-          </Text>
+        <Text style={styles.title}>{t('ShoppingCart.title')}</Text>
       </View>
       <View style={styles.orderDetailsView}>
         <View style={styles.orderDetailsWrapper}>
-          <Text
-            style={styles.orderDetails}>
+          <Text style={styles.orderDetails}>
             {t('ShoppingCart.orderDetails')}
           </Text>
         </View>
-        <View style={styles.orderDetailBottomMargin}/>
+        <View style={styles.orderDetailBottomMargin} />
       </View>
       <View style={styles.productsView}>{cartView}</View>
       <View style={styles.dividerView}>
-        <View style={styles.dividerMargin}/>
+        <View style={styles.dividerMargin} />
         <Divider style={styles.divider}></Divider>
-        <View style={styles.dividerMargin}/>
+        <View style={styles.dividerMargin} />
       </View>
       <View style={styles.pricesView}>
-        <View style={styles.pricesViewMargin}/>
+        <View style={styles.pricesViewMargin} />
         <View style={styles.priceTextView}>
-          <Text style={styles.priceText}>{t("Prices.subTotal")}</Text>
+          <Text style={styles.priceText}>{t('Prices.subTotal')}</Text>
           <Text style={styles.priceNumber}>
             {((cartSubTotal * 100) / 100).toFixed(2)}$
           </Text>
         </View>
-        <View style={styles.spaceBetweenPrices}/>
+        <View style={styles.spaceBetweenPrices} />
         <View style={styles.priceTextView}>
-          <Text style={styles.priceText}>{t("Prices.taxes")}</Text>
-          <Text style={styles.priceNumber}>{(Math.round(cartTaxedSubTotal * 100) / 100).toFixed(2)}$</Text>
+          <Text style={styles.priceText}>{t('Prices.taxes')}</Text>
+          <Text style={styles.priceNumber}>
+            {(Math.round(cartTaxedSubTotal * 100) / 100).toFixed(2)}$
+          </Text>
         </View>
-        <View style={styles.spaceBetweenPrices}/>
+        <View style={styles.spaceBetweenPrices} />
         <View style={styles.priceTextView}>
-          <Text style={styles.priceText}>{t("Prices.delivery")}</Text>
+          <Text style={styles.priceText}>{t('Prices.delivery')}</Text>
           <Text style={styles.priceNumber}>
             {((cartDeliveryCost * 100) / 100).toFixed(2)}$
           </Text>
         </View>
-        <View style={styles.spaceBetweenDeliveryAndTotal}/>
+        <View style={styles.spaceBetweenDeliveryAndTotal} />
         <View style={styles.priceTextView}>
-          <Text style={styles.totalText}>{t("Prices.total")}</Text>
+          <Text style={styles.totalText}>{t('Prices.total')}</Text>
           <Text style={styles.totalNumber}>
-            {(((cartSubTotal + cartDeliveryCost + cartTaxedSubTotal) * 100) /
-              100).toFixed(2)}$
+            {(
+              ((cartSubTotal + cartDeliveryCost + cartTaxedSubTotal) * 100) /
+              100
+            ).toFixed(2)}
+            $
           </Text>
         </View>
-        <View style={styles.pricesViewMargin}/>
+        <View style={styles.pricesViewMargin} />
       </View>
       <View style={styles.buttonView}>
-        <View style={styles.buttonMargin}/>
+        <View style={styles.buttonMargin} />
         <TouchableOpacity
-          style={cartSubTotal <= 0 ? {...styles.button, backgroundColor: "grey"} : styles.button}
+          style={
+            cartSubTotal <= 0
+              ? {...styles.button, backgroundColor: 'grey'}
+              : styles.button
+          }
           onPress={checkout}
           disabled={cartSubTotal <= 0}>
-          <Text style={styles.buttonText}>{t("ShoppingCart.checkout")}</Text>
+          <Text style={styles.buttonText}>{t('ShoppingCart.checkout')}</Text>
         </TouchableOpacity>
-        <View style={styles.buttonMargin}/>
+        <View style={styles.buttonMargin} />
       </View>
       {quantityErrorSnackbar}
     </SafeAreaView>

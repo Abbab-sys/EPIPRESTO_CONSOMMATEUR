@@ -1,44 +1,63 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {useTabIndex, useTabNavigation} from "react-native-paper-tabs";
-import React, {forwardRef, Ref, useEffect, useImperativeHandle, useState} from "react";
-import LoginInput from "../../../../atoms/LoginInput";
-import {useEmailValidator} from "../../../../hooks/validators/useEmailValidator";
-import {usePhoneValidator} from "../../../../hooks/validators/usePhoneValidator";
-import { useTranslation } from "react-i18next";
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useTabIndex, useTabNavigation} from 'react-native-paper-tabs';
+import React, {
+  forwardRef,
+  Ref,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
+import LoginInput from '../../../../atoms/LoginInput';
+import {useEmailValidator} from '../../../../hooks/validators/useEmailValidator';
+import {usePhoneValidator} from '../../../../hooks/validators/usePhoneValidator';
+import {useTranslation} from 'react-i18next';
+
+/*
+ * Name: Contact Step
+ * Description: This file is used to display the second step of the signup process (phone and email).
+ * Author: Zouhair Derouich, Adam Naoui-Busson
+ */
 
 type ContactStepProps = {
-  setStepCompleted: (disabled: boolean) => void
-  stepCompleted: boolean
-}
+  setStepCompleted: (disabled: boolean) => void;
+  stepCompleted: boolean;
+};
 
 export type ContactStepRef = {
-  phone: string,
-  email: string
-}
+  phone: string;
+  email: string;
+};
 
 const ContactStep = (props: ContactStepProps, ref: Ref<ContactStepRef>) => {
-  const {t} = useTranslation('translation')
+  const {t} = useTranslation('translation');
   const goTo = useTabNavigation();
   const index = useTabIndex();
 
-  const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
 
-  const emailErrors = useEmailValidator(email)
-  const phoneErrors = usePhoneValidator(phone)
+  const emailErrors = useEmailValidator(email);
+  const phoneErrors = usePhoneValidator(phone);
 
-  useImperativeHandle(ref, () => ({
-    phone,
-    email
-  }), [phone, email]);
+  // Imperative handle to get the phone and email
+  useImperativeHandle(
+    ref,
+    () => ({
+      phone,
+      email,
+    }),
+    [phone, email],
+  );
 
-
-
+  // Use effect to check if the inputs are valid and set the step as completed
   useEffect(() => {
-    const stepCompleted = !!phone && !!email && emailErrors.length === 0 && phoneErrors.length === 0
-    props.setStepCompleted(stepCompleted)
-    console.log("STEP COMPLETED:", stepCompleted)
-  }, [phone, email, emailErrors.length, phoneErrors.length])
+    const stepCompleted =
+      !!phone &&
+      !!email &&
+      emailErrors.length === 0 &&
+      phoneErrors.length === 0;
+    props.setStepCompleted(stepCompleted);
+  }, [phone, email, emailErrors.length, phoneErrors.length]);
 
   return (
     <View style={styles.root}>
@@ -47,86 +66,91 @@ const ContactStep = (props: ContactStepProps, ref: Ref<ContactStepRef>) => {
           errors={phoneErrors}
           placeholder={t('signUp.stepper.contact.phone.title')}
           setValue={setPhone}
-          value={phone} 
+          value={phone}
         />
         <LoginInput
           errors={emailErrors}
           placeholder={t('signUp.stepper.contact.email.title')}
           setValue={setEmail}
-          value={email} 
+          value={email}
         />
       </View>
       <View style={styles.nextButtonContainer}>
-        <TouchableOpacity style={styles.backButton} onPress={() => {
-          goTo(index - 1)
-        }}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => {
+            goTo(index - 1);
+          }}>
           <Text style={styles.nextButtonText}>{t('signUp.previous')}</Text>
-        </ TouchableOpacity>
-        <TouchableOpacity style={!props.stepCompleted ? styles.nextButtonDisabled : styles.nextButton} onPress={() => {
-          goTo(index + 1)
-        }} disabled={!props.stepCompleted}>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={
+            !props.stepCompleted ? styles.nextButtonDisabled : styles.nextButton
+          }
+          onPress={() => {
+            goTo(index + 1);
+          }}
+          disabled={!props.stepCompleted}>
           <Text style={styles.nextButtonText}>{t('signUp.next')}</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
-}
-export default forwardRef(ContactStep)
+};
+export default forwardRef(ContactStep);
 
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   inputsWrapper: {
     flex: 75,
-    width: "100%",
-    justifyContent: "center",
-    marginBottom: "10%",
-    marginTop: "10%",
+    width: '100%',
+    justifyContent: 'center',
+    marginBottom: '10%',
+    marginTop: '10%',
   },
   nextButtonContainer: {
     flex: 25,
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-evenly",
-
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-evenly',
   },
   backButton: {
     borderRadius: 12,
-    backgroundColor: "#FDFDFD",
-    alignSelf: "center",
-    justifyContent: "center",
+    backgroundColor: '#FDFDFD',
+    alignSelf: 'center',
+    justifyContent: 'center',
     width: '36%',
     height: '58%',
   },
   nextButton: {
     borderRadius: 12,
-    backgroundColor: "#FDFDFD",
-    alignSelf: "center",
-    justifyContent: "center",
+    backgroundColor: '#FDFDFD',
+    alignSelf: 'center',
+    justifyContent: 'center',
     width: '36%',
     height: '58%',
   },
   nextButtonDisabled: {
     borderRadius: 12,
-    backgroundColor: "#FDFDFD96",
-    alignSelf: "center",
-    justifyContent: "center",
+    backgroundColor: '#FDFDFD96',
+    alignSelf: 'center',
+    justifyContent: 'center',
     width: '36%',
     height: '58%',
-
   },
   nextButtonText: {
-    fontFamily: "Lato",
+    fontFamily: 'Lato',
     fontSize: 22,
-    fontWeight: "600",
-    fontStyle: "normal",
+    fontWeight: '600',
+    fontStyle: 'normal',
     lineHeight: 26,
-    textAlign: "center",
+    textAlign: 'center',
     letterSpacing: -0.02,
-    alignSelf: "center",
-    color: "#000000"
+    alignSelf: 'center',
+    color: '#000000',
   },
-})
+});

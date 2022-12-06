@@ -1,7 +1,13 @@
-import {gql} from "@apollo/client";
+import {gql} from '@apollo/client';
+
+/*
+ * Name: Get Client Info By Id
+ * Description: This is a GraphQL query that is used to get the client info by id.
+ * Author: Alessandro van Reusel
+ */
 
 export const GET_CLIENT_INFO_BY_ID = gql`
-query getClientInfoById($idClient: ID!) {
+  query getClientInfoById($idClient: ID!) {
     getClientAccountById(idClient: $idClient) {
       clientAccount {
         _id
@@ -15,18 +21,18 @@ query getClientInfoById($idClient: ID!) {
       }
     }
   }
-`
+`;
 export type GetClientInfoData = {
-    getClientAccountById: {
-        clientAccount: {
-            _id: string;
-            address: string;
-            email: string;
-            firstName: string;
-            lastName: string;
-            password: string;
-            phone: string;
-            username: string;
-        }
-    }
-}
+  getClientAccountById: {
+    clientAccount: {
+      _id: string;
+      address: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      password: string;
+      phone: string;
+      username: string;
+    };
+  };
+};

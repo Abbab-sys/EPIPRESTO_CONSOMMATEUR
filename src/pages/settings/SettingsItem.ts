@@ -1,8 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
 import {settingInterface} from '../../interfaces/SettingsInterface';
-import { LanguageInfo } from './LanguageItem';
+import {LanguageInfo} from './LanguageItem';
 
-
+/*
+ * Name: Settings Item Info
+ * Description: This file contains the settings item info for the settings page (navigation, language and logout).
+ * Author: Alessandro van Reusel
+ */
 
 export const SettingsItemInfo: settingInterface[] = [
   {
@@ -12,7 +15,7 @@ export const SettingsItemInfo: settingInterface[] = [
       type: 'navigation',
       object: {
         routeName: 'Account',
-        params : {}
+        params: {},
       },
     },
     icon: 'account',
@@ -27,9 +30,9 @@ export const SettingsItemInfo: settingInterface[] = [
         params: {
           title: 'settings.language',
           items: LanguageInfo,
+        },
       },
     },
-  },
     icon: 'earth',
   },
   {

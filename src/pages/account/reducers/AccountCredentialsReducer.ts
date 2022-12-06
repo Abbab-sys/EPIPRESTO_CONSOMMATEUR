@@ -2,11 +2,18 @@ import {AccountCredentialsReducerState} from './AccountCredentialsReducerState';
 import {AccountCredentialsReducerActions} from './AccountCredentialsReducerActions';
 import {initialStoreErrorMessage} from '../../../interfaces/ClientModificationInterfaces';
 
+/*
+ * Name: Account Credentials Reducer
+ * Description: This is the reducer for the Account Credentials Reducer.
+ * Author: Alessandro van Reusel
+ */
+
 export function accountCredentialsReducer(
   state: AccountCredentialsReducerState,
   action: AccountCredentialsReducerActions,
 ): AccountCredentialsReducerState {
   switch (action.type) {
+    // Change the username
     case 'CHANGE_USERNAME': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -26,6 +33,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Change the street
     case 'CHANGE_STREET': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -45,6 +53,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Change the city
     case 'CHANGE_CITY': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -64,6 +73,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Change the postal code
     case 'CHANGE_POSTAL_CODE': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -83,6 +93,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Change the province
     case 'CHANGE_PROVINCE': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -102,7 +113,7 @@ export function accountCredentialsReducer(
         },
       };
     }
-
+    // Change the phone
     case 'CHANGE_PHONE': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -115,7 +126,7 @@ export function accountCredentialsReducer(
         'signUp.emptyFieldError',
         action.newPhone === '',
       );
-      
+
       return {
         ...state,
         storeInput: {
@@ -128,6 +139,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Change the first name
     case 'CHANGE_FIRST_NAME': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -147,6 +159,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Change the last name
     case 'CHANGE_LAST_NAME': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -166,6 +179,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Change the password
     case 'CHANGE_PASSWORD': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
@@ -190,12 +204,14 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Set the username error
     case 'SET_USERNAME_ERROR': {
       const errorMessage = {...initialStoreErrorMessage};
       manageError(
         errorMessage.usernameError,
         action.usernameError,
-        action.error && state.storeInput.username !== state.storeInput.currentUsername,
+        action.error &&
+          state.storeInput.username !== state.storeInput.currentUsername,
       );
       return {
         ...state,
@@ -205,6 +221,7 @@ export function accountCredentialsReducer(
         },
       };
     }
+    // Set the store credentials
     case 'SET_STORE_CREDENTIALS': {
       const storeCredentials = action.data.getClientAccountById.clientAccount;
       const adressArray = storeCredentials.address.split(',');
@@ -235,6 +252,7 @@ export function accountCredentialsReducer(
   }
 }
 
+// Check if the error is already in the error set and add or remove it
 const manageError = (
   errorSet: Set<string>,
   errorKey: string,

@@ -1,10 +1,8 @@
 import {DefaultTheme} from "react-native-paper";
 
-//TODO - change the colors to your liking
 export const theme = {
   ...DefaultTheme,
   "colors": {
-    // couleur bouton
     "primary": "rgb(32, 27, 23)",
     "onPrimary": "rgb(75, 40, 0)",
     "primaryContainer": "rgb(107, 59, 0)",
@@ -24,7 +22,6 @@ export const theme = {
     "background": "#FFFFFF",
     "onBackground": "rgb(236, 224, 217)",
     "surface": "#F2F4F8",
-    // main texte de l'app
     "onSurface": "rgb(32, 27, 23)",
     "surfaceVariant": "rgb(81, 68, 58)",
     "outline": "rgb(158, 142, 129)",
@@ -42,7 +39,6 @@ export const theme = {
       "level4": "rgb(59, 46, 34)",
       "level5": "rgb(63, 49, 36)"
     },
-    // couleur boutton (et texte) disabled
     "surfaceDisabled": "rgba(236, 224, 217, 0.12)",
     backdrop: "rgba(57, 46, 37, 0.4)"
   }

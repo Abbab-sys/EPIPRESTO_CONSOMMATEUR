@@ -2,6 +2,12 @@ import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {SegmentedButtons} from 'react-native-paper';
 
+/*
+ * Name: Language Selector
+ * Description: This component is used to switch between languages (French and English) in the app settings page.
+ * Author: Zouhair Derouich, Adam Naoui-Busson
+ */
+
 const LanguageSelector = () => {
   const {t, i18n} = useTranslation('translation');
   const [value, setValue] = React.useState<string>('fr');
@@ -9,7 +15,7 @@ const LanguageSelector = () => {
   useEffect(() => {
     i18n.changeLanguage(value);
   }, [i18n, value]);
-  
+
   return (
     <SegmentedButtons
       value={value}

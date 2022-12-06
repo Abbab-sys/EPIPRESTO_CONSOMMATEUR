@@ -1,8 +1,18 @@
-import {ClientInput, initialStoreErrorMessage, StoreErrorMessage} from "../../../interfaces/ClientModificationInterfaces";
+import {
+  ClientInput,
+  initialStoreErrorMessage,
+  StoreErrorMessage,
+} from '../../../interfaces/ClientModificationInterfaces';
+
+/*
+ * Name: Account Credentials Reducer State
+ * Description: This is the interface for the Account Credentials Reducer State and its initial state.
+ * Author: Alessandro van Reusel
+ */
 
 export interface AccountCredentialsReducerState {
   storeInput: ClientInput;
-  storeErrorMessage: StoreErrorMessage
+  storeErrorMessage: StoreErrorMessage;
 }
 
 export const initialStoreCredentialsState: AccountCredentialsReducerState = {
@@ -21,6 +31,6 @@ export const initialStoreCredentialsState: AccountCredentialsReducerState = {
     currentUsername: '',
   },
   storeErrorMessage: {
-    ...initialStoreErrorMessage
-  }
-}
+    ...initialStoreErrorMessage,
+  },
+};

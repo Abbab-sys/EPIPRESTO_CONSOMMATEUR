@@ -1,9 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {
-  FlatList,
-  Image, ScrollView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,31 +11,57 @@ import {
 import {SearchResult} from '../../hooks/useSearch';
 import ProductsInShopSearch from './subsections/ProductsInShopSearch';
 
-const SearchItem = ({item}: { item: SearchResult }) => {
-  const { t } = useTranslation('translation')
-  const navigation = useNavigation()
+/*
+ * Name: Search
+ * Description: This file is used to display the search item for the search page.
+ * Author: Adam Naoui-Busson, Khalil Zriba, Ryma Messedaa, Zouhair Derouich
+ */
+
+const SearchItem = ({item}: {item: SearchResult}) => {
+  const {t} = useTranslation('translation');
+  const navigation = useNavigation();
   return (
     <View style={styles.root}>
       <View style={styles.productsView}>
-        <ScrollView horizontal style={{flex:1}}>
+        <ScrollView horizontal style={{flex: 1}}>
           {item.matchingProducts.map(product => (
-            <ProductsInShopSearch key={product._id} id={product._id} imgSrc={product.imgSrc} title={product.title} tags={product.tags} />
+            <ProductsInShopSearch
+              key={product._id}
+              id={product._id}
+              imgSrc={product.imgSrc}
+              title={product.title}
+              tags={product.tags}
+            />
           ))}
         </ScrollView>
       </View>
-      <View style={styles.verticalMargin}/>
+      <View style={styles.verticalMargin} />
       <View style={styles.storeView}>
         <View style={styles.storeNameView}>
-        <Text style={styles.storeName}>{item.store.name}</Text>
-        <Text style={[(item.store.isOpen && !item.store.isPaused) ? {color: 'green'} : {color: 'red'}]}>
-        {(item.store.isOpen && !item.store.isPaused) ? t('stores.store.open') : (item.store.isPaused ? t('stores.store.paused') : t('stores.store.closed'))}
+          <Text style={styles.storeName}>{item.store.name}</Text>
+          <Text
+            style={[
+              item.store.isOpen && !item.store.isPaused
+                ? {color: 'green'}
+                : {color: 'red'},
+            ]}>
+            {item.store.isOpen && !item.store.isPaused
+              ? t('stores.store.open')
+              : item.store.isPaused
+              ? t('stores.store.paused')
+              : t('stores.store.closed')}
           </Text>
         </View>
         <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.button} onPress={()=>{
-            navigation.navigate('Store' as never, {idStore: item.store.id,goBack:navigation.goBack} as never);
-          }}>
-            <Text style={styles.buttonText}>{t("searchPage.seeAll")}</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.navigate(
+                'Store' as never,
+                {idStore: item.store.id, goBack: navigation.goBack} as never,
+              );
+            }}>
+            <Text style={styles.buttonText}>{t('searchPage.seeAll')}</Text>
           </TouchableOpacity>
         </View>
       </View>

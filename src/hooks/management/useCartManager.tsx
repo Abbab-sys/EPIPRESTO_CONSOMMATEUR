@@ -1,14 +1,31 @@
 import React, {useContext, useEffect, useRef} from 'react';
 import {CartContext, OrderVariant, StoreOrder} from '../../context/CartContext';
-import {Image, SectionList, StatusBar, StyleSheet, Text, TouchableOpacity, View,} from 'react-native';
+import {
+  Image,
+  SectionList,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {GET_VARIANT_QUANTITY, GetVariantQuantityData,} from '../../graphql/queries/GetVariantQuantity';
+import {
+  GET_VARIANT_QUANTITY,
+  GetVariantQuantityData,
+} from '../../graphql/queries/GetVariantQuantity';
 import {useLazyQuery, useMutation} from '@apollo/client';
 import {useSnackbar} from '../UiHooks/UiHooks';
 import {useTranslation} from 'react-i18next';
 import {SUBMIT_ORDER} from '../../graphql/mutations/SubmitOrder';
 import {ClientAuthenticationContext} from '../../context/ClientAuthenticationContext';
-import {ChatContext} from "../../context/ChatContext";
+import {ChatContext} from '../../context/ChatContext';
+
+/*
+ * Name: Use Cart Manager
+ * Description: Hook for cart manager
+ * Author: Adam Naoui-Busson, Alessandro van Reusel
+ */
 
 export type AddVariantToCart = {
   variantId: string;
@@ -26,23 +43,25 @@ export const useCartManager = () => {
   const [_, {refreshChats}] = useContext(ChatContext);
 
   const {t} = useTranslation('translation');
-  const [submitOrder, {data: submitOrderData}] = useMutation(SUBMIT_ORDER)
-  const clientId = useContext(ClientAuthenticationContext).clientId
+  const [submitOrder, {data: submitOrderData}] = useMutation(SUBMIT_ORDER);
+  const clientId = useContext(ClientAuthenticationContext).clientId;
 
-  const [
-    quantityErrorSnackbar,
-    {open: openQuantityErrorSnackbar},
-  ] = useSnackbar({
-    severity: 'error',
-    messageTranslationKey: 'Cannot add more quantity than available',
-  });
+  // snackbar for quantity error
+  const [quantityErrorSnackbar, {open: openQuantityErrorSnackbar}] =
+    useSnackbar({
+      severity: 'error',
+      messageTranslationKey: 'Cannot add more quantity than available',
+    });
 
+  // Query to get variant quantity
   const [verifyQuantity, {data}] = useLazyQuery(GET_VARIANT_QUANTITY, {
     fetchPolicy: 'network-only',
   });
   let unwrappedDataQuantity: GetVariantQuantityData | undefined =
     data as GetVariantQuantityData;
 
+  // Use effect to verify quantity of variant in cart is not greater than available quantity in
+  // stock when variant is added to cart or when cart is loaded
   useEffect(() => {
     if (!unwrappedDataQuantity) return;
     const variantId =
@@ -66,43 +85,37 @@ export const useCartManager = () => {
     }
   }, [unwrappedDataQuantity]);
 
+  // Use effect to clear cart and refresh chats when order is submitted
   useEffect(() => {
     if (submitOrderData) {
-      clearCart()
-      refreshChats()
-
+      clearCart();
+      refreshChats();
     }
-  }, [submitOrderData])
+  }, [submitOrderData]);
 
+  // Submit order and return order id if successful or undefined if not successful
   const submitCartOrder = async () => {
-    const productsVariantsToOrder: any[] = []
+    const productsVariantsToOrder: any[] = [];
     for (let [store, variantMap] of cart) {
       for (let [variantId, variant] of variantMap) {
         productsVariantsToOrder.push({
           discount: 0,
           quantity: variant.quantity,
-          relatedProductVariantId: variant.variantId
-        })
+          relatedProductVariantId: variant.variantId,
+        });
       }
     }
     const orderId = await submitOrder({
       variables: {
         clientId: clientId,
-        //TO CHANGE TO WHAT USER CHOOSES
         paymentMethod: 'VISA',
-        productsVariantsToOrder
-      }
-    })
-    return orderId.data.submitOrder.order._id
-    // .then(({data, errors}) => {
-    //   console.log("DATA: ", data)
-    //   console.log("ERRORS: ", errors)
-    //   if(data){
-    //     return data.submitOrder.order._id
-    //   }
-    // })
-  }
+        productsVariantsToOrder,
+      },
+    });
+    return orderId.data.submitOrder.order._id;
+  };
 
+  // Add variant to cart and update cart state
   const addVariantToCart = (variant: AddVariantToCart, quantity: number) => {
     let store = variantIdStore.get(variant.variantId);
     if (!store) {
@@ -123,7 +136,10 @@ export const useCartManager = () => {
           storeVariants.set(variant.variantId, variantInCart);
           setCart(new Map(cart.set(store, storeVariants)));
         } else {
-          storeVariants.set(variant.variantId, {...variant, quantity: quantity});
+          storeVariants.set(variant.variantId, {
+            ...variant,
+            quantity: quantity,
+          });
           setVariantIdStore(
             new Map(variantIdStore.set(variant.variantId, store)),
           );
@@ -147,6 +163,8 @@ export const useCartManager = () => {
       setCart(new Map(cart.set(newStore, newStoreCart)));
     }
   };
+
+  // Delete variant from cart and update cart state if quantity is 0
   const deleteVariantFromCart = (variantId: string) => {
     const store = variantIdStore.get(variantId);
     if (store) {
@@ -161,6 +179,7 @@ export const useCartManager = () => {
     }
   };
 
+  // Change variant quantity in cart and update cart state
   const changeVariantQuantity = (variantId: string, quantity: number) => {
     const store = variantIdStore.get(variantId);
     if (store) {
@@ -175,6 +194,8 @@ export const useCartManager = () => {
       }
     }
   };
+
+  // Increment variant quantity in cart and update cart state
   const incrementVariantQuantity = (variantId: string) => {
     const store = variantIdStore.get(variantId);
     if (store) {
@@ -190,6 +211,8 @@ export const useCartManager = () => {
       }
     }
   };
+
+  // Decrement variant quantity in cart and update cart state
   const decrementVariantQuantity = (variantId: string) => {
     const store = variantIdStore.get(variantId);
     if (store) {
@@ -205,14 +228,16 @@ export const useCartManager = () => {
     }
   };
 
+  // Clear cart and update cart state
   const clearCart = () => {
     setCart(new Map());
     setVariantIdStore(new Map());
   };
 
+  // Get cart total price without delivery cost and taxes
   const getCartSubTotal = () => {
     let total = 0;
-    cart.forEach((variants) => {
+    cart.forEach(variants => {
       variants.forEach(variant => {
         total += variant.price * variant.quantity;
       });
@@ -221,6 +246,7 @@ export const useCartManager = () => {
   };
   const cartSubTotal = getCartSubTotal();
 
+  // Get delivery cost
   const getCartDeliveryCost = () => {
     let deliveryCost = 0;
     if (cart.size > 0) {
@@ -230,9 +256,10 @@ export const useCartManager = () => {
   };
   const cartDeliveryCost = getCartDeliveryCost();
 
+  // Get taxes on cart total price
   const getTaxedCartSubTotal = () => {
     let total = 0;
-    cart.forEach((variants) => {
+    cart.forEach(variants => {
       variants.forEach(variant => {
         if (variant.taxable) total += variant.price * variant.quantity;
       });
@@ -241,28 +268,27 @@ export const useCartManager = () => {
   };
   const cartTaxedSubTotal = getTaxedCartSubTotal();
 
-
-  // todo map in an array all the cart
+  // Get variant and order by store
   const getCart = () => {
-    const cartArray: { store: StoreOrder; data: OrderVariant[] }[] = [];
+    const cartArray: {store: StoreOrder; data: OrderVariant[]}[] = [];
     cart.forEach((variants, store) => {
       cartArray.push({store, data: Array.from(variants.values())});
     });
     return cartArray;
   };
-  const CartItem = ({variant}: { variant: OrderVariant }) => {
+  const CartItem = ({variant}: {variant: OrderVariant}) => {
     return (
       <View style={styles.cartItem}>
         <View style={styles.margin}></View>
         <View style={styles.imageWrapper}>
-          <View style={styles.imageMargin}/>
-          <Image source={{uri: variant.imageSrc}} style={styles.image}/>
-          <View style={styles.imageMargin}/>
+          <View style={styles.imageMargin} />
+          <Image source={{uri: variant.imageSrc}} style={styles.image} />
+          <View style={styles.imageMargin} />
         </View>
-        <View style={styles.margin}/>
-        <View style={styles.margin}/>
+        <View style={styles.margin} />
+        <View style={styles.margin} />
         <View style={styles.cartItemInfo}>
-          <View style={styles.cartItemInfoTopMargin}/>
+          <View style={styles.cartItemInfoTopMargin} />
           <View style={styles.cartItemNameView}>
             <Text
               adjustsFontSizeToFit
@@ -279,10 +305,10 @@ export const useCartManager = () => {
               {((variant.price * 100) / 100).toFixed(2)} $
             </Text>
           </View>
-          <View style={styles.cartItemInfoBottomMargin}/>
+          <View style={styles.cartItemInfoBottomMargin} />
         </View>
         <View style={styles.quantityWrapper}>
-          <View style={styles.margin}/>
+          <View style={styles.margin} />
           <View style={styles.deleteVariantWrapper}>
             <TouchableOpacity
               onPress={() => {
@@ -291,7 +317,7 @@ export const useCartManager = () => {
               <Icon name="times" color="#FFAA55" size={20}></Icon>
             </TouchableOpacity>
           </View>
-          <View style={styles.margin}/>
+          <View style={styles.margin} />
           <View style={styles.cartItemQuantity}>
             <TouchableOpacity
               onPress={() => {
@@ -308,21 +334,21 @@ export const useCartManager = () => {
               <Icon color="black" name="plus" size={25}></Icon>
             </TouchableOpacity>
           </View>
-          <View style={styles.margin}/>
-          <View style={styles.margin}/>
-          <View style={styles.margin}/>
-          <View style={styles.margin}/>
+          <View style={styles.margin} />
+          <View style={styles.margin} />
+          <View style={styles.margin} />
+          <View style={styles.margin} />
         </View>
-        <View style={styles.margin}/>
+        <View style={styles.margin} />
       </View>
     );
   };
 
   type CartListProps = {
-    cartData: { store: StoreOrder; data: OrderVariant[] }[];
+    cartData: {store: StoreOrder; data: OrderVariant[]}[];
   };
   const CartList = (props: CartListProps) => {
-    const sectionListRef = useRef(null)
+    const sectionListRef = useRef(null);
     // sectionListRef.current?.scrollToLocation({sectionIndex:currSectionIndex?.current,itemIndex:currItemIndex?.current})
 
     return (
@@ -330,15 +356,24 @@ export const useCartManager = () => {
         ref={sectionListRef}
         sections={props.cartData}
         keyExtractor={item => item.variantId}
-        renderItem={({item: orderVariant}) => <CartItem variant={orderVariant}/>}
+        renderItem={({item: orderVariant}) => (
+          <CartItem variant={orderVariant} />
+        )}
         renderSectionHeader={({section: {store}}) => (
           <Text style={styles.header}>{store.storeName}</Text>
         )}
-      />)
+      />
+    );
   };
 
-  const cartView = cart.size > 0 ? <CartList cartData={getCart()}></CartList> :
-    <View style={styles.emptyCart}><Text style={styles.emptyCartText}>{t("ShoppingCart.emptyCart")}</Text></View>;
+  const cartView =
+    cart.size > 0 ? (
+      <CartList cartData={getCart()}></CartList>
+    ) : (
+      <View style={styles.emptyCart}>
+        <Text style={styles.emptyCartText}>{t('ShoppingCart.emptyCart')}</Text>
+      </View>
+    );
 
   return {
     cart,
@@ -353,7 +388,7 @@ export const useCartManager = () => {
     cartTaxedSubTotal,
     quantityErrorSnackbar,
     clearCart,
-    submitCartOrder
+    submitCartOrder,
   };
 };
 
@@ -381,7 +416,6 @@ const styles = StyleSheet.create({
     flex: 10,
   },
   imageWrapper: {
-    // backgroundColor: 'red',
     flex: 71,
     flexDirection: 'column',
   },
@@ -396,7 +430,6 @@ const styles = StyleSheet.create({
   cartItemInfo: {
     flex: 128,
     flexDirection: 'column',
-    // backgroundColor: 'blue',
   },
   cartItemInfoTopMargin: {
     flex: 19,
@@ -427,7 +460,6 @@ const styles = StyleSheet.create({
     flex: 45,
   },
   quantityWrapper: {
-    // backgroundColor: 'green',
     flex: 91,
     flexDirection: 'column',
   },
@@ -441,8 +473,6 @@ const styles = StyleSheet.create({
     flex: 22,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // backgroundColor: 'yellow',
-    // alignItems: 'center',
   },
   quantityLetter: {
     fontFamily: 'Lato',
@@ -450,9 +480,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontStyle: 'normal',
     color: '#000000',
-    // backgroundColor: 'blue',
     includeFontPadding: false,
-    // marginTop:-5,
   },
   container: {
     flex: 1,

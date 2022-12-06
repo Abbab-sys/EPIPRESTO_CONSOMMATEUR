@@ -5,7 +5,13 @@ import {Button} from 'react-native-paper';
 import {Message, MessageStatus, Role} from '../../../hooks/ChatManagerHook';
 import {ChatContext} from '../../../context/ChatContext';
 import {ClientAuthenticationContext} from '../../../context/ClientAuthenticationContext';
-import {useNavigation} from "@react-navigation/native";
+import {useNavigation} from '@react-navigation/native';
+
+/*
+ * Name: Chat
+ * Description: This file is used to display a chat page linked to a specific vendor and order.
+ * Author: Adam Naoui-Busson, Zouhair Derouich
+ */
 
 interface message {
   _id: string;
@@ -33,6 +39,7 @@ const Chat = ({chatId, goBack, route}: any) => {
 
   const {clientId} = useContext(ClientAuthenticationContext);
 
+  // callback to send a message
   const onSend = useCallback(
     (newMessage: message[]) => {
       sendMessage(finalChatId, newMessage[0].text);
@@ -40,11 +47,15 @@ const Chat = ({chatId, goBack, route}: any) => {
     [finalChatId, sendMessage],
   );
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const chat = getChatById(finalChatId);
+
+  // Navigate to the order related to chat
   const navigateToOrder = () => {
-    console.log("chat orderId : ", chat?.relatedOrderId)
-    navigation.navigate('Order' as never, {orderId: chat?.relatedOrderId, goBack: navigation.goBack} as never)
+    navigation.navigate(
+      'Order' as never,
+      {orderId: chat?.relatedOrderId, goBack: navigation.goBack} as never,
+    );
   };
   const messages = chat?.messages.map((message: Message) => {
     return {
@@ -56,7 +67,7 @@ const Chat = ({chatId, goBack, route}: any) => {
       user: {
         _id: message.role === Role.VENDOR ? chat.relatedVendorId : clientId,
         name: message.role === Role.VENDOR ? chat.relatedStoreName : 'Me',
-        avatar: ''
+        avatar: '',
       },
     };
   });

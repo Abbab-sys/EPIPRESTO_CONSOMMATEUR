@@ -1,7 +1,18 @@
-import {gql} from "@apollo/client";
+import {gql} from '@apollo/client';
+
+/*
+ * Name: Get Store Variants By Id
+ * Description: This is a GraphQL query that is used to get the store variants by id.
+ * Author: Ryma Messedaa
+ */
 
 export const GET_STORE_VARIANTS_BY_ID = gql`
-  query GetStoreById($idStore: ID!, $offset: Int!, $first: Int, $searchText: String) {
+  query GetStoreById(
+    $idStore: ID!
+    $offset: Int!
+    $first: Int
+    $searchText: String
+  ) {
     getStoreById(idStore: $idStore) {
       code
       message
@@ -32,4 +43,4 @@ export const GET_STORE_VARIANTS_BY_ID = gql`
       }
     }
   }
-`
+`;

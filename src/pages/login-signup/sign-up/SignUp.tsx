@@ -1,39 +1,53 @@
 import React, {Fragment} from 'react';
-import {KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {RootStackParamList} from "../../../navigation/Navigation";
-import LinearGradient from 'react-native-linear-gradient'
-import {useNavigation} from "@react-navigation/native";
-import {SignupStepper} from "./sign-up-stepper/SignupStepper";
-import { useTranslation } from 'react-i18next';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../navigation/Navigation';
+import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation} from '@react-navigation/native';
+import {SignupStepper} from './sign-up-stepper/SignupStepper';
+import {useTranslation} from 'react-i18next';
 import LanguageSelector from '../../../common/language-selection/LanguageSelector';
 
+/*
+ * Name: SignUp
+ * Description: This file is used to display the sign up page
+ * Author: Adam Naoui-Busson, Zouhair Derouich
+ */
 
 type LogoutProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 const SignUp: (props: LogoutProps) => JSX.Element = () => {
-  const {t} = useTranslation('translation')
+  const {t} = useTranslation('translation');
   const navigation = useNavigation();
 
+  // Go back to login page
   const handleLogin = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
   return (
     <Fragment>
-      <SafeAreaView style={styles.upperUnsafeAreaView}/>
+      <SafeAreaView style={styles.upperUnsafeAreaView} />
 
       <SafeAreaView style={styles.container}>
-
-        <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          <LinearGradient colors={['#FDFDFD', '#FECFA0']} style={styles.titleLinearGradient}>
+        <KeyboardAvoidingView
+          style={{flex: 1}}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <LinearGradient
+            colors={['#FDFDFD', '#FECFA0']}
+            style={styles.titleLinearGradient}>
             <View style={styles.titleWrapper}>
               <View style={styles.title}>
                 <Text style={styles.epiprestoTitle}>
                   {t('signUp.sign')}
-                  <Text style={{color: "#FFAA55"}}>
-                    {t('signUp.up')}
-                  </Text>
+                  <Text style={{color: '#FFAA55'}}>{t('signUp.up')}</Text>
                 </Text>
               </View>
               <View style={styles.languageSelector}>
@@ -41,26 +55,28 @@ const SignUp: (props: LogoutProps) => JSX.Element = () => {
               </View>
             </View>
           </LinearGradient>
-          <LinearGradient colors={['#FECFA0', '#FFAA55']} style={styles.formWrapperGradient}>
+          <LinearGradient
+            colors={['#FECFA0', '#FFAA55']}
+            style={styles.formWrapperGradient}>
             <View style={styles.formWrapper}>
-              <SignupStepper/>
+              <SignupStepper />
             </View>
           </LinearGradient>
           <View style={styles.bottomTextContainer}>
             <View style={styles.bottomTextWrapper}>
               <Text style={styles.bottomText}>
                 <Text style={styles.new}>{t('signUp.alreadyMember')}</Text>
-                <Text onPress={handleLogin} style={styles.create}>{t('signUp.login')}</Text>
+                <Text onPress={handleLogin} style={styles.create}>
+                  {t('signUp.login')}
+                </Text>
               </Text>
             </View>
           </View>
-
         </KeyboardAvoidingView>
-
       </SafeAreaView>
-      <SafeAreaView style={styles.lowerUnsafeAreaView}/>
+      <SafeAreaView style={styles.lowerUnsafeAreaView} />
     </Fragment>
-  )
+  );
 };
 const styles = StyleSheet.create({
   upperUnsafeAreaView: {
@@ -97,7 +113,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato',
     fontStyle: 'normal',
     fontWeight: '700',
-    // lineHeight: 48,
     textShadowColor: 'rgba(0, 0, 0, 0.25)',
     textShadowOffset: {width: 0, height: 4},
     textShadowRadius: 4,
@@ -105,7 +120,7 @@ const styles = StyleSheet.create({
   languageSelector: {
     flex: 20,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   formWrapperGradient: {
     flex: 415,
@@ -118,19 +133,18 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignSelf: 'center',
     width: '100%',
-
   },
 
   nextButtonText: {
-    fontFamily: "Lato",
+    fontFamily: 'Lato',
     fontSize: 22,
-    fontWeight: "600",
-    fontStyle: "normal",
+    fontWeight: '600',
+    fontStyle: 'normal',
     lineHeight: 26,
-    textAlign: "center",
+    textAlign: 'center',
     letterSpacing: -0.02,
-    alignSelf: "center",
-    color: "#000000"
+    alignSelf: 'center',
+    color: '#000000',
   },
   loginButtonContainer: {
     flex: 106,
@@ -138,9 +152,9 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     borderRadius: 12,
-    backgroundColor: "#FDFDFD",
-    alignSelf: "center",
-    justifyContent: "center",
+    backgroundColor: '#FDFDFD',
+    alignSelf: 'center',
+    justifyContent: 'center',
     width: '36%',
     height: '58%',
   },
@@ -154,31 +168,29 @@ const styles = StyleSheet.create({
   bottomTextWrapper: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   bottomText: {
     borderRadius: 12,
   },
   new: {
-    fontFamily: "Lato",
+    fontFamily: 'Lato',
     fontSize: 15,
-    fontWeight: "300",
-    fontStyle: "normal",
+    fontWeight: '300',
+    fontStyle: 'normal',
     lineHeight: 26,
-    textAlign: "center",
-    color: "#000000"
+    textAlign: 'center',
+    color: '#000000',
   },
   create: {
-    fontFamily: "Lato",
+    fontFamily: 'Lato',
     fontSize: 15,
-    fontWeight: "700",
-    fontStyle: "normal",
+    fontWeight: '700',
+    fontStyle: 'normal',
     lineHeight: 26,
-    textAlign: "center",
-    color: "#000000"
-  }
-
-
-})
+    textAlign: 'center',
+    color: '#000000',
+  },
+});
 
 export default SignUp;

@@ -1,12 +1,17 @@
 import {StyleSheet} from 'react-native';
 
+/*
+ * Name: Store Styles
+ * Description: This file contains the styles for the store page.
+ * Author: Ryma Messedaa, Adam Naoui-Busson, Alessandro van Reusel
+ */
+
 const text_font_family = 'Lato';
 const text_font_style = 'normal';
 
 export const storeStyles = StyleSheet.create({
   root: {
     flex: 1,
-    //   margin: 20,
   },
   products: {
     flexDirection: 'column',
@@ -30,10 +35,10 @@ export const storeStyles = StyleSheet.create({
     paddingRight: '5%',
     paddingBottom: '5%',
     paddingLeft: '5%',
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
     height: 220,
   },
   innerView: {
@@ -45,7 +50,6 @@ export const storeStyles = StyleSheet.create({
     justifyContent: 'center',
     padding: 5,
     margin: 4,
-    // width: "inherit"
   },
   view: {
     alignItems: 'center',
@@ -100,7 +104,7 @@ export const storeStyles = StyleSheet.create({
     marginLeft: '2%',
     position: 'absolute',
     left: 0,
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
   },
   back_button_icon: {
     width: 35,
@@ -115,7 +119,7 @@ export const storeStyles = StyleSheet.create({
     fontSize: 36,
     includeFontPadding: false,
     textAlignVertical: 'center',
-    textAlign: "center",
+    textAlign: 'center',
     marginRight: 50,
     color: '#000000',
   },

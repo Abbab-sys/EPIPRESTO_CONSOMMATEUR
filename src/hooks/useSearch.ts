@@ -66,13 +66,18 @@ export const useSearch = () => {
       if (!storeProducts.has(product.relatedStore._id)) {
         continue;
       }
-      storeProducts.get(product.relatedStore._id)?.push({
+
+      if(!product.published) continue;
+      storeProducts.get(product.relatedStore._id)?.push(
+        {
         _id: product._id,
         title: product.title,
         published: product.published,
         imgSrc: product.imgSrc,
         tags: product.tags,
-      });
+        }
+      
+      );
     }
 
     const newResults: SearchResult[] = [];

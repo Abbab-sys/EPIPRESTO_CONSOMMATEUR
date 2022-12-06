@@ -69,7 +69,16 @@ const Login: (props: LoginProps) => JSX.Element = () => {
       loginErrorSnackbarOpen();
       return;
     }
+
+    if (unwrappedData.loginClientByUsername.code === 401) {
+      loginVerificationErrorSnackbarOpen();
+      return;
+    }
+
+  
+    
     setClientId(unwrappedData.loginClientByUsername.clientAccount._id);
+
     AsyncStorage.setItem(
       '@clientId',
       unwrappedData.loginClientByUsername.clientAccount._id,
@@ -81,6 +90,14 @@ const Login: (props: LoginProps) => JSX.Element = () => {
     severity: 'error',
     messageTranslationKey: t('login.error'),
   });
+
+   // Snackbar to display an error message when the account is not verified
+   const [loginVerificationErrorSnackbar, {open: loginVerificationErrorSnackbarOpen}] = useSnackbar({
+    severity: 'error',
+    messageTranslationKey: t('login.verificationError'),
+  });
+
+
 
   // Go to the sign up page when the user press on the create account button
   const handleCreateAccount = () => {
@@ -150,6 +167,7 @@ const Login: (props: LoginProps) => JSX.Element = () => {
           </KeyboardAvoidingView>
         </LinearGradient>
         {loginErrorSnackbar}
+        {loginVerificationErrorSnackbar}
       </SafeAreaView>
       <SafeAreaView style={styles.lowerUnsafeAreaView} />
     </Fragment>

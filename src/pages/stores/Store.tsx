@@ -69,7 +69,7 @@ const Store = ({route}: any) => {
   }, [isFocused]);
 
   // Query to get the store and its variants by id with pagination and search
-  const [getItems, {loading, error, data, fetchMore}] = useLazyQuery(GET_STORE_VARIANTS_BY_ID, {
+  const [getItems, {loading, error, data, fetchMore, refetch}] = useLazyQuery(GET_STORE_VARIANTS_BY_ID, {
     variables: {
       idStore: storeId,
       offset: 0,
@@ -216,7 +216,7 @@ const Store = ({route}: any) => {
               <RefreshControl
                 refreshing={loading}
                 onRefresh={() => {
-                  getItems();
+                  refetch();
                 }}
               />
             }

@@ -8,11 +8,11 @@
     "epip": "EPIP",
     "resto": "RESTO",
     "subtitle": "An online grocery marketplace like no other",
-    "error": "Invalid email or password",
+    "error": "Invalid username or password",
     "verificationError": "Your account is not verified yet, please check your email",
     "usernameOrEmail": {
-      "placeholder": "Email or Username",
-      "label": "Email or Username"
+      "placeholder": "Username",
+      "label": "Username"
     },
     "password": {
       "placeholder": "Password",

@@ -2,29 +2,20 @@ import {useNavigation} from '@react-navigation/native';
 import {useQuery} from '@apollo/client';
 import React, {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View,} from 'react-native';
 import {ActivityIndicator, Searchbar} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useIconButton} from '../../atoms/IconButton';
 import {SettingsItemInfo} from '../settings/SettingsItem';
 import {ClientAuthenticationContext} from '../../context/ClientAuthenticationContext';
-import {
-  GET_CLIENT_ACCOUNT_BY_ID,
-  OrderStatus,
-} from '../../graphql/queries/GetClientAccountById';
+import {GET_CLIENT_ACCOUNT_BY_ID, OrderStatus,} from '../../graphql/queries/GetClientAccountById';
 import Category, {CategoryProps} from './subsections/Category';
 import Order from './subsections/Order';
 import Shop from './subsections/Shop';
 import {STACK_KEY} from '../stacks/StacksKeys';
 import {BottomNavigationContext} from '../../context/BottomNavigationContext';
 import {useSearch} from '../../hooks/useSearch';
+import {storeStyles} from "../stores/StoreStyles";
 
 /*
  * Name: Dashboard
@@ -122,28 +113,28 @@ const Dashboard = () => {
             <Text style={{color: 'black'}}>
               {data
                 ? t('dashboard.hello') +
-                  ' ' +
-                  data.getClientAccountById.clientAccount.firstName
+                ' ' +
+                data.getClientAccountById.clientAccount.firstName
                 : ''}{' '}
               👋
             </Text>
           </View>
           <View>{accountButton.iconButton}</View>
         </View>
-        <View style={styles.searchBar}>
+        <View>
           <Searchbar
-            onSubmitEditing={() => {
-              search(searchText);
-              switchToTab(STACK_KEY.SEARCH_STACK_KEY);
-            }}
-            onIconPress={() => {
-              search(searchText);
-              switchToTab(STACK_KEY.SEARCH_STACK_KEY);
-            }}
-            elevation={0}
+            style={storeStyles.searchBar}
             placeholder={t('dashboard.search')}
             onChangeText={setSearchText}
             value={searchText}
+            onSubmitEditing={() => {
+              console.log('search');
+              search(searchText).then(r => switchToTab(STACK_KEY.SEARCH_STACK_KEY));
+            }}
+            onIconPress={() => {
+              console.log('search');
+              search(searchText).then(r => switchToTab(STACK_KEY.SEARCH_STACK_KEY));
+            }}
           />
         </View>
         <View style={styles.categoriesContainer}>
@@ -191,7 +182,7 @@ const Dashboard = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <ActivityIndicator color="#FFAA55" />
+                <ActivityIndicator color="#FFAA55"/>
               </View>
             ) : error ? (
               <View
@@ -203,8 +194,8 @@ const Dashboard = () => {
                 <Text>{t('dashboard.nearbyShops.errors.notAvailable')}</Text>
               </View>
             ) : !data ||
-              data.getClientAccountById.clientAccount.nearbyShops.length ===
-                0 ? (
+            data.getClientAccountById.clientAccount.nearbyShops.length ===
+            0 ? (
               <View
                 style={{
                   flex: 1,
@@ -260,7 +251,7 @@ const Dashboard = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <ActivityIndicator color="#FFAA55" />
+                <ActivityIndicator color="#FFAA55"/>
               </View>
             ) : error ? (
               <View
@@ -272,7 +263,7 @@ const Dashboard = () => {
                 <Text>{t('dashboard.latestOrders.errors.notAvailable')}</Text>
               </View>
             ) : !data ||
-              data.getClientAccountById.clientAccount.orders.length === 0 ? (
+            data.getClientAccountById.clientAccount.orders.length === 0 ? (
               <View
                 style={{
                   flex: 1,
@@ -287,7 +278,7 @@ const Dashboard = () => {
                   .slice(-5)
                   .reverse()
                   .map((order: OrderData) => {
-                    return <Order orderData={order} key={order._id} />;
+                    return <Order orderData={order} key={order._id}/>;
                   })}
               </ScrollView>
             )}

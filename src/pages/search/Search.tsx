@@ -12,6 +12,7 @@ import {ActivityIndicator, Searchbar} from 'react-native-paper';
 import {useSearch} from '../../hooks/useSearch';
 import SearchItem from './SearchItem';
 import {useTranslation} from 'react-i18next';
+import {storeStyles} from "../stores/StoreStyles";
 
 /*
  * Name: Search
@@ -31,18 +32,18 @@ const Search = () => {
           <View style={styles.headerTextWrapper}>
             <Text style={styles.headerText}>{t('searchPage.title')}</Text>
           </View>
-          <View style={styles.headerSearchBar}>
+          <View>
             <Searchbar
+              style={storeStyles.searchBar}
+              placeholder={t('dashboard.search')}
+              onChangeText={setSearchText}
+              value={searchText}
               onSubmitEditing={() => {
                 search(searchText);
               }}
               onIconPress={() => {
                 search(searchText);
               }}
-              elevation={0}
-              placeholder={t('dashboard.search')}
-              onChangeText={setSearchText}
-              value={searchText}
             />
           </View>
         </View>
@@ -93,7 +94,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(242, 244, 248, 0.93)',
+    backgroundColor: 'red',
+    elevation: 5,
+  },
+  searchBar: {
+    width: '100%',
+    flex: 32,
+    marginBottom: '2%',
+    marginTop: '1%',
+    marginHorizontal: '2%',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
     elevation: 5,
   },
   searchResults: {
@@ -105,16 +118,6 @@ const styles = StyleSheet.create({
     border: '1px solid #F1F1F1',
     boxShadow: 'inset 0px 4px 4px rgba(0, 0, 0, 0.25)',
     borderRadius: 10,
-  },
-  searchBar: {
-    flex: 50,
-    marginBottom: '2%',
-    marginTop: '1%',
-    borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(242, 244, 248, 0.93)',
-    elevation: 5,
   },
   epiprestoTitle: {
     fontFamily: 'Lato',

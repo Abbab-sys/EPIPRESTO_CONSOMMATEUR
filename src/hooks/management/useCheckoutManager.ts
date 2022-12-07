@@ -52,8 +52,9 @@ export const useCheckoutManager = () => {
       appearance: {
         colors: {
           primary: '#FFAA55',
-          background: '#FDFDFD',
-          componentBackground: '#FDFDFD',
+
+          componentText: '#FFFFFF',
+
           primaryText: '#FFAA55',
           placeholderText: '#73757b',
           icon: '#FFAA55',
@@ -64,7 +65,7 @@ export const useCheckoutManager = () => {
       googlePay: undefined,
       merchantDisplayName: 'Epipresto',
       primaryButtonLabel: 'Pay',
-      style: 'automatic',
+      style: 'alwaysDark',
       customerId: unwrappedData.getStripe.stripe.customer,
       customerEphemeralKeySecret: unwrappedData.getStripe.stripe.ephemeralKey,
       paymentIntentClientSecret: unwrappedData.getStripe.stripe.paymentIntent,

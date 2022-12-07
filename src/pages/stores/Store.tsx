@@ -73,11 +73,11 @@ const Store = ({route}: any) => {
     variables: {
       idStore: storeId,
       offset: 0,
-      first: 20,
+      first: -1,
       searchText: searchQuery,
       filterAvailable: true,
       variantsOffset2: 0,
-      variantsFirst2: 20,
+      variantsFirst2: -1,
       variantsFilterAvailable2: true
     },
   }
@@ -212,28 +212,6 @@ const Store = ({route}: any) => {
                 }}
               />
             )}
-            keyExtractor={item => item._id}
-            onEndReachedThreshold={1}
-            onEndReached={() => {
-              fetchMore({
-                variables: {
-                  offset: variants.length,
-                },
-                updateQuery(previousQueryResult, {fetchMoreResult}) {
-                  const products = fetchMoreResult.getStoreById.store.products;
-                  // get all variants of all products
-                  const newEntries = products.map((product: any) => {
-                    return product.variants;
-                  });
-                  // flatten array of arrays
-                  const newEntriesFlattened = [].concat.apply([], newEntries);
-                  setVariants(oldVariants => [
-                    ...oldVariants,
-                    ...newEntriesFlattened,
-                  ]);
-                },
-              });
-            }}
             refreshControl={
               <RefreshControl
                 refreshing={loading}

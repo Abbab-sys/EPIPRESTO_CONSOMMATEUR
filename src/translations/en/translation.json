@@ -105,7 +105,7 @@
     "store": {
       "open": "Open",
       "closed": "Closed",
-      "paused": "Store closed by the owner",
+      "paused": "Closed by the owner",
       "viewButton": "View",
       "category": "Category"
     }    

@@ -94,7 +94,7 @@
   "stores": {
     "titlePart1": "NEARBY ",
     "titlePart2": "SHOPS",
-    "shownRadius": "Only stores within a 15 km radius are shown",
+    "shownRadius": "Only stores within a 8.9 km radius are shown",
     "search": {
       "placeholder": "Find a store"
     },

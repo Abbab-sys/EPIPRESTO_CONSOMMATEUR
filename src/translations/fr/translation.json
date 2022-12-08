@@ -83,7 +83,7 @@
   "stores": {
     "titlePart1": "MAGASINS ",
     "titlePart2": "À PROXIMITÉ",
-    "shownRadius": "Seuls les magasins à moins de 15 km sont affichés",
+    "shownRadius": "Seuls les magasins à moins de 8.9 km sont affichés",
     "search": {
       "placeholder": "Rechercher un magasin"
     },
